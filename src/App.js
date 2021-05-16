@@ -1,25 +1,39 @@
-import logo from './logo.svg';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
+import ConnectionPanel from './components/ConnectionPanel';
+import Connection from './network/Connection';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const connection = useRef(null);
+    const [deviceInfo, setDeviceInfo] = useState(null);
+    const [deviceList, setDeviceList] = useState([]);
+
+    useEffect(() => {
+        connection.current = new Connection({
+            setDeviceInfo,
+            setDeviceList,
+        });
+        connection.current.start();
+        return () => connection.current.stop();
+    }, [])
+
+    function onDeviceSelect(deviceName) {
+        connection.current.switchDevice(deviceName);
+    }
+
+    function onRefreshDevices() {
+        connection.current.refreshDevices();
+    }
+
+    return (
+        <div className="App">
+            <ConnectionPanel
+                deviceInfo={deviceInfo}
+                deviceList={deviceList}
+                onDeviceSelect={onDeviceSelect}
+                onRefreshDevices={onRefreshDevices} />
+        </div>
+    );
 }
 
 export default App;
