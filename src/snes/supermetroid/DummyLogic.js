@@ -3,7 +3,7 @@ import MemState from '../../util/memory/MemState'
 import { MEMORY_MAPS } from '../addresses';
 
 const NOT_IN_CERES = 0;
-const INTRO = 1;
+// const INTRO = 1;
 const ESCAPE = 2;
 
 function getGameState(gs) {
@@ -81,8 +81,6 @@ export default class DummyLogic {
             console.log(getGameState(this.data.gameState.value), '-', this.data.gameState.value.toString(16))
         }
 
-        const prevState = {...this.state};
-
         if (this.checkTransition(this.data.gameState, GameStates.GAME_OPTIONS_MENU, [
             GameStates.NEW_GAME_POST_INTRO, GameStates.INTRO_CINEMATIC, GameStates.CERES_DESTROYED_CINEMATIC, GameStates.GAMEPLAY,
         ]) || this.checkTransition(this.data.gameState, GameStates.LOADING_GAME_DATA, GameStates.LOADING_GAME_MAP_VIEW)) {
@@ -119,7 +117,7 @@ export default class DummyLogic {
                     this.state.currentPhantoonRound = 1;
                     this.state.phantoonPatterns = [];
                 } else {
-                    if (this.data.enemyHP.value === 0) {
+                    if (this.data.enemyHP.value === 0 && this.state.inPhantoonFight) {
                         this.inPhantoonFight = false;
                         console.log('Phan End:', this.state.phantoonPatterns);
                         this.sendEvent('phanEnd', this.state.phantoonPatterns.join(' '));
@@ -136,8 +134,8 @@ export default class DummyLogic {
             // phantoon eye timer changed
             if (this.state.inPhantoonFight) {
                 console.log('eye timer changed')
-                console.log(this.state.phantoonPatterns.length, this.currentPhantoonRound)
-                if (this.state.phantoonPatterns.length < this.currentPhantoonRound) {
+                console.log(this.state.phantoonPatterns.length, this.state.currentPhantoonRound)
+                if (this.state.phantoonPatterns.length < this.state.currentPhantoonRound) {
                     if (this.data.phantoonEyeTimer.value <= PhantoonPatterns.FAST) {
                         this.state.phantoonPatterns.push('fast');
                         console.log('fast')

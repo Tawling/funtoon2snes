@@ -49,7 +49,7 @@ function App() {
 
     return (
         <div className="App">
-            THIS DOES NOT WORK WITH PRACTICE ROM
+            THIS DOES NOT WORK PROPERLY WITH PRACTICE ROM
             <ConnectionPanel
                 deviceInfo={deviceInfo}
                 deviceList={deviceList}
