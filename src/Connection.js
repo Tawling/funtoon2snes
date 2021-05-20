@@ -12,7 +12,8 @@ export default class Connection {
 
         this.logic = new DummyLogic(this.usb2snes);
 
-        this.state = {}
+        this.apiToken = "";
+        this.channel = "";
     }
 
     stop() {
@@ -43,6 +44,20 @@ export default class Connection {
 
     refreshDevices() {
         this.usb2snes.refreshDevices();
+    }
+
+    setAPIToken = (token) => {
+        this.apiToken = token;
+        this.logic.apiToken = token;
+        this.react.setAPIToken(token);
+        window.localStorage.setItem('funtoonAPIToken', token)
+    }
+
+    setChannel = (channel) => {
+        this.channel = channel;
+        this.logic.channel = channel;
+        this.react.setChannel(channel);
+        window.localStorage.setItem('channelName', channel)
     }
 
     eventLoop = async () => {

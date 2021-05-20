@@ -36,6 +36,26 @@ export default class DummyLogic {
             currentPhantoonRound: 0,
             phantoonPatterns: [],
         };
+
+        this.apiToken = '';
+        this.channel = '';
+    }
+
+    async sendEvent(event, data = null) {
+        if (!this.channel || !this.apiToken) return;
+        console.log('Sending Event:', JSON.stringify(event), 'with data', JSON.stringify(data))
+        console.log(await fetch('https://funtoon.party/api/events/custom', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': this.apiToken,
+            },
+            body: JSON.stringify({
+                channel: this.channel,
+                event,
+                data,
+            }),
+        }))
     }
 
     async loop() {
@@ -54,7 +74,9 @@ export default class DummyLogic {
             this.data[key].value = data[key];
         }
 
-        console.log(getGameState(this.data.gameState.value), '-', this.data.gameState.value.toString(16))
+        if (this.checkChange(this.data.gameState)) {
+            console.log(getGameState(this.data.gameState.value), '-', this.data.gameState.value.toString(16))
+        }
 
         const prevState = {...this.state};
 
@@ -69,38 +91,78 @@ export default class DummyLogic {
         if (this.checkTransition(this.data.roomID, Rooms.EMPTY, Rooms.Ceres.CERES_ELEVATOR_ROOM)) {
             // ceres started
             console.log('Ceres Open');
+            this.sendEvent('ceresOpen');
         }
         if (this.checkTransition(this.data.ceresState, CeresEscapeStateFlags.RIDLEY_SWOOP_CUTSCENE, CeresEscapeStateFlags.ESCAPE_TIMER_INITIATED)) {
             // ceres timer started
             console.log('Ceres Close');
+            this.sendEvent('ceresClose');
         }
         if (this.data.roomID.prevFrameValue !== undefined && this.data.roomID.prevFrameValue !== Rooms.EMPTY && this.data.roomID.value === Rooms.EMPTY) {
             // run reset
             console.log('Run Reset');
             this.state.inRun = false;
+            this.state.inPhantoonFight = false;
+            this.state.inPhantoonRoom = false;
             if (this.state.ceresState === ESCAPE) {
                 this.state.ceresState = NOT_IN_CERES;
             }
         }
         if (this.checkChange(this.data.enemyHP)) {
             // enemy HP changed
+            if (this.data.roomID.value === Rooms.WreckedShip.PHANTOON_ROOM) {
+                if (!this.state.inPhantoonFight && this.data.enemyHP.value !== 0) {
+                    this.state.inPhantoonFight = true;
+                    this.state.currentPhantoonRound = 1;
+                    this.state.phantoonPatterns = [];
+                } else {
+                    if (this.data.enemyHP.value === 0) {
+                        this.inPhantoonFight = false;
+                        console.log('Phan End:', this.state.phantoonPatterns);
+                        this.sendEvent('phanEnd', this.state.phantoonPatterns.join(' '));
+                    } else if (this.state.phantoonPatterns.length === this.state.currentPhantoonRound) {
+                        this.state.currentPhantoonRound++;
+                    }
+                }
+            }
         }
         if (this.checkChange(this.data.samusHP)) {
             // samus HP changed
         }
         if (this.data.roomID.value === Rooms.WreckedShip.PHANTOON_ROOM && this.checkChange(this.data.phantoonEyeTimer)) {
             // phantoon eye timer changed
+            if (this.state.inPhantoonFight) {
+                if (this.state.phantoonPatterns.length < this.currentPhantoonRound) {
+                    if (this.data.phantoonEyeTimer.value <= PhantoonPatterns.FAST) {
+                        this.state.phantoonPatterns.push('fast');
+                    } else if (this.data.phantoonEyeTimer.value <= PhantoonPatterns.MID) {
+                        this.state.phantoonPatterns.push('mid');
+                    } else {
+                        this.state.phantoonPatterns.push('slow');
+                    }
+                    if (this.phantoonPatterns.length === 1) {
+                        console.log('Phan Close');
+                        this.sendEvent('phanClose');
+                    }
+                }
+            }
         }
-        if (this.checkTransition(this.data.gameState, GameStates.BLACK_OUT_FROM_CERES, GameStates.CERES_DESTROYED_CINEMATIC) || this.checkChange(this.data.ceresTimer)) {
+        if (this.checkTransition(this.data.gameState, [GameStates.BLACK_OUT_FROM_CERES, GameStates.CERES_ELEVATOR], GameStates.CERES_DESTROYED_CINEMATIC) || this.checkChange(this.data.ceresTimer)) {
             // ceres timer changed
-            if (this.checkTransition(this.data.gameState, GameStates.BLACK_OUT_FROM_CERES, GameStates.CERES_DESTROYED_CINEMATIC)) {
+            if (this.checkTransition(this.data.gameState, [GameStates.BLACK_OUT_FROM_CERES, GameStates.CERES_ELEVATOR], GameStates.CERES_DESTROYED_CINEMATIC)) {
                 // ceres finished
                 this.ceresState = NOT_IN_CERES;
                 console.log('Ceres End:', this.data.ceresTimer.value);
+                this.sendEvent('ceresEnd', this.data.ceresTimer.value);
             }
         }
         if (this.checkChange(this.data.gameState)) {
             // game state changed
+        }
+        if (this.checkTransition(this.data.roomID, Rooms.Crateria.THE_MOAT, Rooms.Crateria.WEST_OCEAN)) {
+            // Entered west ocean from moat
+            console.log('Phan Open');
+            this.sendEvent('phanOpen');
         }
     }
 
@@ -110,7 +172,7 @@ export default class DummyLogic {
 
     checkTransition(read, from, to) {
         const fromTrue = Array.isArray(from) ? from.some((v) => v === read.prevFrameValue): read.prevFrameValue === from;
-        const toTrue = Array.isArray(to) ? to.some((v) => v === read.prevFrameValue): read.prevFrameValue === to;
+        const toTrue = Array.isArray(to) ? to.some((v) => v === read.value): read.value === to;
         return fromTrue && toTrue;
     }
 }
