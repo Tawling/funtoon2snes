@@ -37,7 +37,7 @@ export function ConnectionPanel(props) {
 }
 
 export default function ConnectionPanel2(props) {
-    const { channel, deviceInfo, deviceList, onDeviceSelect, refreshDevices, onAPITokenChange, onChannelChange } = props;
+    const { token, channel, deviceInfo, deviceList, onDeviceSelect, refreshDevices, onAPITokenChange, onChannelChange } = props;
     return (
         <Card>
             <CardHeader className={classNames({
@@ -47,7 +47,7 @@ export default function ConnectionPanel2(props) {
             <CardBody>
                 <ul>
                     <li>
-                        Channel Name: <Input type="text" onInput={(e) => onChannelChange(e.target.value)} />
+                        Channel Name: <Input type="text" value={channel} onInput={(e) => onChannelChange(e.target.value)} />
                     </li>
                     <li>
                         FUNtoon API Token:
@@ -58,7 +58,7 @@ export default function ConnectionPanel2(props) {
                                 <br />(Get API token at <a target="new" href={`https://funtoon.party/c/${channel.toLowerCase()}/script`}>{`funtoon.party/c/${channel.toLowerCase()}/script`}</a>)
                             </span>
                             ) : null}
-                        <Input type="password" onInput={(e) => onAPITokenChange(e.target.value)} />
+                        <Input type="password" value={token} onInput={(e) => onAPITokenChange(e.target.value)} />
                     </li>
                     <li>Device: <Input type="select" onChange={(e) => onDeviceSelect(e.target.value)}>
                         {

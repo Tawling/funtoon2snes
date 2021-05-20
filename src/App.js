@@ -36,8 +36,20 @@ function App() {
         connection.current.setChannel(channel);
     }
 
+    useEffect(() => {
+        console.log('loading channel and token')
+        const channel = localStorage.getItem('channelName')
+        setChannel(channel)
+        const token = localStorage.getItem('funtoonAPIToken')
+        setAPIToken(token)
+
+        connection.current.setAPIToken(token)
+        connection.current.setChannel(channel)
+    }, [token, channel])
+
     return (
         <div className="App">
+            THIS DOES NOT WORK WITH PRACTICE ROM
             <ConnectionPanel
                 deviceInfo={deviceInfo}
                 deviceList={deviceList}
@@ -45,7 +57,8 @@ function App() {
                 onRefreshDevices={onRefreshDevices}
                 onAPITokenChange={onAPITokenChange}
                 onChannelChange={onChannelChange}
-                channel={channel} />
+                channel={channel}
+                token={token} />
         </div>
     );
 }

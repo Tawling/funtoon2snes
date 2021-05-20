@@ -42,7 +42,10 @@ export default class DummyLogic {
     }
 
     async sendEvent(event, data = null) {
-        if (!this.channel || !this.apiToken) return;
+        if (!this.channel || !this.apiToken) {
+            console.log('Failed to send event:', JSON.stringify(event))
+            return;
+        }
         console.log('Sending Event:', JSON.stringify(event), 'with data', JSON.stringify(data))
         console.log(await fetch('https://funtoon.party/api/events/custom', {
             method: 'POST',
@@ -132,13 +135,18 @@ export default class DummyLogic {
         if (this.data.roomID.value === Rooms.WreckedShip.PHANTOON_ROOM && this.checkChange(this.data.phantoonEyeTimer)) {
             // phantoon eye timer changed
             if (this.state.inPhantoonFight) {
+                console.log('eye timer changed')
+                console.log(this.state.phantoonPatterns.length, this.currentPhantoonRound)
                 if (this.state.phantoonPatterns.length < this.currentPhantoonRound) {
                     if (this.data.phantoonEyeTimer.value <= PhantoonPatterns.FAST) {
                         this.state.phantoonPatterns.push('fast');
+                        console.log('fast')
                     } else if (this.data.phantoonEyeTimer.value <= PhantoonPatterns.MID) {
                         this.state.phantoonPatterns.push('mid');
+                        console.log('mid')
                     } else {
                         this.state.phantoonPatterns.push('slow');
+                        console.log('slow')
                     }
                     if (this.phantoonPatterns.length === 1) {
                         console.log('Phan Close');
