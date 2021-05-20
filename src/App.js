@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import ConnectionPanel from './components/ConnectionPanel';
-import Connection from './network/Connection';
+import Connection from './Connection';
 
 function App() {
     const connection = useRef(null);

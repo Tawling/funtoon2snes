@@ -1,4 +1,4 @@
-import { WRAM_BASE_ADDR } from './addresses';
+import { WRAM_BASE_ADDR } from './datatypes';
 import Device from '../network/Device'
 import SocketStreamHandler from '../network/SocketStreamHandler';
 
@@ -211,9 +211,9 @@ export default class USB2Snes {
             let sizeSum = 0;
             const chunks = [];
             let chunk = [];
-            const chunkSizes = []
+            const chunkSizes = [];
             while (sizeSum < 64 && unchunkedValues.length > 0) {
-                const nextItemIndex = unchunkedValues.findIndex(({value}) => sizeSum + value.size <= 64);
+                const nextItemIndex = unchunkedValues.findIndex(({value}) => sizeSum + value.size <= 64); // eslint-disable-line no-loop-func
                 if (nextItemIndex < 0) {
                     chunks.push(chunk);
                     chunkSizes.push(sizeSum);
