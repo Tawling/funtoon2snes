@@ -1,42 +1,38 @@
-const NUMBER = 'number'
-
-export const WRAM_BASE_ADDR = 0xF50000
-export const SRAM_BASE_ADDR = 0xE00000
-export const ROM_BASE_ADDR = 0x000000
-
-export const ROOMS = {
-    wreckedShip: {
-        'phantoon': 0xCD13,
-    }
-}
+import { wram } from './datatypes'
+import { Rooms } from './supermetroid/enums'
 
 export const MEMORY_MAPS = {
     roomID: {
+        read: wram.uint16Read(0x079B),
         name: 'Room ID',
-        offset: 0x079B,
-        size: 2,
-        type: NUMBER,
         priority: 100,
     },
     gameState: {
         name: 'Game State',
-        offset: 0x0998,
-        size: 2,
-        type: NUMBER,
+        read: wram.uint16Read(0x0998),
         priority: 100,
     },
     samusHP: {
         name: 'Samus HP',
-        offset: 0x09C2,
-        size: 2,
-        type: NUMBER,
+        read: wram.uint16Read(0x09C2),
         priority: 100,
     },
-    phantoonHP: {
-        name: 'Phantoon HP',
-        offset: 0x0F8C,
-        size: 2,
-        type: NUMBER,
-        room: ROOMS.wreckedShip.phantoon,
+    enemyHP: {
+        name: 'Enemy HP',
+        read: wram.uint16Read(0x0F8C),
+        room: Rooms.WreckedShip.PHANTOON_ROOM,
+    },
+    phantoonEyeTimer: {
+        name: 'Phantoon Eye Timer',
+        read: wram.uint16Read(0x0FE8),
+        room: Rooms.WreckedShip.PHANTOON_ROOM,
+    },
+    ceresTimer: {
+        name: 'Ceres Timer',
+        read: wram.bcdRead(0x0945, 2, true),
+    },
+    ceresState: {
+        name: 'Ceres State',
+        read: wram.uint16Read(0x093F),
     },
 }
