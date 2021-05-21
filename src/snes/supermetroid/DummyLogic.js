@@ -111,7 +111,7 @@ export default class DummyLogic {
                 console.log('Phan End:', this.state.phantoonPatterns);
                 this.sendEvent('phanEnd', this.state.phantoonPatterns.join(' '));
             }
-            this.inPhantoonFight = false;
+            this.state.inPhantoonFight = false;
         }
         if (this.checkChange(this.data.enemyHP)) {
             // enemy HP changed
@@ -124,7 +124,7 @@ export default class DummyLogic {
                     }
                 } else {
                     if (this.data.enemyHP.value === 0 && this.state.inPhantoonFight) {
-                        this.inPhantoonFight = false;
+                        this.state.inPhantoonFight = false;
                         console.log('Phan End:', this.state.phantoonPatterns);
                         this.sendEvent('phanEnd', this.state.phantoonPatterns.join(' '));
                     } else if (this.state.phantoonPatterns.length === this.state.currentPhantoonRound) {
@@ -170,7 +170,7 @@ export default class DummyLogic {
             // ceres timer changed
             if (this.checkTransition(this.data.gameState, [GameStates.BLACK_OUT_FROM_CERES, GameStates.CERES_ELEVATOR], GameStates.CERES_DESTROYED_CINEMATIC)) {
                 // ceres finished
-                this.ceresState = NOT_IN_CERES;
+                this.state.ceresState = NOT_IN_CERES;
                 console.log('Ceres End:', this.data.ceresTimer.value);
                 this.sendEvent('ceresEnd', this.data.ceresTimer.value);
             }
