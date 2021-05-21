@@ -103,19 +103,25 @@ export default class DummyLogic {
             // run reset
             console.log('Run Reset');
             this.state.inRun = false;
-            this.state.inPhantoonFight = false;
             this.state.inPhantoonRoom = false;
             if (this.state.ceresState === ESCAPE) {
                 this.state.ceresState = NOT_IN_CERES;
             }
+            if (this.state.inPhantoonFight && this.state.phantoonPatterns.length > 0) {
+                console.log('Phan End:', this.state.phantoonPatterns);
+                this.sendEvent('phanEnd', this.state.phantoonPatterns.join(' '));
+            }
+            this.inPhantoonFight = false;
         }
         if (this.checkChange(this.data.enemyHP)) {
             // enemy HP changed
             if (this.data.roomID.value === Rooms.WreckedShip.PHANTOON_ROOM) {
-                if (!this.state.inPhantoonFight && this.data.enemyHP.value !== 0) {
-                    this.state.inPhantoonFight = true;
-                    this.state.currentPhantoonRound = 1;
-                    this.state.phantoonPatterns = [];
+                if (!this.state.inPhantoonFight) {
+                    if (this.data.enemyHP.value !== 0) {
+                        this.state.inPhantoonFight = true;
+                        this.state.currentPhantoonRound = 1;
+                        this.state.phantoonPatterns = [];
+                    }
                 } else {
                     if (this.data.enemyHP.value === 0 && this.state.inPhantoonFight) {
                         this.inPhantoonFight = false;
@@ -129,6 +135,13 @@ export default class DummyLogic {
         }
         if (this.checkChange(this.data.samusHP)) {
             // samus HP changed
+            if (this.data.samusHP.value === 0 && this.state.inPhantoonFight) {
+                this.state.inPhantoonFight = false;
+                this.state.inPhantoonRoom = false;
+                this.state.phantoonPatterns = [];
+                console.log('Phan End:', 'death');
+                this.sendEvent('phanEnd', 'death');
+            }
         }
         if (this.data.roomID.value === Rooms.WreckedShip.PHANTOON_ROOM && this.checkChange(this.data.phantoonEyeTimer)) {
             // phantoon eye timer changed
@@ -146,7 +159,7 @@ export default class DummyLogic {
                         this.state.phantoonPatterns.push('slow');
                         console.log('slow')
                     }
-                    if (this.phantoonPatterns.length === 1) {
+                    if (this.state.phantoonPatterns.length === 1) {
                         console.log('Phan Close');
                         this.sendEvent('phanClose');
                     }

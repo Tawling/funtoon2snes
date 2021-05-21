@@ -60,16 +60,24 @@ export default class Connection {
         window.localStorage.setItem('channelName', channel)
     }
 
+    setEnabled = (enabled) => {
+        this.enabled = enabled;
+        this.react.setEnabled(enabled);
+        window.localStorage.setItem('enabled', enabled)
+    }
+
     eventLoop = async () => {
-        if (this.usb2snes.isAttached()) {
-            try {
-                await this.logic.loop();
-            // } catch {}
-            } catch (e){
-                console.log(e);
+        if (this.enabled) {
+            if (this.usb2snes.isAttached()) {
+                try {
+                    await this.logic.loop();
+                // } catch {}
+                } catch (e){
+                    console.log(e);
+                }
+            } else {
+                console.log('skipped read');
             }
-        } else {
-            console.log('skipped read');
         }
         this.eventLoopTimeout = setTimeout(this.eventLoop, 16);
     }

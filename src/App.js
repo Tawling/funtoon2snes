@@ -9,6 +9,7 @@ function App() {
     const [deviceList, setDeviceList] = useState([]);
     const [channel, setChannel] = useState('');
     const [token, setAPIToken] = useState('');
+    const [checked, setEnabled] = useState(true);
 
     useEffect(() => {
         connection.current = new Connection({
@@ -16,6 +17,7 @@ function App() {
             setDeviceList,
             setAPIToken,
             setChannel,
+            setEnabled,
         });
         connection.current.start();
         return () => connection.current.stop();
@@ -36,19 +38,27 @@ function App() {
         connection.current.setChannel(channel);
     }
 
-    useEffect(() => {
-        console.log('loading channel and token')
-        const channel = localStorage.getItem('channelName')
-        setChannel(channel)
-        const token = localStorage.getItem('funtoonAPIToken')
-        setAPIToken(token)
+    function onToggleEnabled(enabled) {
+        connection.current.setEnabled(enabled);
+    }
 
-        connection.current.setAPIToken(token)
-        connection.current.setChannel(channel)
-    }, [token, channel])
+    useEffect(() => {
+        console.log('loading channel and token');
+        const channel = localStorage.getItem('channelName') || '';
+        setChannel(channel);
+        const token = localStorage.getItem('funtoonAPIToken') || '';
+        setAPIToken(token);
+        const enabled = localStorage.getItem('enabled') || true;
+        setEnabled(enabled);
+
+        connection.current.setAPIToken(token);
+        connection.current.setChannel(channel);
+        connection.current.setEnabled(enabled);
+    }, [token, channel]);
 
     return (
         <div className="App">
+            <h1>USB2SNES Automated Guessing Games (Alpha)</h1>
             THIS DOES NOT WORK PROPERLY WITH PRACTICE ROM
             <ConnectionPanel
                 deviceInfo={deviceInfo}
@@ -57,6 +67,8 @@ function App() {
                 onRefreshDevices={onRefreshDevices}
                 onAPITokenChange={onAPITokenChange}
                 onChannelChange={onChannelChange}
+                onToggleEnabled={onToggleEnabled}
+                checked={checked}
                 channel={channel}
                 token={token} />
         </div>
