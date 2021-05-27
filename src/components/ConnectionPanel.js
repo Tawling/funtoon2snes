@@ -4,7 +4,7 @@ import { Card, CardBody, CardHeader, Button, Input, Label } from 'reactstrap';
 import classNames from 'classnames';
 
 export default function ConnectionPanel(props) {
-    const { checked, token, channel, deviceInfo, deviceList, onDeviceSelect, refreshDevices, onAPITokenChange, onChannelChange, onToggleEnabled } = props;
+    const { readsPerSecond, checked, token, channel, deviceInfo, deviceList, onDeviceSelect, refreshDevices, onAPITokenChange, onChannelChange, onToggleEnabled } = props;
     return (
         <Card>
             <CardHeader className={classNames({
@@ -45,6 +45,8 @@ export default function ConnectionPanel(props) {
                     <Input type='checkbox' checked={checked} onInput={(e) => onToggleEnabled(!checked)} />{' '}
                     Enable Tracking
                 </Label>
+                <br />
+                Reads per Second: {(readsPerSecond || 0).toFixed(2)}
             </CardBody>
         </Card>
     );

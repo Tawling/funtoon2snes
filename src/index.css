@@ -5,9 +5,21 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #111;
+  color: white;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.card {
+  background-color: #222;
+  color: white;
+}
+
+.form-control {
+  background-color: #333;
+  color: white;
+}
+
+.form-control:read-only {
+  background-color: #444;
+  color: #eee;
 }

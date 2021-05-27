@@ -41,13 +41,13 @@ export default class DummyLogic {
         this.channel = '';
     }
 
-    async sendEvent(event, data = null) {
+    async sendEvent(event, data = null, delay = 0) {
         if (!this.channel || !this.apiToken) {
             console.log('Failed to send event:', JSON.stringify(event))
             return;
         }
         console.log('Sending Event:', JSON.stringify(event), 'with data', JSON.stringify(data))
-        console.log(await fetch('https://funtoon.party/api/events/custom', {
+        setTimeout(async () => console.log(await fetch('https://funtoon.party/api/events/custom', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export default class DummyLogic {
                 event,
                 data,
             }),
-        }))
+        })), delay)
     }
 
     async loop() {
@@ -109,7 +109,7 @@ export default class DummyLogic {
             }
             if (this.state.inPhantoonFight && this.state.phantoonPatterns.length > 0) {
                 console.log('Phan End:', this.state.phantoonPatterns);
-                this.sendEvent('phanEnd', this.state.phantoonPatterns.join(' '));
+                this.sendEvent('phanEnd', this.state.phantoonPatterns.join(' '), 2000);
             }
             this.state.inPhantoonFight = false;
         }
@@ -132,18 +132,7 @@ export default class DummyLogic {
                     }
                 }
             }
-        }
-        if (this.checkChange(this.data.samusHP)) {
-            // samus HP changed
-            if (this.data.samusHP.value === 0 && this.state.inPhantoonFight) {
-                this.state.inPhantoonFight = false;
-                this.state.inPhantoonRoom = false;
-                this.state.phantoonPatterns = [];
-                console.log('Phan End:', 'death');
-                this.sendEvent('phanEnd', 'death');
-            }
-        }
-        if (this.data.roomID.value === Rooms.WreckedShip.PHANTOON_ROOM && this.checkChange(this.data.phantoonEyeTimer)) {
+        } else if (this.data.roomID.value === Rooms.WreckedShip.PHANTOON_ROOM && this.checkChange(this.data.phantoonEyeTimer)) {
             // phantoon eye timer changed
             if (this.state.inPhantoonFight) {
                 console.log('eye timer changed')
@@ -166,13 +155,23 @@ export default class DummyLogic {
                 }
             }
         }
+        if (this.checkChange(this.data.samusHP)) {
+            // samus HP changed
+            if (this.data.samusHP.value === 0 && this.state.inPhantoonFight) {
+                this.state.inPhantoonFight = false;
+                this.state.inPhantoonRoom = false;
+                this.state.phantoonPatterns = [];
+                console.log('Phan End:', 'death');
+                this.sendEvent('phanEnd', 'death', 2000);
+            }
+        }
         if (this.checkTransition(this.data.gameState, [GameStates.BLACK_OUT_FROM_CERES, GameStates.CERES_ELEVATOR], GameStates.CERES_DESTROYED_CINEMATIC) || this.checkChange(this.data.ceresTimer)) {
             // ceres timer changed
             if (this.checkTransition(this.data.gameState, [GameStates.BLACK_OUT_FROM_CERES, GameStates.CERES_ELEVATOR], GameStates.CERES_DESTROYED_CINEMATIC)) {
                 // ceres finished
                 this.state.ceresState = NOT_IN_CERES;
                 console.log('Ceres End:', this.data.ceresTimer.value);
-                this.sendEvent('ceresEnd', this.data.ceresTimer.value);
+                this.sendEvent('ceresEnd', this.data.ceresTimer.value, 1000);
             }
         }
         if (this.checkChange(this.data.gameState)) {

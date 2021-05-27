@@ -101,6 +101,7 @@ export default class SocketStreamHandler {
                     }
                     // Read incoming data
                     try {
+                        //const buf = await event.data.arrayBuffer();
                         const buf = await readAsArrayBuffer(event.data);
                         const arrayBuffer = new Uint8Array(buf);
                         // Append incoming data to outputBuffer

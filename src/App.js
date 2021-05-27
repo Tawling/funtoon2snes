@@ -10,6 +10,7 @@ function App() {
     const [channel, setChannel] = useState('');
     const [token, setAPIToken] = useState('');
     const [checked, setEnabled] = useState(true);
+    const [rps, setRPS] = useState(0);
 
     useEffect(() => {
         connection.current = new Connection({
@@ -18,6 +19,7 @@ function App() {
             setAPIToken,
             setChannel,
             setEnabled,
+            setRPS,
         });
         connection.current.start();
         return () => connection.current.stop();
@@ -70,7 +72,8 @@ function App() {
                 onToggleEnabled={onToggleEnabled}
                 checked={checked}
                 channel={channel}
-                token={token} />
+                token={token}
+                readsPerSecond={rps} />
         </div>
     );
 }

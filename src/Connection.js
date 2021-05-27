@@ -14,14 +14,17 @@ export default class Connection {
 
         this.apiToken = "";
         this.channel = "";
+        
     }
 
     stop() {
         clearTimeout(this.eventLoopTimeout);
+        clearInterval(this.secondTimer);
     }
 
     start() {
         this.eventLoopTimeout = setTimeout(this.eventLoop, 1000);
+        this.secondTimer = setInterval(this.setRPS, 5000);
     }
 
     onListDevices = async (list) => {
@@ -30,6 +33,7 @@ export default class Connection {
 
     onAttach = async (device) => {
         this.react.setDeviceInfo(device.toObject());
+        setTimeout(this.setRPS, 1000);
     }
 
     onDisconnect = async () => {
@@ -66,11 +70,17 @@ export default class Connection {
         window.localStorage.setItem('enabled', enabled)
     }
 
+    setRPS = () => {
+        this.react.setRPS(this.readsPerSecond/5);
+        this.readsPerSecond = 0;
+    }
+
     eventLoop = async () => {
         if (this.enabled) {
             if (this.usb2snes.isAttached()) {
                 try {
                     await this.logic.loop();
+                    this.readsPerSecond++;
                 // } catch {}
                 } catch (e){
                     console.log(e);
