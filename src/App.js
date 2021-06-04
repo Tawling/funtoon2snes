@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import ConnectionPanel from './components/ConnectionPanel';
-import Connection from './Connection';
+
+import ConnectionWorker from './Connection.worker' // eslint-disable-line
 
 function App() {
-    const connection = useRef(null);
+    const worker = useRef(null);
     const [deviceInfo, setDeviceInfo] = useState(null);
     const [deviceList, setDeviceList] = useState([]);
     const [channel, setChannel] = useState('');
@@ -12,36 +13,73 @@ function App() {
     const [checked, setEnabled] = useState(true);
     const [rps, setRPS] = useState(0);
 
+    const [messageQueue, setMessageQueue] = useState([]);
+
+    function callExternal(name, ...args) {
+        if (worker.current) {
+            worker.current.postMessage({ name, args })
+        } else {
+            setMessageQueue([...messageQueue, { name, args }])
+        }
+    }
+
     useEffect(() => {
-        connection.current = new Connection({
-            setDeviceInfo,
-            setDeviceList,
-            setAPIToken,
-            setChannel,
-            setEnabled,
-            setRPS,
+        console.log('initializing worker...');
+        worker.current = new ConnectionWorker();
+        worker.current.addEventListener('message', (event) => {
+            // console.log(event.data.name, event.data.args)
+            switch (event.data.name) {
+                case 'log':
+                    console.log(...event.data.args);
+                    break;
+                case 'setDeviceInfo':
+                    setDeviceInfo(...event.data.args);
+                    break;
+                case 'setDeviceList':
+                    setDeviceList(...event.data.args);
+                    break;
+                case 'setChannel':
+                    window.localStorage.setItem('channelName', event.data.args[0])
+                    setChannel(...event.data.args);
+                    break;
+                case 'setAPIToken':
+                    window.localStorage.setItem('funtoonAPIToken', event.data.args[0])
+                    setAPIToken(...event.data.args);
+                    break;
+                case 'setEnabled':
+                    window.localStorage.setItem('enabled', event.data.args[0])
+                    setEnabled(...event.data.args);
+                    break;
+                case 'setRPS':
+                    setRPS(...event.data.args);
+                    break;
+                default:
+            }
         });
-        connection.current.start();
-        return () => connection.current.stop();
-    }, [])
+        for (const message of messageQueue) {
+            worker.current.postMessage(message)
+        }
+        setMessageQueue([])
+        return () => worker.postMessage({ name: 'stop', args: [] })
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     function onDeviceSelect(deviceName) {
-        connection.current.switchDevice(deviceName);
+        callExternal('switchDevice', deviceName);
     }
 
     function onRefreshDevices() {
-        connection.current.refreshDevices();
+        callExternal('refreshDevices');
     }
 
     function onAPITokenChange(token) {
-        connection.current.setAPIToken(token);
+        callExternal('setAPIToken', token);
     }
     function onChannelChange(channel) {
-        connection.current.setChannel(channel);
+        callExternal('setChannel', channel);
     }
 
     function onToggleEnabled(enabled) {
-        connection.current.setEnabled(enabled);
+        callExternal('setEnabled', enabled);
     }
 
     useEffect(() => {
@@ -52,11 +90,10 @@ function App() {
         setAPIToken(token);
         const enabled = localStorage.getItem('enabled') || true;
         setEnabled(enabled);
-
-        connection.current.setAPIToken(token);
-        connection.current.setChannel(channel);
-        connection.current.setEnabled(enabled);
-    }, [token, channel]);
+        callExternal('setAPIToken', token);
+        callExternal('setChannel', channel);
+        callExternal('setEnabled', enabled);
+    }, [token, channel]);  // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="App">

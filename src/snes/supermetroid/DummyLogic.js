@@ -1,6 +1,5 @@
 import { Rooms, GameStates, PhantoonPatterns, CeresEscapeStateFlags } from './enums'
-import MemState from '../../util/memory/MemState'
-import { MEMORY_MAPS } from '../addresses';
+import Addresses from '../addresses';
 
 const NOT_IN_CERES = 0;
 // const INTRO = 1;
@@ -15,17 +14,31 @@ function getGameState(gs) {
     return '--------'
 }
 
+function getRoom(r) {
+    if (r === 0) return 'EMPTY';
+    for (const area in Rooms) {
+        if (area === 'EMPTY') continue;
+        for (const room in Rooms[area]) {
+            if (Rooms[area][room] === r) {
+                return room
+            }
+        }
+    }
+    return '--------'
+}
+
 export default class DummyLogic {
-    constructor(usb2snes, apiToken) {
+    constructor(usb2snes, callExternal) {
         this.usb2snes = usb2snes;
+        this.callExternal = callExternal
         this.data = {
-            roomID: new MemState(MEMORY_MAPS.roomID.read),
-            gameState: new MemState(MEMORY_MAPS.gameState.read),
-            samusHP: new MemState(MEMORY_MAPS.samusHP.read),
-            enemyHP: new MemState(MEMORY_MAPS.enemyHP.read),
-            phantoonEyeTimer: new MemState(MEMORY_MAPS.phantoonEyeTimer.read),
-            ceresTimer: new MemState(MEMORY_MAPS.ceresTimer.read),
-            ceresState: new MemState(MEMORY_MAPS.ceresState.read),
+            roomID: Addresses.roomID,
+            gameState: Addresses.gameState,
+            samusHP: Addresses.samusHP,
+            enemyHP: Addresses.enemyHP,
+            phantoonEyeTimer: Addresses.phantoonEyeTimer,
+            ceresTimer: Addresses.ceresTimer,
+            ceresState: Addresses.ceresState,
         };
         this.state = {
             inRun: false,
@@ -62,19 +75,24 @@ export default class DummyLogic {
     }
 
     async loop() {
-        const data = await this.usb2snes.readMultipleTyped({
-            'roomID': this.data.roomID.dataRead,
-            'gameState': this.data.gameState.dataRead,
-            'samusHP': this.data.samusHP.dataRead,
-            'enemyHP': this.data.enemyHP.dataRead,
-            'phantoonEyeTimer': this.data.phantoonEyeTimer.dataRead,
-            'ceresTimer': this.data.ceresTimer.dataRead,
-            'ceresState': this.data.ceresState.dataRead,
-        });
+        // Build read list
+        const mems = {};
+        const reads = {};
+        for (const item of Object.values(this.data)) {
+            reads[item.key] = item.dataRead;
+            mems[item.key] = item
+        }
 
-        // Update reads
+        // Perform reads
+        const data = await this.usb2snes.readMultipleTyped(reads);
+
+        // Update memstate values
         for (const key in data) {
-            this.data[key].value = data[key];
+            mems[key].update(data[key]);
+        }
+
+        if (this.checkChange(this.data.roomID)) {
+            console.log(getRoom(this.data.roomID.value), '-', this.data.roomID.value.toString(16))
         }
 
         if (this.checkChange(this.data.gameState)) {
