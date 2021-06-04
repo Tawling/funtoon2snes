@@ -1,5 +1,5 @@
 import MemoryModule from '../../../util/memory/MemoryModule';
-import { Rooms, GameStates, PhantoonPatterns, CeresEscapeStateFlags } from '../enums';
+import { Rooms, GameStates, CeresEscapeStateFlags } from '../enums';
 import Addresses from '../../addresses';
 
 const CeresGameState = {
