@@ -1,5 +1,5 @@
 import { WRAM_BASE_ADDR } from './datatypes';
-import Device from '../network/Device'
+import Device from '../network/Device';
 import SocketStreamHandler from '../network/SocketStreamHandler';
 
 export default class USB2Snes {
