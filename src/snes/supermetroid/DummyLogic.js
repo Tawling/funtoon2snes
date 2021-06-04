@@ -19,13 +19,13 @@ export default class DummyLogic {
     constructor(usb2snes, apiToken) {
         this.usb2snes = usb2snes;
         this.data = {
-            roomID: new MemState(MEMORY_MAPS.roomID.read),
-            gameState: new MemState(MEMORY_MAPS.gameState.read),
-            samusHP: new MemState(MEMORY_MAPS.samusHP.read),
-            enemyHP: new MemState(MEMORY_MAPS.enemyHP.read),
-            phantoonEyeTimer: new MemState(MEMORY_MAPS.phantoonEyeTimer.read),
-            ceresTimer: new MemState(MEMORY_MAPS.ceresTimer.read),
-            ceresState: new MemState(MEMORY_MAPS.ceresState.read),
+            roomID: MEMORY_MAPS.roomID,
+            gameState: MEMORY_MAPS.gameState,
+            samusHP: MEMORY_MAPS.samusHP,
+            enemyHP: MEMORY_MAPS.enemyHP,
+            phantoonEyeTimer: MEMORY_MAPS.phantoonEyeTimer,
+            ceresTimer: MEMORY_MAPS.ceresTimer,
+            ceresState: MEMORY_MAPS.ceresState,
         };
         this.state = {
             inRun: false,
@@ -62,19 +62,18 @@ export default class DummyLogic {
     }
 
     async loop() {
-        const data = await this.usb2snes.readMultipleTyped({
-            'roomID': this.data.roomID.dataRead,
-            'gameState': this.data.gameState.dataRead,
-            'samusHP': this.data.samusHP.dataRead,
-            'enemyHP': this.data.enemyHP.dataRead,
-            'phantoonEyeTimer': this.data.phantoonEyeTimer.dataRead,
-            'ceresTimer': this.data.ceresTimer.dataRead,
-            'ceresState': this.data.ceresState.dataRead,
-        });
+        // Build read list
+        const reads = {};
+        for (const item of this.data) {
+            reads[item.key] = item.dataRead;
+        }
 
-        // Update reads
+        // Perform reads
+        const data = await this.usb2snes.readMultipleTyped(reads);
+
+        // Update memstate values
         for (const key in data) {
-            this.data[key].value = data[key];
+            reads[key].update(data[key]);
         }
 
         if (this.checkChange(this.data.gameState)) {

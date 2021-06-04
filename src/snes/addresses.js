@@ -2,37 +2,11 @@ import { wram } from './datatypes'
 import { Rooms } from './supermetroid/enums'
 
 export const MEMORY_MAPS = {
-    roomID: {
-        read: wram.uint16Read(0x079B),
-        name: 'Room ID',
-        priority: 100,
-    },
-    gameState: {
-        name: 'Game State',
-        read: wram.uint16Read(0x0998),
-        priority: 100,
-    },
-    samusHP: {
-        name: 'Samus HP',
-        read: wram.uint16Read(0x09C2),
-        priority: 100,
-    },
-    enemyHP: {
-        name: 'Enemy HP',
-        read: wram.uint16Read(0x0F8C),
-        room: Rooms.WreckedShip.PHANTOON_ROOM,
-    },
-    phantoonEyeTimer: {
-        name: 'Phantoon Eye Timer',
-        read: wram.uint16Read(0x0FE8),
-        room: Rooms.WreckedShip.PHANTOON_ROOM,
-    },
-    ceresTimer: {
-        name: 'Ceres Timer',
-        read: wram.bcdRead(0x0945, 2, true),
-    },
-    ceresState: {
-        name: 'Ceres State',
-        read: wram.uint16Read(0x093F),
-    },
+    roomID: new MemState(wram.uint16Read(0x079B), 'roomID', 'Room ID'),
+    gameState: new MemState(wram.uint16Read(0x0998), 'gameState', 'Game State'),
+    samusHP: new MemState(wram.uint16Read(0x09C2), 'samusHP', 'Samus HP'),
+    enemyHP: new MemState(wram.uint16Read(0x0F8C), 'enemyHP', 'Enemy HP'),
+    phantoonEyeTimer: new MemState(wram.uint16Read(0x0FE8), 'phantoonEyeTimer', 'Phantoon Eye Timer'),
+    ceresTimer: new MemState(wram.bcdRead(0x0945, 2, true), 'ceresTimer', 'Ceres Timer'),
+    ceresState: new MemState(wram.uint16Read(0x093F), 'ceresState', 'Ceres State'),
 }
