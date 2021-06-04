@@ -1,6 +1,5 @@
 import { Rooms, GameStates, PhantoonPatterns, CeresEscapeStateFlags } from './enums'
-import MemState from '../../util/memory/MemState'
-import { MEMORY_MAPS } from '../addresses';
+import Addresses from '../addresses';
 
 const NOT_IN_CERES = 0;
 // const INTRO = 1;
@@ -15,17 +14,31 @@ function getGameState(gs) {
     return '--------'
 }
 
+function getRoom(r) {
+    if (r === 0) return 'EMPTY';
+    for (const area in Rooms) {
+        if (area === 'EMPTY') continue;
+        for (const room in Rooms[area]) {
+            if (Rooms[area][room] === r) {
+                return room
+            }
+        }
+    }
+    return '--------'
+}
+
 export default class DummyLogic {
-    constructor(usb2snes, apiToken) {
+    constructor(usb2snes, callExternal) {
         this.usb2snes = usb2snes;
+        this.callExternal = callExternal
         this.data = {
-            roomID: MEMORY_MAPS.roomID,
-            gameState: MEMORY_MAPS.gameState,
-            samusHP: MEMORY_MAPS.samusHP,
-            enemyHP: MEMORY_MAPS.enemyHP,
-            phantoonEyeTimer: MEMORY_MAPS.phantoonEyeTimer,
-            ceresTimer: MEMORY_MAPS.ceresTimer,
-            ceresState: MEMORY_MAPS.ceresState,
+            roomID: Addresses.roomID,
+            gameState: Addresses.gameState,
+            samusHP: Addresses.samusHP,
+            enemyHP: Addresses.enemyHP,
+            phantoonEyeTimer: Addresses.phantoonEyeTimer,
+            ceresTimer: Addresses.ceresTimer,
+            ceresState: Addresses.ceresState,
         };
         this.state = {
             inRun: false,
@@ -63,9 +76,11 @@ export default class DummyLogic {
 
     async loop() {
         // Build read list
+        const mems = {};
         const reads = {};
-        for (const item of this.data) {
+        for (const item of Object.values(this.data)) {
             reads[item.key] = item.dataRead;
+            mems[item.key] = item
         }
 
         // Perform reads
@@ -73,7 +88,11 @@ export default class DummyLogic {
 
         // Update memstate values
         for (const key in data) {
-            reads[key].update(data[key]);
+            mems[key].update(data[key]);
+        }
+
+        if (this.checkChange(this.data.roomID)) {
+            console.log(getRoom(this.data.roomID.value), '-', this.data.roomID.value.toString(16))
         }
 
         if (this.checkChange(this.data.gameState)) {

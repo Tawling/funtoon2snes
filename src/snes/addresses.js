@@ -1,7 +1,7 @@
 import { wram } from './datatypes'
-import { Rooms } from './supermetroid/enums'
+import MemState from '../util/memory/MemState'
 
-export const MEMORY_MAPS = {
+export default {
     roomID: new MemState(wram.uint16Read(0x079B), 'roomID', 'Room ID'),
     gameState: new MemState(wram.uint16Read(0x0998), 'gameState', 'Game State'),
     samusHP: new MemState(wram.uint16Read(0x09C2), 'samusHP', 'Samus HP'),
