@@ -1,5 +1,5 @@
 import MemoryModule from '../../../util/memory/MemoryModule';
-import { Rooms, GameStates, PhantoonPatterns } from '../enums';
+import { Rooms, PhantoonPatterns } from '../enums';
 import Addresses from '../../addresses';
 
 const PhantoonGameState = {
@@ -16,7 +16,7 @@ export default class PhantoonGameModule extends MemoryModule {
         this.phantoonPatterns = [];
         this.currentPhantoonRound = 0;
     }
-    async getMemoryReads() {
+    getMemoryReads() {
         return [
             Addresses.roomID,
             Addresses.gameState,

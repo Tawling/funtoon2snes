@@ -1,8 +1,6 @@
 export default class MemoryModule {
-    constructor() {
-    }
 
-    async getMemoryReads() {
+    getMemoryReads() {
         throw Error('You must implement getMemoryReads()');
     }
 
@@ -20,4 +18,3 @@ export default class MemoryModule {
         return fromTrue && toTrue;
     }
 }
-

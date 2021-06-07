@@ -65,7 +65,6 @@ class BCDRead extends DataRead {
     }
 
     transformValue(value) {
-        // TODO
         const res = []
         for (const v of value) {
             if (this.littleEndian) {

@@ -12,7 +12,7 @@ export default class CeresGameModule extends MemoryModule {
         super();
         this.ceresState = CeresGameState.Closed;
     }
-    async getMemoryReads() {
+    getMemoryReads() {
         return [
             Addresses.roomID,
             Addresses.gameState,
