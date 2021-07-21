@@ -76,6 +76,15 @@ export default class Connection {
         this.readCount = 0;
     }
 
+    setModuleEnabled = (moduleName, enabled) => {
+        this.logic.modules[moduleName] = enabled;
+    }
+
+    setModuleStates = (moduleStates) => {
+        this.logic.setModuleStates(moduleStates);
+        this.callExternal('setModuleStates', this.logic.getModuleStates());
+    }
+
     eventLoop = async () => {
         if (this.enabled) {
             if (this.usb2snes.isAttached()) {

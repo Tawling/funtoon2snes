@@ -10,12 +10,21 @@ const PhantoonGameState = {
 
 export default class PhantoonGameModule extends MemoryModule {
     constructor() {
-        super();
+        super("phantoonGuessing", "Phantoon Guessing Game");
         this.phantoonGameState = PhantoonGameState.Ended;
         this.inPhantoonFight = false;
         this.phantoonPatterns = [];
         this.currentPhantoonRound = 0;
     }
+
+    setEnabled(enabled) {
+        super.setEnabled(enabled);
+        this.phantoonGameState = PhantoonGameState.Ended;
+        this.inPhantoonFight = false;
+        this.phantoonPatterns = [];
+        this.currentPhantoonRound = 0;
+    }
+
     getMemoryReads() {
         return [
             Addresses.roomID,

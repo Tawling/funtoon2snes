@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import ConnectionPanel from './components/ConnectionPanel';
+import ModuleStatePanel from './components/ModuleStatePanel';
 
 import ConnectionWorker from './Connection.worker' // eslint-disable-line
 
@@ -12,6 +13,8 @@ function App() {
     const [token, setAPIToken] = useState('');
     const [checked, setEnabled] = useState(true);
     const [rps, setRPS] = useState(0);
+
+    const [moduleStates, setModuleStates] = useState({})
 
     const [messageQueue, setMessageQueue] = useState([]);
 
@@ -53,6 +56,10 @@ function App() {
                 case 'setRPS':
                     setRPS(...event.data.args);
                     break;
+                case 'setModuleStates':
+                    window.localStorage.setItem('moduleStates', JSON.stringify(event.data.args[0]));
+                    setModuleStates(...event.data.args);
+                    break;
                 default:
             }
         });
@@ -82,6 +89,12 @@ function App() {
         callExternal('setEnabled', enabled);
     }
 
+    function onModuleSettingChange(moduleName, settingName, value) {
+       const newStates = {...moduleStates};
+       newStates[moduleName].settings[settingName] = value;
+       callExternal('setModuleStates', newStates);
+    }
+
     useEffect(() => {
         console.log('loading channel and token');
         const channel = localStorage.getItem('channelName') || '';
@@ -90,9 +103,14 @@ function App() {
         setAPIToken(token);
         const enabled = localStorage.getItem('enabled') || true;
         setEnabled(enabled);
+
+        const moduleStates = JSON.parse(localStorage.getItem('moduleStates') || '{}');
+        setModuleStates(moduleStates)
+
         callExternal('setAPIToken', token);
         callExternal('setChannel', channel);
         callExternal('setEnabled', enabled);
+        callExternal('setModuleStates', moduleStates);
     }, [token, channel]);  // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
@@ -111,6 +129,7 @@ function App() {
                 channel={channel}
                 token={token}
                 readsPerSecond={rps} />
+            <ModuleStatePanel moduleStates={moduleStates} onModuleSettingChange={onModuleSettingChange}/>
         </div>
     );
 }

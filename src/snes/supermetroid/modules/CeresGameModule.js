@@ -9,9 +9,15 @@ const CeresGameState = {
 
 export default class CeresGameModule extends MemoryModule {
     constructor() {
-        super();
+        super("ceresGuessing", "Ceres Guessing Game");
         this.ceresState = CeresGameState.Closed;
     }
+
+    setEnabled(enabled) {
+        super.setEnabled(enabled);
+        this.ceresState = CeresGameState.Closed;
+    }
+
     getMemoryReads() {
         return [
             Addresses.roomID,

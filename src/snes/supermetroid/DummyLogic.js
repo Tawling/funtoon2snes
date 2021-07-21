@@ -14,6 +14,26 @@ export default class DummyLogic {
         ]
     }
 
+    setModuleStates(states) {
+        for (const module of this.modules) {
+            if (states[module.moduleName] && states[module.moduleName].settings) {
+                module.setSettings({ enabled: states[module.moduleName].enabled, ...states[module.moduleName].settings});
+            }
+        }
+    }
+
+    getModuleStates() {
+        const newStates = {};
+        for (const module of this.modules) {
+            newStates[module.moduleName] = {
+                displayName: module.displayName,
+                enabled: module.enabled,
+                settings: module.getSettings(),
+            };
+        }
+        return newStates;
+    }
+
     sendEvent = async (event, data = null, delay = 0) => {
         if (!this.channel || !this.apiToken) {
             console.log('Failed to send event:', JSON.stringify(event))
@@ -40,10 +60,12 @@ export default class DummyLogic {
         const reads = {};
         
         for (const module of this.modules) {
-            const moduleReads = module.getMemoryReads();
-            for (const addr of moduleReads) {
-                reads[addr.key] = addr.dataRead;
-                mems[addr.key] = addr;
+            if (module.enabled) {
+                const moduleReads = module.getMemoryReads();
+                for (const addr of moduleReads) {
+                    reads[addr.key] = addr.dataRead;
+                    mems[addr.key] = addr;
+                }
             }
         }
 

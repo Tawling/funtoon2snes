@@ -1,5 +1,11 @@
 export default class MemoryModule {
 
+    constructor(moduleName, displayName, defaultEnabled = true) {
+        this.moduleName = moduleName;
+        this.displayName = displayName;
+        this.enabled = defaultEnabled;
+    }
+
     getMemoryReads() {
         throw Error('You must implement getMemoryReads()');
     }
@@ -16,5 +22,19 @@ export default class MemoryModule {
         const fromTrue = Array.isArray(from) ? from.some((v) => v === read.prevFrameValue): read.prevFrameValue === from;
         const toTrue = Array.isArray(to) ? to.some((v) => v === read.value): read.value === to;
         return fromTrue && toTrue;
+    }
+
+    setEnabled(enabled) {
+        this.enabled = enabled;
+    }
+
+    setSettings({ enabled = true }) {
+        if (enabled !== this.enabled) {
+            this.setEnabled(enabled);
+        }
+    }
+
+    getSettings() {
+        return { enabled: this.enabled };
     }
 }

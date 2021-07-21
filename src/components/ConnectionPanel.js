@@ -12,7 +12,7 @@ export default function ConnectionPanel(props) {
                 'bg-success': deviceInfo !== null,
             })}>Connection</CardHeader>
             <CardBody>
-                <ul>
+                <ul style={{'list-style-type': 'none'}}>
                     <li>
                         Channel Name: <Input type="text" value={channel} onInput={(e) => onChannelChange(e.target.value)} />
                     </li>
