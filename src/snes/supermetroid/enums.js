@@ -456,3 +456,41 @@ export const Areas = {
     CERES:          0x06,
     DEBUG:          0x07,
 }
+
+export const EventStates = {
+    ZEBES_IS_AWAKE:            0x00,
+    METROID_ATE_SIDEHOPPER:    0x01,
+    MB_GLASS_BROKEN:           0x02,
+    ZEBETITE_1_BROKEN:         0x03,
+    ZEBETITE_2_BROKEN:         0x04,
+    ZEBETITE_3_BROKEN:         0x05,
+    PHANTOON_STATUE_GREY:      0x06,
+    RIDLEY_STATUE_GREY:        0x07,
+    
+    DRAYGON_STATUE_GREY:       0x08,
+    KRAID_STATUE_GREY:         0x09,
+    TOURIAN_ENTRANCE_UNLOCKED: 0x0A,
+    MARIDIA_TUBE_BROKEN:       0x0B,
+    LN_CHOZO_LOWERED_ACID:     0x0C,
+    SHAKTOOL_CLEARED_PATH:     0x0D,
+    ZEBES_TIMEBOMB_SET:        0x0E,
+    ANIMALS_SAVED:             0x0F,
+    
+    METROID_ROOM_1_CLEARED:    0x10,
+    METROID_ROOM_2_CLEARED:    0x11,
+    METROID_ROOM_3_CLEARED:    0x12,
+    METROID_ROOM_4_CLEARED:    0x13,
+    OUTRAN_SPEED_LAVA_ROOM:    0x15,
+}
+
+export const BossStates = {
+    BOMBTORIZO:   0x02,
+    SPORESPAWN:   0x09,
+    KRAID:        0x08,
+    PHANTOON:     0x18,
+    BOTWOON:      0x21,
+    DRAYGON:      0x20,
+    CROCOMIRE:    0x11,
+    GOLDENTORIZO: 0x12,
+    RIDLEY:       0x10,
+}

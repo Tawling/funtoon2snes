@@ -1,5 +1,6 @@
 import MemoryModule from '../../../util/memory/MemoryModule';
-import { Rooms, PhantoonPatterns } from '../enums';
+import { Rooms, PhantoonPatterns, BossStates } from '../enums';
+import { readBossStateFlag } from '../smutils';
 import Addresses from '../../addresses';
 
 const PhantoonGameState = {
@@ -32,6 +33,7 @@ export default class PhantoonGameModule extends MemoryModule {
             Addresses.enemyHP,
             Addresses.samusHP,
             Addresses.phantoonEyeTimer,
+            Addresses.bossStates,
         ]
     }
     
@@ -93,7 +95,8 @@ export default class PhantoonGameModule extends MemoryModule {
             }
         }
         
-        if (this.checkTransition(memory.roomID, Rooms.Crateria.THE_MOAT, Rooms.Crateria.WEST_OCEAN)) {
+        const phantoonState = readBossStateFlag(memory.bossStates.value, BossStates.PHANTOON);
+        if (0 == phantoonState && this.checkTransition(memory.roomID, Rooms.Crateria.THE_MOAT, Rooms.Crateria.WEST_OCEAN)) {
             handleEvent('phanOpen');
             this.phantoonGameState = PhantoonGameState.Opened;
         }
