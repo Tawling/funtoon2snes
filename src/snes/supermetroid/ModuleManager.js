@@ -1,7 +1,8 @@
 import CeresGameModule from './modules/CeresGameModule'
 import PhantoonGameModule from './modules/PhantoonGameModule'
+import MoondanceEmoteOnlyModule from './modules/MoondanceEmoteOnlyModule'
 
-export default class DummyLogic {
+export default class ModuleManager {
     constructor(usb2snes, callExternal) {
         this.usb2snes = usb2snes;
         this.callExternal = callExternal
@@ -11,6 +12,7 @@ export default class DummyLogic {
         this.modules = [
             new PhantoonGameModule(),
             new CeresGameModule(),
+            new MoondanceEmoteOnlyModule(),
         ]
     }
 
@@ -36,10 +38,10 @@ export default class DummyLogic {
 
     sendEvent = async (event, data = null, delay = 0) => {
         if (!this.channel || !this.apiToken) {
-            console.log('Failed to send event:', JSON.stringify(event))
+            console.log('Failed to send event:', JSON.stringify(event));
             return;
         }
-        console.log('Sending Event:', JSON.stringify(event), 'with data', JSON.stringify(data))
+        console.log('Sending Event:', JSON.stringify(event), 'with data', JSON.stringify(data));
         setTimeout(async () => console.log(await fetch('https://funtoon.party/api/events/custom', {
             method: 'POST',
             headers: {
@@ -51,7 +53,7 @@ export default class DummyLogic {
                 event,
                 data,
             }),
-        })), delay)
+        })), delay);
     }
 
     async loop() {

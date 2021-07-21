@@ -1,5 +1,5 @@
 import USB2Snes from './snes/usb2snes';
-import DummyLogic from './snes/supermetroid/DummyLogic';
+import ModuleManager from './snes/supermetroid/ModuleManager';
 
 export default class Connection {
     constructor (callExternal) {
@@ -10,7 +10,7 @@ export default class Connection {
         this.usb2snes.onListDevices = this.onListDevices;
         this.usb2snes.onDisconnect = this.onDisconnect;
 
-        this.logic = new DummyLogic(this.usb2snes, callExternal);
+        this.moduleManager = new ModuleManager(this.usb2snes, callExternal);
 
         this.apiToken = "";
         this.channel = "";
@@ -56,13 +56,13 @@ export default class Connection {
 
     setAPIToken = (token) => {
         this.apiToken = token;
-        this.logic.apiToken = token;
+        this.moduleManager.apiToken = token;
         this.callExternal('setAPIToken', token);
     }
 
     setChannel = (channel) => {
         this.channel = channel;
-        this.logic.channel = channel;
+        this.moduleManager.channel = channel;
         this.callExternal('setChannel', channel);
     }
 
@@ -77,19 +77,19 @@ export default class Connection {
     }
 
     setModuleEnabled = (moduleName, enabled) => {
-        this.logic.modules[moduleName] = enabled;
+        this.moduleManager.modules[moduleName] = enabled;
     }
 
     setModuleStates = (moduleStates) => {
-        this.logic.setModuleStates(moduleStates);
-        this.callExternal('setModuleStates', this.logic.getModuleStates());
+        this.moduleManager.setModuleStates(moduleStates);
+        this.callExternal('setModuleStates', this.moduleManager.getModuleStates());
     }
 
     eventLoop = async () => {
         if (this.enabled) {
             if (this.usb2snes.isAttached()) {
                 try {
-                    await this.logic.loop();
+                    await this.moduleManager.loop();
                     this.readCount++;
                 } catch (e){
                     console.log(e);
