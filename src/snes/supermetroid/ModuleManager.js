@@ -81,7 +81,9 @@ export default class ModuleManager {
         
         // Run module logic
         for (const module of this.modules) {
-            module.memoryReadAvailable(mems, this.sendEvent);
+            if (module.enabled) {
+                module.memoryReadAvailable(mems, this.sendEvent);
+            }
         }
     }
 }

@@ -26,11 +26,11 @@ export default class MoondanceEmoteOnlyModule extends MemoryModule {
     }
     
     async memoryReadAvailable(memory, handleEvent) {
-        if (this.emoteOnly == EmoteState.Off && memory.samusMaxPBs == 0 && this.checkTransition(memory.roomID, Rooms.GreenBrinstar.GREEN_BRINSTAR_MAIN_SHAFT, Rooms.PinkBrinstar.DACHORA_ROOM)) {
+        if (this.emoteOnly == EmoteState.Off && memory.samusMaxPBs.value == 0 && this.checkTransition(memory.roomID, Rooms.GreenBrinstar.GREEN_BRINSTAR_MAIN_SHAFT, Rooms.PinkBrinstar.DACHORA_ROOM)) {
             handleEvent('emoteOnly', true);
             this.emoteOnly = EmoteState.On;
         }
-        else if (this.emoteOnly == EmoteState.On && memory.samusMaxPBs == 0 && this.checkTransition(memory.roomID, Rooms.PinkBrinstar.DACHORA_ROOM, [
+        else if (this.emoteOnly == EmoteState.On && memory.samusMaxPBs.value == 0 && this.checkTransition(memory.roomID, Rooms.PinkBrinstar.DACHORA_ROOM, [
             Rooms.GreenBrinstar.GREEN_BRINSTAR_MAIN_SHAFT,
             Rooms.PinkBrinstar.BIG_PINK,
         ])) {
