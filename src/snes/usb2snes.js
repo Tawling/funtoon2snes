@@ -207,15 +207,15 @@ export default class USB2Snes {
             // Sort values longest to shortest then chunk the values by 64
             const unchunkedValues = [...values];
             unchunkedValues.sort((a, b) => b.value.size - a.value.size);
-            if (unchunkedValues[0].value.size > 64) {
+            if (unchunkedValues[0].value.size > 16) {
                 throw Error('Single data read too large');
             }
             let sizeSum = 0;
             const chunks = [];
             let chunk = [];
             const chunkSizes = [];
-            while (sizeSum < 64 && unchunkedValues.length > 0) {
-                const nextItemIndex = unchunkedValues.findIndex(({value}) => sizeSum + value.size <= 64); // eslint-disable-line no-loop-func
+            while (sizeSum < 16 && unchunkedValues.length > 0) {
+                const nextItemIndex = unchunkedValues.findIndex(({value}) => sizeSum + value.size <= 16); // eslint-disable-line no-loop-func
                 if (nextItemIndex < 0) {
                     chunks.push(chunk);
                     chunkSizes.push(sizeSum);

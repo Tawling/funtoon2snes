@@ -36,29 +36,29 @@ export default class CeresGameModule extends MemoryModule {
         ]
     }
     
-    async memoryReadAvailable(memory, handleEvent) {
+    async memoryReadAvailable(memory, sendEvent) {
         if (!this.settings.ignoreResets.value && this.checkTransition(memory.roomID, undefined, Rooms.EMPTY) && [
             GameStates.TRANSITION_FROM_DEMO,
             GameStates.TRANSITION_FROM_DEMO_2,
             GameStates.PLAYING_DEMO,
             GameStates.TRANSITION_TO_DEMO,
             GameStates.TRANSITION_TO_DEMO_2
-        ].indexOf(memory.gameState.value) > -1) {
-            handleEvent('ceresReset');
+        ].indexOf(memory.gameState.value) < 0) {
+            sendEvent('ceresReset');
             this.ceresState = CeresGameState.Closed;
         }
         if (this.ceresState != CeresGameState.Opened && this.checkTransition(memory.roomID, Rooms.EMPTY, Rooms.Ceres.CERES_ELEVATOR_ROOM)) {
-            handleEvent('ceresOpen');
+            sendEvent('ceresOpen');
             this.ceresState = CeresGameState.Opened;
         }
         else if (this.ceresState != CeresGameState.Closed && this.checkTransition(memory.ceresState, CeresEscapeStateFlags.RIDLEY_SWOOP_CUTSCENE, CeresEscapeStateFlags.ESCAPE_TIMER_INITIATED)) {
-            handleEvent('ceresClose');
+            sendEvent('ceresClose');
             this.ceresState = CeresGameState.PendingResult;
         }
         else if (this.checkTransition(memory.gameState, [GameStates.BLACK_OUT_FROM_CERES, GameStates.CERES_ELEVATOR], GameStates.CERES_DESTROYED_CINEMATIC)) {
             if (this.checkTransition(memory.gameState, [GameStates.BLACK_OUT_FROM_CERES, GameStates.CERES_ELEVATOR], GameStates.CERES_DESTROYED_CINEMATIC)) {
                 this.ceresState = CeresGameState.Closed;
-                handleEvent('ceresEnd', memory.ceresTimer.value);
+                sendEvent('ceresEnd', memory.ceresTimer.value);
             }
         }
     }

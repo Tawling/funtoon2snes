@@ -25,9 +25,9 @@ export default class MoondanceEmoteOnlyModule extends MemoryModule {
         ]
     }
     
-    async memoryReadAvailable(memory, handleEvent) {
+    async memoryReadAvailable(memory, sendEvent) {
         if (this.emoteOnly == EmoteState.Off && memory.samusMaxPBs.value == 0 && this.checkTransition(memory.roomID, Rooms.GreenBrinstar.GREEN_BRINSTAR_MAIN_SHAFT, Rooms.PinkBrinstar.DACHORA_ROOM)) {
-            handleEvent('emoteOnly', true);
+            sendEvent('emoteOnly', true);
             this.emoteOnly = EmoteState.On;
         }
         else if (this.emoteOnly == EmoteState.On && memory.samusMaxPBs.value == 0 && this.checkTransition(memory.roomID, Rooms.PinkBrinstar.DACHORA_ROOM, [
@@ -35,7 +35,7 @@ export default class MoondanceEmoteOnlyModule extends MemoryModule {
             Rooms.PinkBrinstar.BIG_PINK,
             Rooms.EMPTY,
         ])) {
-            handleEvent('emoteOnly', false);
+            sendEvent('emoteOnly', false);
             this.emoteOnly = EmoteState.Off;
         }
     }

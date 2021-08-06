@@ -38,14 +38,14 @@ export default class PhantoonGameModule extends MemoryModule {
         ]
     }
     
-    async memoryReadAvailable(memory, handleEvent) {
+    async memoryReadAvailable(memory, sendEvent) {
         // Handle a run being reset
         if (memory.roomID.prevFrameValue !== undefined && memory.roomID.prevFrameValue !== Rooms.EMPTY && memory.roomID.value === Rooms.EMPTY) {
             if (this.inPhantoonFight && this.phantoonPatterns.length > 0) {
-                handleEvent('phanEnd', this.phantoonPatterns.join(' '), 2000);
+                sendEvent('phanEnd', this.phantoonPatterns.join(' '), 2000);
             }
             else if (this.phantoonGameState == PhantoonGameState.Opened) {
-                handleEvent('phanClose');
+                sendEvent('phanClose');
                 this.phantoonGameState = PhantoonGameState.Ended;
             }
             this.inPhantoonFight = false;
@@ -64,7 +64,7 @@ export default class PhantoonGameModule extends MemoryModule {
                 } else {
                     if (memory.enemyHP.value === 0 && this.inPhantoonFight) {
                         this.inPhantoonFight = false;
-                        handleEvent('phanEnd', this.phantoonPatterns.join(' '));
+                        sendEvent('phanEnd', this.phantoonPatterns.join(' '));
                         this.phantoonGameState = PhantoonGameState.Ended;
                     } else if (this.phantoonPatterns.length === this.currentPhantoonRound) {
                         this.currentPhantoonRound++;
@@ -81,7 +81,7 @@ export default class PhantoonGameModule extends MemoryModule {
                     this.phantoonPatterns.push('slow');
                 }
                 if (this.phantoonPatterns.length === 1) {
-                    handleEvent('phanClose');
+                    sendEvent('phanClose');
                     this.phantoonGameState = PhantoonGameState.Closed;
                 }
             }
@@ -91,7 +91,7 @@ export default class PhantoonGameModule extends MemoryModule {
         if (this.inPhantoonFight && this.checkChange(memory.samusHP) && memory.samusHP.value === 0 && memory.samusReserveHP.value === 0) {
             this.inPhantoonFight = false;
             this.phantoonPatterns = [];
-            handleEvent('phanEnd', 'death', 2000);
+            sendEvent('phanEnd', 'death', 2000);
         }
         
         const phantoonState = readBossStateFlag(memory.bossStates.value, BossStates.PHANTOON);
@@ -99,7 +99,7 @@ export default class PhantoonGameModule extends MemoryModule {
                 this.checkTransition(memory.roomID, Rooms.Crateria.THE_MOAT, Rooms.Crateria.WEST_OCEAN)
                 || this.checkTransition(memory.roomID, Rooms.Crateria.FORGOTTEN_HIGHWAY_ELEVATOR, Rooms.Crateria.FORGOTTEN_HIGHWAY_ELBOW)
             )) {
-            handleEvent('phanOpen');
+            sendEvent('phanOpen');
             this.phantoonGameState = PhantoonGameState.Opened;
         }
     }

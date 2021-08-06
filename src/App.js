@@ -59,7 +59,6 @@ function App() {
                 case 'setModuleStates':
                     window.localStorage.setItem('moduleStates', JSON.stringify(event.data.args[0]));
                     setModuleStates(...event.data.args);
-                    console.log(moduleStates)
                     break;
                 default:
             }
