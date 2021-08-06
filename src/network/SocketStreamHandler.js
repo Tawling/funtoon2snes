@@ -114,6 +114,7 @@ export default class SocketStreamHandler {
                         if (context.buffer.byteLength === context.size) {
                             // Pop from queue and resolve
                             this.queue.shift();
+                            console.log(context.buffer)
                             resolve(context.buffer);
                         }
                     } catch (err) {
@@ -124,6 +125,7 @@ export default class SocketStreamHandler {
                 } else {
                     // This is a non-memory read
                     this.queue.shift();
+                    console.log(event.data)
                     resolve(event.data);
                 }
             }

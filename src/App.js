@@ -59,6 +59,7 @@ function App() {
                 case 'setModuleStates':
                     window.localStorage.setItem('moduleStates', JSON.stringify(event.data.args[0]));
                     setModuleStates(...event.data.args);
+                    console.log(moduleStates)
                     break;
                 default:
             }
@@ -91,9 +92,15 @@ function App() {
 
     function onModuleSettingChange(moduleName, settingName, value) {
        const newStates = {...moduleStates};
-       newStates[moduleName].settings[settingName] = value;
+       newStates[moduleName].settings[settingName].value = value;
        callExternal('setModuleStates', newStates);
     }
+
+    function onModuleEnabledChange(moduleName, value) {
+        const newStates = {...moduleStates};
+        newStates[moduleName].enabled = value;
+        callExternal('setModuleStates', newStates);
+     }
 
     useEffect(() => {
         console.log('loading channel and token');
@@ -129,7 +136,10 @@ function App() {
                 channel={channel}
                 token={token}
                 readsPerSecond={rps} />
-            <ModuleStatePanel moduleStates={moduleStates} onModuleSettingChange={onModuleSettingChange}/>
+            <ModuleStatePanel
+                moduleStates={moduleStates}
+                onModuleSettingChange={onModuleSettingChange}
+                onModuleEnabledChange={onModuleEnabledChange} />
         </div>
     );
 }

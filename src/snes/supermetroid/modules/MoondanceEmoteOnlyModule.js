@@ -33,6 +33,7 @@ export default class MoondanceEmoteOnlyModule extends MemoryModule {
         else if (this.emoteOnly == EmoteState.On && memory.samusMaxPBs.value == 0 && this.checkTransition(memory.roomID, Rooms.PinkBrinstar.DACHORA_ROOM, [
             Rooms.GreenBrinstar.GREEN_BRINSTAR_MAIN_SHAFT,
             Rooms.PinkBrinstar.BIG_PINK,
+            Rooms.EMPTY,
         ])) {
             handleEvent('emoteOnly', false);
             this.emoteOnly = EmoteState.Off;

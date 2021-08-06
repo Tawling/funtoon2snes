@@ -95,7 +95,7 @@ export default class Connection {
                     console.log(e);
                 }
             } else {
-                console.log('skipped read');
+                // console.log('skipped read');
             }
         }
         this.eventLoopTimeout = setTimeout(this.eventLoop, 16);

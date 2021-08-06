@@ -49,7 +49,7 @@ export default class USB2Snes {
     }
 
     attemptReattach = async () => {
-        console.log('attempt reattach')
+        console.log('attempt attach')
         if (this.reattachTimeout) {
             clearTimeout(this.reattachTimeout);
             this.reattachTimeout = null;
@@ -60,7 +60,7 @@ export default class USB2Snes {
             try {
                 this.deviceList = await this.listDevices();
                 if (this.onListDevices !== null) {
-                    try {this.onListDevices(this.deviceList);}catch{}
+                    try {this.onListDevices(this.deviceList);}catch(eee){console.error(eee)}
                 }
                 const firstDevice = this.deviceList[0];
                 if (!firstDevice) {
@@ -80,11 +80,11 @@ export default class USB2Snes {
                         this.lastDeviceName = deviceName;
                         this.attached = true;
                         if (this.onDetach !== null) {
-                            try {this.onDetach();}catch{}
+                            try {this.onDetach();}catch(eee){console.error(eee)}
                         }
                         if (this.onAttach !== null) {
                             // TODO: save to localstorage
-                            try {this.onAttach(this.currentDevice);}catch{}
+                            try {this.onAttach(this.currentDevice);}catch(eee){console.error(eee)}
                         }
                     }
                 }
@@ -151,9 +151,11 @@ export default class USB2Snes {
                 await this.socketHandler.send(message, true);
                 message = this.createMessage('Info', [deviceName]);
                 const response = await this.socketHandler.send(message);
+                console.log('INFO response:', response)
                 const json = JSON.parse(response);
                 resolve(json.Results);
             } catch (err) {
+                console.error(err)
                 reject(err);
             }
         })

@@ -32,6 +32,7 @@ export default class PhantoonGameModule extends MemoryModule {
             Addresses.gameState,
             Addresses.enemyHP,
             Addresses.samusHP,
+            Addresses.samusReserveHP,
             Addresses.phantoonEyeTimer,
             Addresses.bossStates,
         ]
@@ -87,16 +88,17 @@ export default class PhantoonGameModule extends MemoryModule {
         }
         
         // If samus gets hurt, we have to check if she's dead so we can end the game
-        if (this.checkChange(memory.samusHP)) {
-            if (memory.samusHP.value === 0 && this.inPhantoonFight) {
-                this.inPhantoonFight = false;
-                this.phantoonPatterns = [];
-                handleEvent('phanEnd', 'death', 2000);
-            }
+        if (this.inPhantoonFight && this.checkChange(memory.samusHP) && memory.samusHP.value === 0 && memory.samusReserveHP.value === 0) {
+            this.inPhantoonFight = false;
+            this.phantoonPatterns = [];
+            handleEvent('phanEnd', 'death', 2000);
         }
         
         const phantoonState = readBossStateFlag(memory.bossStates.value, BossStates.PHANTOON);
-        if (0 == phantoonState && this.checkTransition(memory.roomID, Rooms.Crateria.THE_MOAT, Rooms.Crateria.WEST_OCEAN)) {
+        if (PhantoonGameState.Ended === phantoonState && (
+                this.checkTransition(memory.roomID, Rooms.Crateria.THE_MOAT, Rooms.Crateria.WEST_OCEAN)
+                || this.checkTransition(memory.roomID, Rooms.Crateria.FORGOTTEN_HIGHWAY_ELEVATOR, Rooms.Crateria.FORGOTTEN_HIGHWAY_ELBOW)
+            )) {
             handleEvent('phanOpen');
             this.phantoonGameState = PhantoonGameState.Opened;
         }

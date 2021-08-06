@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+.card-body.modules {
+  text-align: left;
+  align-items: center;
+}
+
+.settings-div {
+  padding-left: 40px;
+}
+
+.settings-div.disabled {
+  color: #888;
+}
+
+.modset {
+  font-size: 0.8em;
+}
