@@ -2,6 +2,8 @@ import { WRAM_BASE_ADDR } from './datatypes';
 import Device from '../network/Device';
 import SocketStreamHandler from '../network/SocketStreamHandler';
 
+import { chunk as _chunk } from 'lodash'
+
 export default class USB2Snes {
     constructor() {
         this.currentDevice = null;
@@ -204,33 +206,40 @@ export default class USB2Snes {
                 return null;
             }
 
-            // Sort values longest to shortest then chunk the values by 64
-            const unchunkedValues = [...values];
-            unchunkedValues.sort((a, b) => b.value.size - a.value.size);
-            if (unchunkedValues[0].value.size > 16) {
-                throw Error('Single data read too large');
-            }
-            let sizeSum = 0;
-            const chunks = [];
-            let chunk = [];
-            const chunkSizes = [];
-            while (sizeSum < 16 && unchunkedValues.length > 0) {
-                const nextItemIndex = unchunkedValues.findIndex(({value}) => sizeSum + value.size <= 16); // eslint-disable-line no-loop-func
-                if (nextItemIndex < 0) {
-                    chunks.push(chunk);
-                    chunkSizes.push(sizeSum);
-                    chunk = [];
-                    sizeSum = 0;
-                } else {
-                    var [ item ] = unchunkedValues.splice(nextItemIndex, 1);
-                    chunk.push(item);
-                    sizeSum += item.value.size;
-                }
-            }
-            if (sizeSum > 0) {
-                chunks.push(chunk);
-                chunkSizes.push(sizeSum);
-            }
+
+            const chunks = _chunk(values, 8)
+            const chunkSizes = chunks.map((c) => c.reduce((acc, i) => acc + i.value.size, 0))
+
+
+            // const MAX_BYTES = 16;
+
+            // // Sort values longest to shortest then chunk the values by 64
+            // const unchunkedValues = [...values];
+            // unchunkedValues.sort((a, b) => b.value.size - a.value.size);
+            // if (unchunkedValues[0].value.size > MAX_BYTES) {
+            //     throw Error('Single data read too large');
+            // }
+            // let sizeSum = 0;
+            // const chunks = [];
+            // let chunk = [];
+            // const chunkSizes = [];
+            // while (sizeSum < MAX_BYTES && unchunkedValues.length > 0) {
+            //     const nextItemIndex = unchunkedValues.findIndex(({value}) => sizeSum + value.size <= MAX_BYTES); // eslint-disable-line no-loop-func
+            //     if (nextItemIndex < 0) {
+            //         chunks.push(chunk);
+            //         chunkSizes.push(sizeSum);
+            //         chunk = [];
+            //         sizeSum = 0;
+            //     } else {
+            //         var [ item ] = unchunkedValues.splice(nextItemIndex, 1);
+            //         chunk.push(item);
+            //         sizeSum += item.value.size;
+            //     }
+            // }
+            // if (sizeSum > 0) {
+            //     chunks.push(chunk);
+            //     chunkSizes.push(sizeSum);
+            // }
 
             // make requests
             const results = await Promise.all(chunks.map(async (c, i) => {
@@ -247,6 +256,7 @@ export default class USB2Snes {
             }))
 
             const resultValues = [].concat(...results);
+
 
             if (typeof resultValues[0].key === 'number') {
                 // build a list

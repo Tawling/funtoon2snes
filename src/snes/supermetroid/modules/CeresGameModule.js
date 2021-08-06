@@ -37,7 +37,7 @@ export default class CeresGameModule extends MemoryModule {
     }
     
     async memoryReadAvailable(memory, sendEvent) {
-        if (!this.settings.ignoreResets.value && this.checkTransition(memory.roomID, undefined, Rooms.EMPTY) && [
+        if (this.ceresState != CeresGameState.Closed && !this.settings.ignoreResets.value && this.checkTransition(memory.roomID, undefined, Rooms.EMPTY) && [
             GameStates.TRANSITION_FROM_DEMO,
             GameStates.TRANSITION_FROM_DEMO_2,
             GameStates.PLAYING_DEMO,
