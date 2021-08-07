@@ -190,16 +190,16 @@ export default class USB2Snes {
 
     async readMultipleTyped(readTypes) {
         try {
-            let values = []
+            let values = [];
             if (Array.isArray(readTypes)) {
                 // Array of data reads
-                values = readTypes.map((value, key) => ({key, value}))
+                values = readTypes.map((value, key) => ({key, value}));
             } else if (readTypes.toOperands && {}.toString.call(readTypes.toOperands) === '[object Function]') {
                 // This must be a single data read object...
                 return await this.readTypedMemory(readTypes);
             } else {
                 // Dictionary of data reads
-                values = Object.keys(readTypes).map((key) => ({key, value: readTypes[key]}))
+                values = Object.keys(readTypes).map((key) => ({key, value: readTypes[key]}));
             }
 
             if (values.length === 0) {
@@ -207,38 +207,38 @@ export default class USB2Snes {
             }
 
             // Sort values by address
-            const valuesByAddr = [...values]
-            valuesByAddr.sort((a, b) => (a.value.address + a.value.ramOffset) - (b.value.address + b.value.ramOffset))
+            const valuesByAddr = [...values];
+            valuesByAddr.sort((a, b) => (a.value.address + a.value.ramOffset) - (b.value.address + b.value.ramOffset));
 
             let startIndex = null;
-            let endIndex = null
+            let endIndex = null;
             const blocks = [];
             valuesByAddr.forEach((val, i) => {
                 if (startIndex === null) {
-                    startIndex = i
+                    startIndex = i;
                 } else {
                     if (
                         val.value.address + val.value.ramOffset + val.value.size
                             > valuesByAddr[startIndex].value.address + valuesByAddr[startIndex].value.ramOffset + 255
                     ) {
-                        blocks.push(new ReadBlock(valuesByAddr.slice(startIndex, endIndex + 1)))
-                        startIndex = i
+                        blocks.push(new ReadBlock(valuesByAddr.slice(startIndex, endIndex + 1)));
+                        startIndex = i;
                     }
                 }
-                endIndex = i
-            })
+                endIndex = i;
+            });
             if (endIndex !== null) {
-                blocks.push(new ReadBlock(valuesByAddr.slice(startIndex, endIndex + 1)))
+                blocks.push(new ReadBlock(valuesByAddr.slice(startIndex, endIndex + 1)));
             }
 
             await Promise.all(chunk(blocks, 8).map(async (chunk) => {
-                const message = this.createMessage('GetAddress', [].concat(...(chunk.map((block) => block.toOperands()))))
-                const response = await this.socketHandler.sendBin(message, chunk.reduce((acc, block) => acc + block.size, 0))
+                const message = this.createMessage('GetAddress', [].concat(...(chunk.map((block) => block.toOperands()))));
+                const response = await this.socketHandler.sendBin(message, chunk.reduce((acc, block) => acc + block.size, 0));
                 let index = 0;
                 chunk.forEach((block) => {
                     block.performReads(response.slice(index, index+block.size));
                     index += block.size;
-                })
+                });
             }))
 
             if (typeof values[0].key === 'number') {
@@ -246,19 +246,19 @@ export default class USB2Snes {
                 const final = new Array(values.length);
                 values.forEach(({key, value}) => {
                     final[key] = value;
-                })
+                });
                 return final;
             } else{
                 // build a dictionary
-                const final = {}
+                const final = {};
                 values.forEach(({key, value}) => {
                     final[key] = value;
-                })
+                });
                 return final;
             }
         } catch (error) {
-            console.error(error)
-            return null
+            console.error(error);
+            return null;
         }
     }
 }
