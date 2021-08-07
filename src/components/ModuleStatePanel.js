@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, CardHeader, Input, Label, Select, Option } from 'reactstrap';
+import { Card, CardBody, CardHeader, Input, Label, Dropdown, DropdownItem } from 'reactstrap';
 import { debounce } from 'lodash';
 import classNames from 'classnames';
 
@@ -107,14 +107,14 @@ export default function ModuleStatePanel(props) {
                                                             <span className="setting-label">
                                                                 {def.display + ' '}
                                                             </span>
-                                                            <Select
+                                                            <select
                                                                 disabled={!module.enabled}
                                                                 type="file"
                                                                 {...(def.attributes || {})}
                                                                 onChange={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
                                                                 value={def.value}>
-                                                                    {def.options.map((opt) => <Option key={opt.display} value={opt.value}>{opt.display}</Option>)}
-                                                            </Select>
+                                                                    {def.options.map((opt) => <option key={opt.display} value={opt.value}>{opt.display}</option>)}
+                                                            </select>
                                                         </li>
                                                     );
                                                 default:

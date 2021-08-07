@@ -188,7 +188,7 @@ export default class USB2Snes {
         });
     }
 
-    async readMultipleTyped(readTypes) {
+    async readMultipleTyped(readTypes, maxReadSize=255) {
         try {
             let values = [];
             if (Array.isArray(readTypes)) {
@@ -219,7 +219,7 @@ export default class USB2Snes {
                 } else {
                     if (
                         val.value.address + val.value.ramOffset + val.value.size
-                            > valuesByAddr[startIndex].value.address + valuesByAddr[startIndex].value.ramOffset + 255
+                            > valuesByAddr[startIndex].value.address + valuesByAddr[startIndex].value.ramOffset + maxReadSize
                     ) {
                         blocks.push(new ReadBlock(valuesByAddr.slice(startIndex, endIndex + 1)));
                         startIndex = i;
