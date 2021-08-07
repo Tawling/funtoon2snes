@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, Input, Label } from 'reactstrap';
-import { debounce } from 'lodash'
+import { debounce } from 'lodash';
+import classNames from 'classnames';
 
 export default function ModuleStatePanel(props) {
     const { moduleStates, onModuleSettingChange, onModuleEnabledChange } = props;
@@ -32,6 +33,7 @@ export default function ModuleStatePanel(props) {
                                                             <Label>
                                                                 <Input
                                                                     type='checkbox'
+                                                                    {...(def.attributes || {})}
                                                                     checked={def.value}
                                                                     onInput={(e) => onModuleSettingChange(moduleName, key, !def.value)}
                                                                     />
@@ -41,7 +43,7 @@ export default function ModuleStatePanel(props) {
                                                             </Label>
                                                         </li>
                                                     );
-                                                case 'string':
+                                                case 'text':
                                                     return (
                                                         <li>
                                                             <span className="setting-label">
@@ -49,6 +51,7 @@ export default function ModuleStatePanel(props) {
                                                             </span>
                                                             <Input
                                                                 type="text"
+                                                                {...(def.attributes || {})}
                                                                 onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
                                                                 value={def.value} />
                                                         </li>
@@ -61,13 +64,40 @@ export default function ModuleStatePanel(props) {
                                                             </span>
                                                             <Input
                                                                 type="number"
+                                                                {...(def.attributes || {})}
+                                                                onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
+                                                                value={def.value} />
+                                                        </li>
+                                                    )
+                                                case 'range':
+                                                    return (
+                                                        <li>
+                                                            <span className="setting-label">
+                                                                {def.display + ' '}
+                                                            </span>
+                                                            <Input
+                                                                type="range"
+                                                                {...(def.attributes || {})}
+                                                                onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
+                                                                value={def.value} />
+                                                        </li>
+                                                    )
+                                                case 'file':
+                                                    return (
+                                                        <li>
+                                                            <span className="setting-label">
+                                                                {def.display + ' '}
+                                                            </span>
+                                                            <Input
+                                                                type="file"
+                                                                {...(def.attributes || {})}
                                                                 onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
                                                                 value={def.value} />
                                                         </li>
                                                     )
                                                 default:
+                                                    return null
                                             }
-                                            return <li>{input}</li>
                                         })}
                                     </div>
                                 </li>
