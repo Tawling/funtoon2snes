@@ -82,7 +82,7 @@ export default function ModuleStatePanel(props) {
                                                                 disabled={!module.enabled}
                                                                 type="range"
                                                                 {...(def.attributes || {})}
-                                                                onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
+                                                                onChange={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
                                                                 value={def.value} />
                                                         </li>
                                                     )
@@ -96,7 +96,7 @@ export default function ModuleStatePanel(props) {
                                                                 disabled={!module.enabled}
                                                                 type="file"
                                                                 {...(def.attributes || {})}
-                                                                onInput={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
+                                                                onChange={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
                                                                 value={def.value} />
                                                         </li>
                                                     )
@@ -111,7 +111,7 @@ export default function ModuleStatePanel(props) {
                                                                 disabled={!module.enabled}
                                                                 type="file"
                                                                 {...(def.attributes || {})}
-                                                                onInput={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
+                                                                onChange={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
                                                                 value={def.value}>
                                                                     {def.options.map((opt) => <Option key={opt.display} value={opt.value}>{opt.display}</Option>)}
                                                             </Select>
