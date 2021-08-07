@@ -208,7 +208,7 @@ export default class USB2Snes {
 
             // Sort values by address
             const valuesByAddr = [...values];
-            valuesByAddr.sort((a, b) => (a.value.address + a.value.ramOffset) - (b.value.address + b.value.ramOffset));
+            valuesByAddr.sort((a, b) => (a.value.address + a.value.ramOffset + a.value.size) - (b.value.address + b.value.ramOffset + a.value.size));
 
             let startIndex = null;
             let endIndex = null;
