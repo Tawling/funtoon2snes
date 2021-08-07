@@ -60,8 +60,10 @@ export default class ModuleManager {
         // Build read list
         const mems = {};
         const reads = {};
+
+        const enabledModules = this.modules.filter(({ enabled }) => enabled)
         
-        for (const module of this.modules) {
+        for (const module of enabledModules) {
             if (module.enabled) {
                 const moduleReads = module.getMemoryReads();
                 for (const addr of moduleReads) {
@@ -80,7 +82,7 @@ export default class ModuleManager {
         }
         
         // Run module logic
-        for (const module of this.modules) {
+        for (const module of enabledModules) {
             if (module.enabled) {
                 module.memoryReadAvailable(mems, this.sendEvent);
             }

@@ -2,6 +2,29 @@ export const WRAM_BASE_ADDR =   0xF50000;
 export const SRAM_BASE_ADDR =   0xE00000;
 export const ROM_BASE_ADDR  =   0x000000;
 
+export class ReadBlock {
+    constructor(reads) {
+        this.reads = reads;
+        this.start = this.reads[0].value.address
+        this.offset = this.reads[0].value.ramOffset
+        this.size = this.reads[this.reads.length - 1].value.address + this.reads[this.reads.length - 1].value.size
+        - this.reads[0].value.address
+    }
+
+    toOperands() {
+        return [
+            (this.start + this.offset).toString(16),
+            (this.size).toString(16),
+        ]
+    }
+
+    performReads(memory) {
+        for (const read of this.reads) {
+            read.value = read.value.transformValue(memory.slice(read.value.address - this.start, read.value.address - this.start + read.value.size))
+        }
+    }
+}
+
 class DataRead {
     constructor (address, size, ramOffset = 0) {
         this.address = address;

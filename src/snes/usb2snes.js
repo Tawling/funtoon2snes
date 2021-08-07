@@ -1,8 +1,8 @@
-import { WRAM_BASE_ADDR } from './datatypes';
+import { WRAM_BASE_ADDR, ReadBlock } from './datatypes';
 import Device from '../network/Device';
 import SocketStreamHandler from '../network/SocketStreamHandler';
 
-import { chunk as _chunk } from 'lodash'
+import { chunk } from 'lodash'
 
 export default class USB2Snes {
     constructor() {
@@ -206,69 +206,52 @@ export default class USB2Snes {
                 return null;
             }
 
+            // Sort values by address
+            const valuesByAddr = [...values]
+            valuesByAddr.sort((a, b) => (a.value.address + a.value.ramOffset) - (b.value.address + b.value.ramOffset))
 
-            const chunks = _chunk(values, 8)
-            const chunkSizes = chunks.map((c) => c.reduce((acc, i) => acc + i.value.size, 0))
+            let startIndex = null;
+            let endIndex = null
+            const blocks = [];
+            valuesByAddr.forEach((val, i) => {
+                if (startIndex === null) {
+                    startIndex = i
+                } else {
+                    if (
+                        val.value.address + val.value.ramOffset + val.value.size
+                            > valuesByAddr[startIndex].value.address + valuesByAddr[startIndex].value.ramOffset + 255
+                    ) {
+                        blocks.push(new ReadBlock(valuesByAddr.slice(startIndex, (endIndex === null ? startIndex : endIndex) + 1)))
+                        startIndex = i
+                    }
+                }
+                endIndex = i
+            })
+            if (endIndex !== null) {
+                blocks.push(new ReadBlock(valuesByAddr.slice(startIndex, endIndex + 1)))
+            }
 
-
-            // const MAX_BYTES = 16;
-
-            // // Sort values longest to shortest then chunk the values by 64
-            // const unchunkedValues = [...values];
-            // unchunkedValues.sort((a, b) => b.value.size - a.value.size);
-            // if (unchunkedValues[0].value.size > MAX_BYTES) {
-            //     throw Error('Single data read too large');
-            // }
-            // let sizeSum = 0;
-            // const chunks = [];
-            // let chunk = [];
-            // const chunkSizes = [];
-            // while (sizeSum < MAX_BYTES && unchunkedValues.length > 0) {
-            //     const nextItemIndex = unchunkedValues.findIndex(({value}) => sizeSum + value.size <= MAX_BYTES); // eslint-disable-line no-loop-func
-            //     if (nextItemIndex < 0) {
-            //         chunks.push(chunk);
-            //         chunkSizes.push(sizeSum);
-            //         chunk = [];
-            //         sizeSum = 0;
-            //     } else {
-            //         var [ item ] = unchunkedValues.splice(nextItemIndex, 1);
-            //         chunk.push(item);
-            //         sizeSum += item.value.size;
-            //     }
-            // }
-            // if (sizeSum > 0) {
-            //     chunks.push(chunk);
-            //     chunkSizes.push(sizeSum);
-            // }
-
-            // make requests
-            const results = await Promise.all(chunks.map(async (c, i) => {
-                const message = this.createMessage('GetAddress', [].concat(...(c.map((item) => item.value.toOperands()))));
-                const response = await this.socketHandler.sendBin(message, chunkSizes[i]);
+            await Promise.all(chunk(blocks, 8).map(async (chunk) => {
+                const message = this.createMessage('GetAddress', [].concat(...(chunk.map((block) => block.toOperands()))))
+                const response = await this.socketHandler.sendBin(message, chunk.reduce((acc, block) => acc + block.size, 0))
                 let index = 0;
-                c.forEach((item) => {
-                    const size = item.value.size;
-                    item.value = item.value.transformValue(response.slice(index, index+size))
-                    index += size;
+                chunk.forEach((block) => {
+                    block.performReads(response.slice(index, index+block.size));
+                    index += block.size;
                 })
-
-                return c;
             }))
 
-            const resultValues = [].concat(...results);
-
-
-            if (typeof resultValues[0].key === 'number') {
+            if (typeof values[0].key === 'number') {
                 // build a list
-                const final = new Array(resultValues.length);
-                resultValues.forEach(({key, value}) => {
+                const final = new Array(values.length);
+                values.forEach(({key, value}) => {
                     final[key] = value;
                 })
                 return final;
             } else{
                 // build a dictionary
                 const final = {}
-                resultValues.forEach(({key, value}) => {
+                values.forEach(({key, value}) => {
                     final[key] = value;
                 })
                 return final;
