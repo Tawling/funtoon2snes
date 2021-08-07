@@ -57,7 +57,7 @@ export default function ModuleStatePanel(props) {
                                                                 onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
                                                                 value={def.value} />
                                                         </li>
-                                                    )
+                                                    );
                                                 case 'number':
                                                     return (
                                                         <li key={key}>
@@ -71,7 +71,7 @@ export default function ModuleStatePanel(props) {
                                                                 onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
                                                                 value={def.value} />
                                                         </li>
-                                                    )
+                                                    );
                                                 case 'range':
                                                     return (
                                                         <li key={key}>
@@ -85,7 +85,7 @@ export default function ModuleStatePanel(props) {
                                                                 onChange={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
                                                                 value={def.value} />
                                                         </li>
-                                                    )
+                                                    );
                                                 case 'file':
                                                     return (
                                                         <li key={key}>
@@ -99,7 +99,7 @@ export default function ModuleStatePanel(props) {
                                                                 onChange={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
                                                                 value={def.value} />
                                                         </li>
-                                                    )
+                                                    );
 
                                                 case 'dropdown':
                                                     return (
@@ -116,9 +116,9 @@ export default function ModuleStatePanel(props) {
                                                                     {def.options.map((opt) => <Option key={opt.display} value={opt.value}>{opt.display}</Option>)}
                                                             </Select>
                                                         </li>
-                                                    )
+                                                    );
                                                 default:
-                                                    return null
+                                                    return null;
                                             }
                                         })}
                                     </div>
