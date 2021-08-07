@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, CardHeader, Input, Label } from 'reactstrap';
+import { Card, CardBody, CardHeader, Input, Label, Select, Option } from 'reactstrap';
 import { debounce } from 'lodash';
 import classNames from 'classnames';
 
@@ -22,16 +22,17 @@ export default function ModuleStatePanel(props) {
                                             />
                                         {' ' + module.displayName}
                                     </Label>
-                                    <div className={"settings-div " + (module.enabled ? "" : "disabled")}>
+                                    <div className={classNames({'settings-div': true, 'disabled': !module.enabled})}>
                                         {Object.keys(module.settings).map((key) => {
                                             const def = module.settings[key];
                                             let input = null;
                                             switch (def.type) {
                                                 case 'bool':
                                                     return (
-                                                        <li>
+                                                        <li key={key}>
                                                             <Label>
                                                                 <Input
+                                                                    disabled={!module.enabled}
                                                                     type='checkbox'
                                                                     {...(def.attributes || {})}
                                                                     checked={def.value}
@@ -45,11 +46,12 @@ export default function ModuleStatePanel(props) {
                                                     );
                                                 case 'text':
                                                     return (
-                                                        <li>
+                                                        <li key={key}>
                                                             <span className="setting-label">
                                                                 {def.display + ' '}
                                                             </span>
                                                             <Input
+                                                                disabled={!module.enabled}
                                                                 type="text"
                                                                 {...(def.attributes || {})}
                                                                 onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
@@ -58,11 +60,12 @@ export default function ModuleStatePanel(props) {
                                                     )
                                                 case 'number':
                                                     return (
-                                                        <li>
+                                                        <li key={key}>
                                                             <span className="setting-label">
                                                                 {def.display + ' '}
                                                             </span>
                                                             <Input
+                                                                disabled={!module.enabled}
                                                                 type="number"
                                                                 {...(def.attributes || {})}
                                                                 onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
@@ -71,11 +74,12 @@ export default function ModuleStatePanel(props) {
                                                     )
                                                 case 'range':
                                                     return (
-                                                        <li>
+                                                        <li key={key}>
                                                             <span className="setting-label">
                                                                 {def.display + ' '}
                                                             </span>
                                                             <Input
+                                                                disabled={!module.enabled}
                                                                 type="range"
                                                                 {...(def.attributes || {})}
                                                                 onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
@@ -84,15 +88,33 @@ export default function ModuleStatePanel(props) {
                                                     )
                                                 case 'file':
                                                     return (
-                                                        <li>
+                                                        <li key={key}>
                                                             <span className="setting-label">
                                                                 {def.display + ' '}
                                                             </span>
                                                             <Input
+                                                                disabled={!module.enabled}
                                                                 type="file"
                                                                 {...(def.attributes || {})}
-                                                                onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
+                                                                onInput={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
                                                                 value={def.value} />
+                                                        </li>
+                                                    )
+
+                                                case 'dropdown':
+                                                    return (
+                                                        <li key={key}>
+                                                            <span className="setting-label">
+                                                                {def.display + ' '}
+                                                            </span>
+                                                            <Select
+                                                                disabled={!module.enabled}
+                                                                type="file"
+                                                                {...(def.attributes || {})}
+                                                                onInput={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
+                                                                value={def.value}>
+                                                                    {def.options.map((opt) => <Option key={opt.display} value={opt.value}>{opt.display}</Option>)}
+                                                            </Select>
                                                         </li>
                                                     )
                                                 default:
