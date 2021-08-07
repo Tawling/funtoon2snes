@@ -221,7 +221,7 @@ export default class USB2Snes {
                         val.value.address + val.value.ramOffset + val.value.size
                             > valuesByAddr[startIndex].value.address + valuesByAddr[startIndex].value.ramOffset + 255
                     ) {
-                        blocks.push(new ReadBlock(valuesByAddr.slice(startIndex, (endIndex === null ? startIndex : endIndex) + 1)))
+                        blocks.push(new ReadBlock(valuesByAddr.slice(startIndex, endIndex + 1)))
                         startIndex = i
                     }
                 }
