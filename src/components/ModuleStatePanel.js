@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, Input, Label } from 'reactstrap';
+import { debounce } from 'lodash'
 
 export default function ModuleStatePanel(props) {
     const { moduleStates, onModuleSettingChange, onModuleEnabledChange } = props;
@@ -48,7 +49,19 @@ export default function ModuleStatePanel(props) {
                                                             </span>
                                                             <Input
                                                                 type="text"
-                                                                onInput={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
+                                                                onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
+                                                                value={def.value} />
+                                                        </li>
+                                                    )
+                                                case 'number':
+                                                    return (
+                                                        <li>
+                                                            <span className="setting-label">
+                                                                {def.display + ' '}
+                                                            </span>
+                                                            <Input
+                                                                type="number"
+                                                                onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
                                                                 value={def.value} />
                                                         </li>
                                                     )
