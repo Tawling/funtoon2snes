@@ -34,10 +34,24 @@ export default function ModuleStatePanel(props) {
                                                                     checked={def.value}
                                                                     onInput={(e) => onModuleSettingChange(moduleName, key, !def.value)}
                                                                     />
-                                                                {' ' + def.display}
+                                                                <span className="setting-label">
+                                                                    {' ' + def.display}
+                                                                </span>
                                                             </Label>
                                                         </li>
                                                     );
+                                                case 'string':
+                                                    return (
+                                                        <li>
+                                                            <span className="setting-label">
+                                                                {def.display + ' '}
+                                                            </span>
+                                                            <Input
+                                                                type="text"
+                                                                onInput={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
+                                                                value={def.value} />
+                                                        </li>
+                                                    )
                                                 default:
                                             }
                                             return <li>{input}</li>
