@@ -206,6 +206,8 @@ export default class USB2Snes {
                 return null;
             }
 
+            // TODO: pull out reads greater than maxReadSize and perform single-value lookups instead of batch lookups.
+
             // Sort values by address
             const valuesByAddr = [...values];
             valuesByAddr.sort((a, b) => (a.value.address + a.value.ramOffset + a.value.size/maxReadSize) - (b.value.address + b.value.ramOffset + b.value.size/maxReadSize));

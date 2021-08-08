@@ -9,6 +9,8 @@ export default class MemoryModule {
         this.moduleName = moduleName;
         this.displayName = displayName;
         this.enabled = defaultEnabled;
+        this.tooltip = null;
+        this.description = null;
     }
 
     get settings() {

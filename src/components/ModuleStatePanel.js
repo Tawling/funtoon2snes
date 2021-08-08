@@ -3,6 +3,20 @@ import { Card, CardBody, CardHeader, Input, Label, Dropdown, DropdownItem } from
 import { debounce } from 'lodash';
 import classNames from 'classnames';
 
+const toOption = (opt) => {
+    if (typeof opt === 'string') {
+        return { display: opt, value: opt }
+    } else if (typeof opt === 'object') {
+        if (opt.display) {
+            return opt
+        } else {
+            return { display: opt.value, ...opt }
+        }
+    } else if (typeof opt === 'number') {
+        return { display: opt, value: opt }
+    }
+}
+
 export default function ModuleStatePanel(props) {
     const { moduleStates, onModuleSettingChange, onModuleEnabledChange } = props;
     return (
@@ -18,7 +32,7 @@ export default function ModuleStatePanel(props) {
                                         <Input
                                             type='checkbox'
                                             checked={module.enabled}
-                                            onInput={(e) => onModuleEnabledChange(moduleName, !module.enabled)}
+                                            onChange={(e) => onModuleEnabledChange(moduleName, !module.enabled)}
                                             />
                                         {' ' + module.displayName}
                                     </Label>
@@ -32,11 +46,10 @@ export default function ModuleStatePanel(props) {
                                                         <li key={key}>
                                                             <Label>
                                                                 <Input
-                                                                    disabled={!module.enabled}
                                                                     type='checkbox'
                                                                     {...(def.attributes || {})}
                                                                     checked={def.value}
-                                                                    onInput={(e) => onModuleSettingChange(moduleName, key, !def.value)}
+                                                                    onChange={(e) => onModuleSettingChange(moduleName, key, !def.value)}
                                                                     />
                                                                 <span className="setting-label">
                                                                     {' ' + def.display}
@@ -51,10 +64,9 @@ export default function ModuleStatePanel(props) {
                                                                 {def.display + ' '}
                                                             </span>
                                                             <Input
-                                                                disabled={!module.enabled}
                                                                 type="text"
                                                                 {...(def.attributes || {})}
-                                                                onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
+                                                                onInput={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
                                                                 value={def.value} />
                                                         </li>
                                                     );
@@ -65,10 +77,9 @@ export default function ModuleStatePanel(props) {
                                                                 {def.display + ' '}
                                                             </span>
                                                             <Input
-                                                                disabled={!module.enabled}
                                                                 type="number"
                                                                 {...(def.attributes || {})}
-                                                                onInput={(e) => debounce(() => onModuleSettingChange(moduleName, key, e.target.value), 500)}
+                                                                onChange={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
                                                                 value={def.value} />
                                                         </li>
                                                     );
@@ -79,27 +90,26 @@ export default function ModuleStatePanel(props) {
                                                                 {def.display + ' '}
                                                             </span>
                                                             <Input
-                                                                disabled={!module.enabled}
                                                                 type="range"
                                                                 {...(def.attributes || {})}
                                                                 onChange={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
                                                                 value={def.value} />
                                                         </li>
                                                     );
-                                                case 'file':
-                                                    return (
-                                                        <li key={key}>
-                                                            <span className="setting-label">
-                                                                {def.display + ' '}
-                                                            </span>
-                                                            <Input
-                                                                disabled={!module.enabled}
-                                                                type="file"
-                                                                {...(def.attributes || {})}
-                                                                onChange={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
-                                                                value={def.value} />
-                                                        </li>
-                                                    );
+                                                // case 'file':
+                                                //     return (
+                                                //         <li key={key}>
+                                                //             <span className="setting-label">
+                                                //                 {def.display + ' '}
+                                                //             </span>
+                                                //             <Input
+                                                //
+                                                //                 type="file"
+                                                //                 {...(def.attributes || {})}
+                                                //                 onChange={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
+                                                //                 value={def.value} />
+                                                //         </li>
+                                                //     );
 
                                                 case 'dropdown':
                                                     return (
@@ -108,12 +118,11 @@ export default function ModuleStatePanel(props) {
                                                                 {def.display + ' '}
                                                             </span>
                                                             <select
-                                                                disabled={!module.enabled}
                                                                 type="file"
                                                                 {...(def.attributes || {})}
                                                                 onChange={(e) => onModuleSettingChange(moduleName, key, e.target.value)}
                                                                 value={def.value}>
-                                                                    {def.options.map((opt) => <option key={opt.display} value={opt.value}>{opt.display}</option>)}
+                                                                    {def.options.map((opt) => toOption(opt)).map((opt) => <option key={opt.display} value={opt.value}>{opt.display}</option>)}
                                                             </select>
                                                         </li>
                                                     );
