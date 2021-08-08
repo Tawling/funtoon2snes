@@ -58,7 +58,7 @@ export default class CeresGameModule extends MemoryModule {
         else if (this.checkTransition(memory.gameState, [GameStates.BLACK_OUT_FROM_CERES, GameStates.CERES_ELEVATOR], GameStates.CERES_DESTROYED_CINEMATIC)) {
             if (this.checkTransition(memory.gameState, [GameStates.BLACK_OUT_FROM_CERES, GameStates.CERES_ELEVATOR], GameStates.CERES_DESTROYED_CINEMATIC)) {
                 this.ceresState = CeresGameState.Closed;
-                sendEvent('ceresEnd', memory.ceresTimer.value);
+                sendEvent('ceresEnd', memory.ceresTimer.value, 3);
             }
         }
     }

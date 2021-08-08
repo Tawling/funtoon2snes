@@ -10,7 +10,7 @@ export default function ConnectionPanel(props) {
             <CardHeader className={classNames({
                 'bg-danger': deviceInfo === null,
                 'bg-success': deviceInfo !== null,
-            })}>Connection</CardHeader>
+            })}>{deviceInfo === null ? 'Not Connected to USB2SNES service...' : 'Connected to USB2SNES service.'}</CardHeader>
             <CardBody>
                 <ul style={{'list-style-type': 'none'}}>
                     <li>

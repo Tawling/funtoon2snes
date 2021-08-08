@@ -64,7 +64,7 @@ export default class PhantoonGameModule extends MemoryModule {
                 } else {
                     if (memory.enemyHP.value === 0 && this.inPhantoonFight) {
                         this.inPhantoonFight = false;
-                        sendEvent('phanEnd', this.phantoonPatterns.join(' '));
+                        sendEvent('phanEnd', this.phantoonPatterns.join(' '), 3);
                         this.phantoonGameState = PhantoonGameState.Ended;
                     } else if (this.phantoonPatterns.length === this.currentPhantoonRound) {
                         this.currentPhantoonRound++;

@@ -34,12 +34,11 @@ export default function ModuleStatePanel(props) {
                                             checked={module.enabled}
                                             onChange={(e) => onModuleEnabledChange(moduleName, !module.enabled)}
                                             />
-                                        {' ' + module.displayName}
+                                        <span className="module-name">{' ' + module.displayName}</span>
                                     </Label>
                                     <div className={classNames({'settings-div': true, 'disabled': !module.enabled})}>
                                         {Object.keys(module.settings).map((key) => {
                                             const def = module.settings[key];
-                                            let input = null;
                                             switch (def.type) {
                                                 case 'bool':
                                                     return (
