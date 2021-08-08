@@ -1,6 +1,7 @@
 import CeresGameModule from './modules/CeresGameModule'
 import PhantoonGameModule from './modules/PhantoonGameModule'
 import MoondanceEmoteOnlyModule from './modules/MoondanceEmoteOnlyModule'
+import MoatDiveModule from './modules/MoatDiveModule'
 
 export default class ModuleManager {
     constructor(usb2snes, callExternal) {
@@ -13,6 +14,7 @@ export default class ModuleManager {
             new PhantoonGameModule(),
             new CeresGameModule(),
             new MoondanceEmoteOnlyModule(),
+            new MoatDiveModule(),
         ]
     }
 

@@ -20,4 +20,5 @@ export default {
     samusMaxPBs: new MemState(wram.uint16Read(0x09D0), 'samusMaxPBs', 'Samus Max Power Bombs'),
     samusReserveHP: new MemState(wram.uint16Read(0x09CE), 'samusReserveHP', 'Samus Reserve HP'),
     samusMaxReserveHP: new MemState(wram.uint16Read(0x09D0), 'samusMaxReserveHP', 'Samus Max Reserve HP'),
+    samusWaterPhysics: new MemState(wram.uint16Read(0x0AD2), 'samusWaterPhysics', 'Samus water physics state'),
 }
