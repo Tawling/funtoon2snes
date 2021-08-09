@@ -14,15 +14,15 @@ const toOption = (opt) => {
     }
 }
 
-export default function DropdownSetting({ def, key, moduleName, onModuleSettingChange }) {
+export default function DropdownSetting({ def, settingName, moduleName, onModuleSettingChange }) {
     return (
-        <li key={key}>
+        <li key={settingName}>
             <span className="setting-label">{def.display + " "}</span>
             <select
                 type="file"
                 {...(def.attributes || {})}
                 onChange={(e) =>
-                    onModuleSettingChange(moduleName, key, e.target.value)
+                    onModuleSettingChange(moduleName, settingName, e.target.value)
                 }
                 value={def.value}
             >

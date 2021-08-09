@@ -1,20 +1,20 @@
 import React from 'react';
-import { Label, Input } from 'reactstrap';
+import { Label } from 'reactstrap';
+import ToggleSwitch from '../common/ToggleSwitch/ToggleSwitch';
 
-export default function CheckboxSetting({ def, key, moduleName, onModuleSettingChange }) {
+export default function CheckboxSetting({ def, settingName, moduleName, onModuleSettingChange }) {
     return (
-        <li key={key}>
-            <Label class="input-group-btn">
-                <Input
-                    type="checkbox"
-                    {...(def.attributes || {})}
-                    checked={def.value}
-                    onChange={() =>
-                        onModuleSettingChange(moduleName, key, !def.value)
-                    }
-                />
+        <li key={settingName}>
+            <ToggleSwitch
+                className="input-group-btn"
+                {...(def.attributes || {})}
+                checked={def.value}
+                onChange={() => onModuleSettingChange(moduleName, settingName, !def.value)
+                }
+            >
                 <span className="setting-label">{" " + def.display}</span>
-            </Label>
+            </ToggleSwitch>
+            
         </li>
     );
 }

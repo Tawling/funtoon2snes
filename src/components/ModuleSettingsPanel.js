@@ -9,6 +9,7 @@ import NumberSetting from "./settings/NumberSetting";
 import RangeSetting from "./settings/RangeSetting";
 import DropdownSetting from "./settings/DropdownSetting";
 import FileSetting from "./settings/FileSetting";
+import ToggleSwitch from "./common/ToggleSwitch/ToggleSwitch";
 
 function getComponentForDef(def) {
     switch (def.type) {
@@ -40,23 +41,22 @@ export default function ModuleSettingsPanel({
     return (
         <li>
             <div class="form-group">
-                <Label>
-                    <Input
-                        type="checkbox"
-                        checked={module.enabled}
-                        onChange={(e) => onModuleEnabledChange(moduleName, !module.enabled)}
-                    />
+                <ToggleSwitch
+                    type="checkbox"
+                    checked={module.enabled}
+                    onChange={(e) => onModuleEnabledChange(moduleName, !module.enabled)}
+                >
                     {" " + module.displayName}
-                </Label>
-                <span class="input-group-btn">
+                    <span class="input-group-btn">
                     {Object.keys(module.settings).length > 0 ? (
-                        <button className="icon-btn" type="button" onClick={() => setIsOpen(!isOpen)}>
-                            <img src={isOpen ? "arrow-down.svg" : "arrow-right.svg"}></img>
+                        <button className="icon-btn module-settings-toggle" type="button" onClick={() => setIsOpen(!isOpen)}>
+                            Settings <img style={{verticalAlign: 'middle'}} src={isOpen ? "arrow-down.svg" : "arrow-right.svg"} />
                         </button>
                     ) : (
                         <div></div>
                     )}
                 </span>
+                </ToggleSwitch>
             </div>
             <Collapse isOpen={isOpen}>
                 <div
@@ -65,13 +65,13 @@ export default function ModuleSettingsPanel({
                         disabled: !module.enabled,
                     })}
                 >
-                    {Object.keys(module.settings).map((key) => {
-                        const def = module.settings[key];
+                    {Object.keys(module.settings).map((settingName) => {
+                        const def = module.settings[settingName];
                         const C = getComponentForDef(def);
                         return C ? (
                             <C 
                                 moduleName={moduleName}
-                                key={key}
+                                settingName={settingName}
                                 def={def}
                                 onModuleSettingChange={onModuleSettingChange}
                             />

@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
@@ -37,6 +43,10 @@
   }
 }
 
+label {
+  user-select: none;
+}
+
 .card-body.modules {
   text-align: left;
   align-items: center;
@@ -52,4 +62,10 @@
 
 .modset {
   font-size: 0.8em;
+}
+
+.module-settings-toggle {
+  margin-left: 10px;
+  color: #888;
+  font-size: 0.8rem;
 }
