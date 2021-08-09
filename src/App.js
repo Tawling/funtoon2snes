@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import ConnectionPanel from './components/ConnectionPanel';
-import ModuleStatePanel from './components/ModuleStatePanel';
+import ModulesPanel from './components/ModulesPanel';
 
 import ConnectionWorker from './Connection.worker' // eslint-disable-line
 
@@ -135,7 +135,7 @@ function App() {
                 channel={channel}
                 token={token}
                 readsPerSecond={rps} />
-            <ModuleStatePanel
+            <ModulesPanel
                 moduleStates={moduleStates}
                 onModuleSettingChange={onModuleSettingChange}
                 onModuleEnabledChange={onModuleEnabledChange} />

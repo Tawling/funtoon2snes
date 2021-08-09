@@ -23,3 +23,13 @@ body {
   background-color: #444;
   color: #eee;
 }
+
+.icon-btn {
+  fill: white;
+  background: none;
+  border: none;
+}
+
+.icon-btn img{
+  fill: white;
+}
