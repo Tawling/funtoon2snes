@@ -5,6 +5,7 @@ import Addresses from '../../addresses';
 export default class MoatDiveModule extends MemoryModule {
     constructor() {
         super("moatDive", "Moat Dive", false);
+        this.tooltip = "Sends a message in chat if you fall in the moat."
         this.lastTrigger = 0;
     }
 

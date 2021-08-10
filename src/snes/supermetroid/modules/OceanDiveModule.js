@@ -5,6 +5,7 @@ import Addresses from '../../addresses';
 export default class MoatDiveModule extends MemoryModule {
     constructor() {
         super("oceanDive", "Ocean Dive", false);
+        this.tooltip = "Sends a message in chat if you fall in west ocean."
         this.lastTrigger = 0;
     }
 

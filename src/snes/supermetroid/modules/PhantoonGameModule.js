@@ -12,6 +12,7 @@ const PhantoonGameState = {
 export default class PhantoonGameModule extends MemoryModule {
     constructor() {
         super("phantoonGuessing", "Phantoon Guessing Game");
+        this.tooltip = "Allows chatters to guess the Phantoon pattern for points."
         this.phantoonGameState = PhantoonGameState.Ended;
         this.inPhantoonFight = false;
         this.phantoonPatterns = [];
