@@ -1,8 +1,4 @@
-import CeresGameModule from './modules/CeresGameModule'
-import PhantoonGameModule from './modules/PhantoonGameModule'
-import MoondanceEmoteOnlyModule from './modules/MoondanceEmoteOnlyModule'
-import MoatDiveModule from './modules/MoatDiveModule'
-import OceanDiveModule from './modules/OceanDiveModule'
+import { SuperMetroidModules } from './supermetroid/modules'
 
 export default class ModuleManager {
     constructor(usb2snes, callExternal) {
@@ -12,11 +8,7 @@ export default class ModuleManager {
         this.channel = '';
         
         this.modules = [
-            new PhantoonGameModule(),
-            new CeresGameModule(),
-            new MoondanceEmoteOnlyModule(),
-            new MoatDiveModule(),
-            new OceanDiveModule(),
+            ...SuperMetroidModules,
         ]
     }
 

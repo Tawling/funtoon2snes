@@ -1,5 +1,5 @@
 import USB2Snes from './snes/usb2snes';
-import ModuleManager from './snes/supermetroid/ModuleManager';
+import ModuleManager from './snes/ModuleManager';
 
 export default class Connection {
     constructor (callExternal) {

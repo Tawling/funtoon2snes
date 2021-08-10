@@ -10,6 +10,8 @@ import DropdownSetting from "./settings/DropdownSetting";
 import FileSetting from "./settings/FileSetting";
 import ToggleSwitch from "./common/ToggleSwitch/ToggleSwitch";
 
+import './ModuleSettingsPanel.css';
+
 function getComponentForDef(def) {
     switch (def.type) {
         case "bool":
@@ -67,30 +69,32 @@ export default function ModuleSettingsPanel({
                 </span>
                 </ToggleSwitch>
             </div>
-            <Collapse isOpen={isOpen} className="module-collapsible">
-                {module.description ? (
-                    <div className="module-description">
-                        {module.description}
+            <Collapse isOpen={isOpen}>
+                <div className="module-collapsible">
+                    {module.description ? (
+                        <div className="module-description">
+                            {module.description}
+                        </div>
+                    ) : null}
+                    <div
+                        className={classNames({
+                            "settings-div": true,
+                            disabled: !module.enabled,
+                        })}
+                    >
+                        {Object.keys(module.settings).map((settingName) => {
+                            const def = module.settings[settingName];
+                            const C = getComponentForDef(def);
+                            return C ? (
+                                <C 
+                                    moduleName={moduleName}
+                                    settingName={settingName}
+                                    def={def}
+                                    onModuleSettingChange={onModuleSettingChange}
+                                />
+                            ) : null;
+                        })}
                     </div>
-                ) : null}
-                <div
-                    className={classNames({
-                        "settings-div": true,
-                        disabled: !module.enabled,
-                    })}
-                >
-                    {Object.keys(module.settings).map((settingName) => {
-                        const def = module.settings[settingName];
-                        const C = getComponentForDef(def);
-                        return C ? (
-                            <C 
-                                moduleName={moduleName}
-                                settingName={settingName}
-                                def={def}
-                                onModuleSettingChange={onModuleSettingChange}
-                            />
-                        ) : null;
-                    })}
                 </div>
             </Collapse>
         </li>
