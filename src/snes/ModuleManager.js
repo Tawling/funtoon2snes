@@ -1,4 +1,4 @@
-import { SuperMetroidModules } from './supermetroid/modules'
+import { SuperMetroid } from "./supermetroid/modules";
 
 export default class ModuleManager {
     constructor(usb2snes, callExternal) {
@@ -8,7 +8,7 @@ export default class ModuleManager {
         this.channel = '';
         
         this.modules = [
-            ...SuperMetroidModules,
+            ...SuperMetroid,
         ]
     }
 
