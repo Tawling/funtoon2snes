@@ -6,6 +6,9 @@
 
 .App {
   text-align: center;
+  margin: auto;
+  width: 70%;
+  min-width: 600px;
 }
 
 .App-logo {

@@ -20,10 +20,11 @@
     border-radius: 20px;
     cursor: pointer;
     height: 24px;
-    float: left;
+    display: inline-block;
     overflow: hidden;
     position: relative;
     width: 48px;
+    vertical-align: text-top;
   }
   .switch-wrapper.large {
     height: 40px;
@@ -54,7 +55,7 @@
     width: 30px;
   }
   .switch-label {
-    float: left;
+    display: inline-block;
     line-height: 1.5rem;
     margin-left: 10px;
   }

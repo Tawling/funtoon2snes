@@ -1,4 +1,4 @@
-import { SuperMetroid } from './supermetroid/modules'
+import { SuperMetroidModules } from './supermetroid/modules'
 
 export default class ModuleManager {
     constructor(usb2snes, callExternal) {
@@ -8,7 +8,7 @@ export default class ModuleManager {
         this.channel = '';
         
         this.modules = [
-            ...SuperMetroid,
+            ...SuperMetroidModules,
         ]
     }
 
@@ -26,6 +26,8 @@ export default class ModuleManager {
             newStates[module.moduleName] = {
                 displayName: module.displayName,
                 enabled: module.enabled,
+                tooltip: module.tooltip,
+                description: module.description,
                 settings: module.getSettings(),
             };
         }

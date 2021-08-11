@@ -10,6 +10,7 @@ const EmoteState = {
 export default class MoondanceEmoteOnlyModule extends MemoryModule {
     constructor() {
         super("moondanceEmoteOnly", "Emote-Only Mode During Moondance", false);
+        this.tooltip = "Enables emote-only mode in chat during Moondance for RBO runs."
         this.emoteOnly = EmoteState.Off;
     }
 

@@ -12,6 +12,7 @@ body {
 .card {
   background-color: #222;
   color: white;
+  margin: 3px 0;
 }
 
 .form-control {

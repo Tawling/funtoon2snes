@@ -11,6 +11,7 @@ const CeresGameState = {
 export default class CeresGameModule extends MemoryModule {
     constructor() {
         super("ceresGuessing", "Ceres Guessing Game");
+        this.tooltip = "Allows chatters to guess the Ceres elevator time for points."
         this.ceresState = CeresGameState.Closed;
     }
 
