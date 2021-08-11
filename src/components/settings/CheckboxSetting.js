@@ -1,5 +1,4 @@
 import React from 'react';
-import { Label } from 'reactstrap';
 import ToggleSwitch from '../common/ToggleSwitch/ToggleSwitch';
 
 export default function CheckboxSetting({ def, settingName, moduleName, onModuleSettingChange }) {
