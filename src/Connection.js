@@ -14,7 +14,6 @@ export default class Connection {
 
         this.apiToken = "";
         this.channel = "";
-        
     }
 
     onExternal = ({ name, args }) => {
@@ -29,6 +28,7 @@ export default class Connection {
     start() {
         this.eventLoopTimeout = setTimeout(this.eventLoop, 1000);
         this.secondTimer = setInterval(this.setRPS, 5000);
+        this.readCount = 0
     }
 
     onListDevices = async (list) => {
@@ -72,7 +72,8 @@ export default class Connection {
     }
 
     setRPS = () => {
-        this.callExternal('setRPS', this.readCount / 5)
+        this.readsPerSecond = this.readCount / 5
+        this.callExternal('setRPS', this.readsPerSecond)
         this.readCount = 0;
     }
 
@@ -89,7 +90,7 @@ export default class Connection {
         if (this.enabled) {
             if (this.usb2snes.isAttached()) {
                 try {
-                    await this.moduleManager.loop();
+                    await this.moduleManager.loop({ readsPerSecond: this.readsPerSecond });
                     this.readCount++;
                 } catch (e){
                     console.log(e);

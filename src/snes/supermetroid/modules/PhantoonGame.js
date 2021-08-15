@@ -1,7 +1,7 @@
 import MemoryModule from '../../../util/memory/MemoryModule';
 import { Rooms, PhantoonPatterns, BossStates } from '../enums';
 import { readBossStateFlag } from '../smutils';
-import Addresses from '../../addresses';
+import Addresses from '../addresses';
 
 const PhantoonGameState = {
     Ended: 0,

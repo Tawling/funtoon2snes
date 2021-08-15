@@ -26,11 +26,11 @@ export default class MemState {
         return this.values[0];
     }
 
-    prevUniqueValue(n) {
+    prevUniqueValue(n=1) {
         return this.values[n];
     }
 
-    prev(n) {
+    prev(n=1) {
         return this.values[n];
     }
 }

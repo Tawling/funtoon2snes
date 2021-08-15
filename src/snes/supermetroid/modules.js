@@ -1,8 +1,9 @@
-import CeresGameModule from './modules/CeresGameModule'
-import PhantoonGameModule from './modules/PhantoonGameModule'
-import MoondanceEmoteOnlyModule from './modules/MoondanceEmoteOnlyModule'
-import MoatDiveModule from './modules/MoatDiveModule'
-import OceanDiveModule from './modules/OceanDiveModule'
+import CeresGameModule from './modules/CeresGame'
+import PhantoonGameModule from './modules/PhantoonGame'
+import MoondanceEmoteOnlyModule from './modules/MoondanceEmoteOnly'
+import MoatDiveModule from './modules/MoatDive'
+import OceanDiveModule from './modules/OceanDive'
+import TacoTankTracker from './modules/TacoTankTracker'
 
 export const SuperMetroid = [
     new PhantoonGameModule(),
@@ -10,4 +11,5 @@ export const SuperMetroid = [
     new MoondanceEmoteOnlyModule(),
     new MoatDiveModule(),
     new OceanDiveModule(),
+    new TacoTankTracker(),
 ];

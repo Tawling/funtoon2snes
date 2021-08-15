@@ -1,5 +1,5 @@
-import { wram } from './datatypes'
-import MemState from '../util/memory/MemState'
+import { wram } from '../datatypes'
+import MemState from '../../util/memory/MemState'
 
 export default {
     roomID: new MemState(wram.uint16Read(0x079B), 'roomID', 'Room ID'),
@@ -21,4 +21,16 @@ export default {
     samusReserveHP: new MemState(wram.uint16Read(0x09CE), 'samusReserveHP', 'Samus Reserve HP'),
     samusMaxReserveHP: new MemState(wram.uint16Read(0x09D0), 'samusMaxReserveHP', 'Samus Max Reserve HP'),
     samusWaterPhysics: new MemState(wram.uint16Read(0x0AD2), 'samusWaterPhysics', 'Samus water physics state'),
+    samusX: new MemState(wram.uint16Read(0x0AF6), 'samusX', 'Samus X Position'),
+    samusY: new MemState(wram.uint16Read(0x0AFA), 'samusY', 'Samus y Position'),
+    samusSubX: new MemState(wram.uint16Read(0x0AF8), 'samusSubX', 'Samus X Sub-pixel Position'),
+    samusSubY: new MemState(wram.uint16Read(0x0AFC), 'samusSubY', 'Samus Y Sub-pixel Position'),
+    samusXRadius: new MemState(wram.uint16Read(0x0AFE), 'samusXRadius', 'Samus X Radius'),
+    samusYRadius: new MemState(wram.uint16Read(0x0B00), 'samusYRadius', 'Samus Y Radius'),
+    samusXSpeed: new MemState(wram.uint16Read(0x0B42), 'samusXSpeed', 'Samus X Sub-Speed'),
+    samusXSubSpeed: new MemState(wram.uint16Read(0x0B44), 'samusXSubSpeed', 'Samus X Sub-Speed'),
+    samusYSpeed: new MemState(wram.uint16Read(0x0B2E), 'samusYSpeed', 'Samus Y Sub-Speed'),
+    samusYSubSpeed: new MemState(wram.uint16Read(0x0B2C), 'samusYSubSpeed', 'Samus Y Sub-Speed'),
+    samusPose: new MemState(wram.uint16Read(0x0A1C), 'samusPose', 'Samus Pose'),
+    collectedItems: new MemState(wram.dataRead(0xD870, 19), 'collectedItems', '"Collected Items" Bit Array'),
 }

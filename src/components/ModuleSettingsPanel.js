@@ -63,7 +63,7 @@ export default function ModuleSettingsPanel({
                     <span class="input-group-btn">
                     {Object.keys(module.settings).length > 0 ? (
                         <button className="icon-btn module-settings-toggle" type="button" onClick={() => setIsOpen(!isOpen)}>
-                            Settings <img
+                            Settings/Info <img
                                         alt=""
                                         style={{verticalAlign: 'middle'}}
                                         src={isOpen ? "arrow-down.svg" : "arrow-right.svg"}

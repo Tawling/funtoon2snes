@@ -54,7 +54,7 @@ export default class ModuleManager {
         })), delay);
     }
 
-    async loop() {
+    async loop(globalState) {
         // Build read list
         const mems = {};
         const reads = {};
@@ -82,7 +82,7 @@ export default class ModuleManager {
         // Run module logic
         for (const module of enabledModules) {
             if (module.enabled) {
-                module.memoryReadAvailable(mems, this.sendEvent);
+                module.memoryReadAvailable(mems, this.sendEvent, globalState);
             }
         }
     }

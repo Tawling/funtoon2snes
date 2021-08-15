@@ -415,6 +415,10 @@ export const SamusPose = {
     FACING_RIGHT_TURNING_STANDING:          0x25,
     FACING_LEFT_TURNING_STANDING:           0x26,
     // TODO
+    //...
+    FACING_LEFT_NORMAL_JUMP_AIMING_UP_LEFT: 0x6A,
+    //...
+    FACING_LEFT_NORMAL_JUMP_AIMING_DOWN_LEFT:   0x6C,
 }
 
 export const CollectedBeamFlags = {

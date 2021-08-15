@@ -11,6 +11,7 @@ export default class MemoryModule {
         this.enabled = defaultEnabled;
         this.tooltip = null;
         this.description = null;
+        this.events = {};
     }
 
     get settings() {
@@ -29,13 +30,13 @@ export default class MemoryModule {
     }
 
     checkChange(read) {
-        return (read.value !== undefined && read.prevFrameValue === undefined) || (read.prevFrameValue !== undefined && read.value !== read.prevFrameValue);
+        return (read.prevFrameValue !== undefined && read.value != read.prevFrameValue) || (read.value !== undefined && read.prevFrameValue === undefined);
     }
     
     checkTransition(read, from, to) {
-        const fromTrue = Array.isArray(from) ? from.some((v) => v === read.prevFrameValue): read.prevFrameValue === from;
-        const toTrue = Array.isArray(to) ? to.some((v) => v === read.value): read.value === to;
-        return (from === undefined || fromTrue) && (to === undefined || toTrue);
+        const fromTrue = Array.isArray(from) ? from.some((v) => v == read.prevFrameValue): read.prevFrameValue == from;
+        const toTrue = Array.isArray(to) ? to.some((v) => v == read.value): read.value == to;
+        return this.checkChange(Read) && (from === undefined || fromTrue) && (to === undefined || toTrue);
     }
 
     setEnabled(enabled) {

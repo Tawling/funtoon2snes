@@ -1,6 +1,6 @@
 import MemoryModule from '../../../util/memory/MemoryModule';
 import { Rooms } from '../enums';
-import Addresses from '../../addresses';
+import Addresses from '../addresses';
 
 const EmoteState = {
     Off: 0,

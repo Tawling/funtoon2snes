@@ -25,7 +25,7 @@ export class ReadBlock {
     }
 }
 
-class DataRead {
+export class DataRead {
     constructor (address, size, ramOffset = 0) {
         this.address = address;
         this.ramOffset = ramOffset;

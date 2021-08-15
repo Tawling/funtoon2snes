@@ -121,8 +121,9 @@ function App() {
 
     return (
         <div className="App">
-            <h1>USB2SNES Automated Guessing Games (Alpha)</h1>
-            THIS DOES NOT WORK PROPERLY WITH PRACTICE ROM
+            <h1>USB2SNES Memory Tracking for FUNtoon Integration</h1>
+            THIS DOES NOT WORK PROPERLY WITH PRACTICE ROM due to hardware limitations.
+            <p><a href="https://github.com/Tawling/qusb2funtoon" target="_blank">(source)</a></p>
             <ConnectionPanel
                 deviceInfo={deviceInfo}
                 deviceList={deviceList}

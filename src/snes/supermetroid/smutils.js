@@ -1,4 +1,4 @@
-import Addresses from '../addresses';
+import Addresses from './addresses';
 
 export function readEventStateFlag(eventStateValue, eventStateID) {
     return (eventStateValue >> eventStateID) & 1;

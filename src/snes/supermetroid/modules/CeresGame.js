@@ -1,6 +1,6 @@
 import MemoryModule from '../../../util/memory/MemoryModule';
 import { Rooms, GameStates, CeresEscapeStateFlags } from '../enums';
-import Addresses from '../../addresses';
+import Addresses from '../addresses';
 
 const CeresGameState = {
     Closed: 0,
