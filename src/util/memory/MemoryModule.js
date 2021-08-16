@@ -36,7 +36,7 @@ export default class MemoryModule {
     checkTransition(read, from, to) {
         const fromTrue = Array.isArray(from) ? from.some((v) => v == read.prevFrameValue): read.prevFrameValue == from;
         const toTrue = Array.isArray(to) ? to.some((v) => v == read.value): read.value == to;
-        return this.checkChange(Read) && (from === undefined || fromTrue) && (to === undefined || toTrue);
+        return this.checkChange(read) && (from === undefined || fromTrue) && (to === undefined || toTrue);
     }
 
     setEnabled(enabled) {
