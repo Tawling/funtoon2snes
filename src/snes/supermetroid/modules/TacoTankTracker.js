@@ -177,9 +177,9 @@ export default class TacoTankTrackerModule extends MemoryModule {
         if (!this.calculatedGrabForAttempt) {
             let grabFrames = 0;
             if (memory.samusYDirection.value === 2 && memory.samusY.value < 579 && memory.samusXSubSpeed === 0x3000 && memory.samusXSubMomentum === 0x4000) {
-                let speed = memory.samusYSpeed.value + memory.samusYSubSpeed.value/65535;
-                let x = memory.samusX.value + memory.samusSubX.value/65535;
-                let y = memory.samusY.value + memory.samusSubY.value/65535;
+                let speed = memory.samusYSpeed.value + memory.samusYSubSpeed.value/65536;
+                let x = memory.samusX.value + memory.samusSubX.value/65536;
+                let y = memory.samusY.value + memory.samusSubY.value/65536;
                 do {
                     if (x < 469) {
                         grabFrames++;
