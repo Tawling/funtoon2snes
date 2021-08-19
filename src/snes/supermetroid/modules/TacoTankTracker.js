@@ -11,13 +11,16 @@ export default class TacoTankTrackerModule extends MemoryModule {
         this.avoidDoubleTaco = false;
         this.attemptAligned = false;
         this.attemptCount = 0;
+        this.prevAttemptLookedGood = false;
+        this.tankGrabFrames = 0;
+        this.calculatedGrabForAttempt = false;
     }
 
     settingDefs = {
         rpsThreshold: {
             display: "Disable if Reads-per-second is below",
             type: 'number',
-            default: 15,
+            default: 16,
         }
     }
 
@@ -31,6 +34,11 @@ export default class TacoTankTrackerModule extends MemoryModule {
             Addresses.samusSubY,
             Addresses.collectedItems,
             Addresses.samusPose,
+            Addresses.samusYDirection,
+            Addresses.samusXSubSpeed,
+            Addresses.samusXSubMomentum,
+            Addresses.samusYSpeed,
+            Addresses.samusYSubSpeed,
         ]
     }
     
@@ -38,7 +46,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
         if (globalState.readsPerSecond < this.settings.rpsThreshold) {
             // Cancel if we drop below the rps threshold
             return
-        } 
+        }
 
         if (
             !this.attemptAligned &&
@@ -48,9 +56,11 @@ export default class TacoTankTrackerModule extends MemoryModule {
             memory.samusSubY.value === 0xFFFF &&
             !(memory.samusPose.value & 0x01)
         ) {
-            // We are set up for an attempt...
+            // We are set up for a new attempt...
             this.attemptAligned = true;
+            this.calculatedGrabForAttempt = false;
         } else if (this.attemptAligned && memory.samusPose.value === SamusPose.FACING_LEFT_SPIN_JUMP) {
+            // We attemptin', boys!
             this.attemptAligned = false;
             this.attemptCount++;
         }
@@ -71,11 +81,15 @@ export default class TacoTankTrackerModule extends MemoryModule {
             }
         }
 
-        if (this.checkTransition(memory.roomID, Rooms.BlueBrinstar.CONSTRUCTION_ZONE, Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM)) {
+        if (this.checkTransition(memory.roomID, undefined, Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM)) {
             // Reset attempt tracker on room entry
             this.attempts = [];
+            this.attemptCount = 0;
+            this.prevAttemptLookedGood = false;
             this.prevReadTacoed = false;
             this.avoidDoubleTaco = false;
+            this.tankGrabFrames = 0;
+            this.calculatedGrabForAttempt = false;
         }
         if (memory.roomID.value === Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM &&
             memory.samusX.value >= 453 &&
@@ -150,106 +164,33 @@ export default class TacoTankTrackerModule extends MemoryModule {
                 this.prevReadTacoed = false;
                 this.avoidDoubleTaco = true;
             }
-        } else if (this.checkTransition(memory.roomID, Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM, [Rooms.EMPTY, Rooms.BlueBrinstar.CONSTRUCTION_ZONE])) {
+        } else if (this.attemptCount > 0 && this.checkTransition(memory.roomID, Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM, [Rooms.EMPTY, Rooms.BlueBrinstar.CONSTRUCTION_ZONE])) {
             // Report attempts on room exit or reset
-            sendEvent('exitTacoTank', {attempts: this.attempts, count: this.attemptCount})
+            sendEvent('exitTacoTank', {attempts: this.attempts, count: this.attemptCount, grabFrames: this.tankGrabFrames})
             this.attempts = [];
             this.attemptCount = 0;
             this.avoidDoubleTaco = false;
         } else {
             this.avoidDoubleTaco = false;
         }
+
+        if (!this.calculatedGrabForAttempt) {
+            let grabFrames = 0;
+            if (memory.samusYDirection.value === 2 && memory.samusY.value < 579 && memory.samusXSubSpeed === 0x3000 && memory.samusXSubMomentum === 0x4000) {
+                let speed = memory.samusYSpeed.value + memory.samusYSubSpeed.value/65535;
+                let x = memory.samusX.value + memory.samusSubX.value/65535;
+                let y = memory.samusY.value + memory.samusSubY.value/65535;
+                do {
+                    if (x < 469) {
+                        grabFrames++;
+                    }
+                    x -= 1.4375;
+                    y += speed;
+                    speed += 0.109375;
+                } while (y < 579);
+            }
+            this.tankGrabFrames += grabFrames;
+            this.calculatedGrabForAttempt = true;
+        }
     }
 }
-
-
-
-
-
-
-// import MemoryModule from '../../../util/memory/MemoryModule';
-// import { Rooms, SamusPose } from '../enums';
-// import Addresses from '../addresses';
-
-// export default class MoatDiveModule extends MemoryModule {
-//     constructor() {
-//         super("tacoTankTracker", "Taco Tank Tracker", false);
-//         this.tooltip = "Totally Tracks Taco Tank Tries. Ask Taw_ about scripts to make this work in chat."
-//         this.attempts = [];
-//         this.prevReadTacoed = false;
-//     }
-
-//     settingDefs = {
-//         rpsThreshold: {
-//             display: "Disable if Reads-per-second is below",
-//             type: 'number',
-//             default: 15,
-//         }
-//     }
-
-//     getMemoryReads() {
-//         return [
-//             Addresses.roomID,
-//             Addresses.samusX,
-//             Addresses.samusY,
-//             Addresses.samusSubY,
-//             Addresses.samusPose,
-//             Addresses.samusXSpeed,
-//             Addresses.samusYSpeed,
-//             Addresses.collectedItems,
-//         ]
-//     }
-    
-//     async memoryReadAvailable(memory, sendEvent, globalState) {
-//         if (globalState.readsPerSecond < this.settings.rpsThreshold) {
-//             // Cancel if we drop below the rps threshold
-//             return
-//         }
-
-//         if (this.prevReadTacoed) {
-//             // If the last read was within taco range, check to see if the bitfield changes
-//             // This catches errors where the read occurred JUST before bitfield changed for collected items.
-//             this.prevReadTacoed = false;
-//             if (memory.collectedItems.prev(1)[3] !== memory.collectedItems.value[3]) {
-//                 // GRAB
-//                 sendEvent('tacoTank', {x: memory.samusX.prev(), y: memory.samusY.prev(), grab: true});
-//                 this.attempts.push({x: memory.samusX.prev(), y: memory.samusY.prev(), grab: true});
-//             } else {
-//                 // OSCILLATOR
-//                 sendEvent('tacoTank', {x: memory.samusX.prev(), y: memory.samusY.prev(), grab: false});
-//                 this.attempts.push({x: memory.samusX.prev(), y: memory.samusY.prev(), grab: false});
-//             }
-//         }
-
-//         if (this.checkTransition(memory.roomID, Rooms.BlueBrinstar.CONSTRUCTION_ZONE, Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM)) {
-//             // Reset attempt tracker on room entry
-//             this.attempts = [];
-//         }
-//         if (
-//             memory.roomID.value === Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM &&
-//             memory.samusX.value >= 465 &&
-//             memory.samusX.value <= 468 &&
-//             memory.samusY.value === 579 &&
-//             memory.samusSubY.value === 0 &&
-//             this.checkTransition(memory.samusPose, SamusPose.FACING_LEFT_NORMAL_JUMP_AIMING_DOWN, [
-//                 SamusPose.FACING_LEFT_NORMAL_JUMP_AIMING_UP_LEFT,
-//                 SamusPose.FACING_LEFT_NORMAL_JUMP_AIMING_DOWN_LEFT,
-//             ])
-//         ) {
-//             // Grab attempt detected as within range for success.
-//             if (memory.collectedItems.prev(1)[3] !== memory.collectedItems.value[3]) {
-//                 // GRAB
-//                 sendEvent('tacoTank', {x: memory.samusX.value, y: memory.samusY.value, grab: true});
-//                 this.attempts.push({x: memory.samusX.value, y: memory.samusY.value, grab: true});
-//             } else {
-//                 // Item pickup not confirmed yet (could be offset read) so delay one frame to confirm.
-//                 this.prevReadTacoed = true;
-//             }
-//         } else if (this.checkTransition(memory.roomID, Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM, [Rooms.EMPTY, Rooms.BlueBrinstar.CONSTRUCTION_ZONE])) {
-//             // Report attempts on room exit or reset
-//             console.log(this.attempts);
-//             sendEvent('exitTacoTank', this.attempts)
-//             this.attempts = [];
-//         }
-//     }
-// }

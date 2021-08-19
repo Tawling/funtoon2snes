@@ -103,5 +103,13 @@ export default class PhantoonGameModule extends MemoryModule {
             sendEvent('phanOpen');
             this.phantoonGameState = PhantoonGameState.Opened;
         }
+
+        if (this.checkTransition(memory.roomID, [Rooms.Crateria.BOWLING_ALLEY_PATH, Rooms.Crateria.WEST_OCEAN_BETWEEN_BOWLING], Rooms.WreckedShip.BOWLING_ALLEY)) {
+            sendEvent('enterBowlingAlley')
+        }
+
+        if (this.checkTransition(memory.roomID, undefined, Rooms.WreckedShip.GRAVITY_SUIT_ROOM)) {
+            sendEvent('enterGravitySuit')
+        }
     }
 }

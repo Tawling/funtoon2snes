@@ -232,16 +232,25 @@ export default class USB2Snes {
             if (endIndex !== null) {
                 blocks.push(new ReadBlock(valuesByAddr.slice(startIndex, endIndex + 1)));
             }
+            
+            let timingSum = 0
+            let timingCount = 0
 
             await Promise.all(chunk(blocks, 8).map(async (chunk) => {
                 const message = this.createMessage('GetAddress', [].concat(...(chunk.map((block) => block.toOperands()))));
+                const t0 = performance.now()
                 const response = await this.socketHandler.sendBin(message, chunk.reduce((acc, block) => acc + block.size, 0));
+                timingSum += performance.now() - t0;
+                timingCount++;
                 let index = 0;
                 chunk.forEach((block) => {
                     block.performReads(response.slice(index, index+block.size));
                     index += block.size;
                 });
             }))
+
+            const avgTime = timingSum / timingCount;
+            console.log('avg read ms:', avgTime, 'total read ms:', timingSum);
 
             if (typeof values[0].key === 'number') {
                 // build a list
