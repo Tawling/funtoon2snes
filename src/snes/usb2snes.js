@@ -250,7 +250,7 @@ export default class USB2Snes {
             }))
 
             const avgTime = timingSum / timingCount;
-            console.log('avg read ms:', avgTime, 'total read ms:', timingSum);
+            // console.log('avg read ms:', avgTime, 'total read ms:', timingSum);
 
             if (typeof values[0].key === 'number') {
                 // build a list

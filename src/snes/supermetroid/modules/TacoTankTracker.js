@@ -85,6 +85,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
             // Reset attempt tracker on room entry
             this.attempts = [];
             this.attemptCount = 0;
+            console.log('reset attempt count');
             this.prevAttemptLookedGood = false;
             this.prevReadTacoed = false;
             this.avoidDoubleTaco = false;
@@ -164,7 +165,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
                 this.prevReadTacoed = false;
                 this.avoidDoubleTaco = true;
             }
-        } else if (this.attemptCount > 0 && this.checkTransition(memory.roomID, Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM, [Rooms.EMPTY, Rooms.BlueBrinstar.CONSTRUCTION_ZONE])) {
+        } else if (this.attemptCount > 0 && this.checkTransition(memory.roomID, Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM, undefined)) {
             // Report attempts on room exit or reset
             sendEvent('exitTacoTank', {attempts: this.attempts, count: this.attemptCount, grabFrames: this.tankGrabFrames})
             this.attempts = [];
@@ -176,21 +177,27 @@ export default class TacoTankTrackerModule extends MemoryModule {
 
         if (!this.calculatedGrabForAttempt) {
             let grabFrames = 0;
-            if (memory.samusYDirection.value === 2 && memory.samusY.value < 579 && memory.samusXSubSpeed === 0x3000 && memory.samusXSubMomentum === 0x4000) {
-                let speed = memory.samusYSpeed.value + memory.samusYSubSpeed.value/65536;
-                let x = memory.samusX.value + memory.samusSubX.value/65536;
-                let y = memory.samusY.value + memory.samusSubY.value/65536;
-                do {
-                    if (x < 469) {
-                        grabFrames++;
-                    }
-                    x -= 1.4375;
-                    y += speed;
-                    speed += 0.109375;
-                } while (y < 579);
+            if (memory.samusYDirection.value === 2 && memory.samusY.value < 579) {
+                console.log('detected possible grab jump... subspeed:', memory.samusXSubSpeed.value, 'submomentum:', memory.samusXSubMomentum.value);
+                if (memory.samusXSubSpeed.value === 0x3000 && memory.samusXSubMomentum.value === 0x4000) {
+                    console.log('calculating grab frames...')
+                    let speed = memory.samusYSpeed.value + memory.samusYSubSpeed.value/65536;
+                    let x = memory.samusX.value + memory.samusSubX.value/65536;
+                    let y = memory.samusY.value + memory.samusSubY.value/65536;
+                    do {
+                        console.log('x:', x, 'y:', y, 'speed:', speed)
+                        if (x < 469) {
+                            grabFrames++;
+                            console.log('grab frame:', grabFrames)
+                        }
+                        x -= 1.4375;
+                        y += speed;
+                        speed += 0.109375;
+                    } while (y < 579);
+                    this.calculatedGrabForAttempt = true;
+                }
             }
             this.tankGrabFrames += grabFrames;
-            this.calculatedGrabForAttempt = true;
         }
     }
 }
