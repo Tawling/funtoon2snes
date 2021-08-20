@@ -20,6 +20,8 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "incbuild": "react-app-rewired build && node update-version.js",
+    "incver": "node update-version.js",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
   },

@@ -5,14 +5,18 @@ import ModulesPanel from './components/ModulesPanel';
 
 import ConnectionWorker from './Connection.worker' // eslint-disable-line
 
+let refreshInterval = null;
+let version = null;
+
 function App() {
     const worker = useRef(null);
     const [deviceInfo, setDeviceInfo] = useState(null);
     const [deviceList, setDeviceList] = useState([]);
     const [channel, setChannel] = useState('');
     const [token, setAPIToken] = useState('');
-    const [checked, setEnabled] = useState(true);
+    const [enabled, setEnabled] = useState(true);
     const [rps, setRPS] = useState(0);
+    const [autoRefreshEnabled, setAutoRefreshEnabled] = useState(false);
 
     const [moduleStates, setModuleStates] = useState({})
 
@@ -25,6 +29,31 @@ function App() {
             setMessageQueue([...messageQueue, { name, args }])
         }
     }
+
+    useEffect(() => {
+        clearInterval(refreshInterval);
+        refreshInterval = null;
+        if (autoRefreshEnabled) {
+            console.log()
+            const checkVersion = async () => {
+                try {
+                    const res = await(await fetch('version.txt?t='+Date.now())).text()
+                    const serverVersion = +res.trim()
+                    if (version === null) {
+                        version = isNaN(serverVersion) ? 0 : serverVersion;
+                        console.log('set version', version);
+                    } else if (serverVersion !== version) {
+                        window.location.reload();
+                    }
+                } catch (e) {
+                    console.log('failed to fetch version number');
+                    console.error(e);
+                }
+            };
+            checkVersion();
+            refreshInterval = setInterval(checkVersion, 120000)
+        }
+    }, [autoRefreshEnabled])
 
     useEffect(() => {
         console.log('initializing worker...');
@@ -89,6 +118,11 @@ function App() {
         callExternal('setEnabled', enabled);
     }
 
+    function onToggleAutoRefresh(enabled) {
+        setAutoRefreshEnabled(enabled);
+        window.localStorage.setItem('autoRefreshEnabled', enabled);
+    }
+
     function onModuleSettingChange(moduleName, settingName, value) {
        const newStates = {...moduleStates};
        newStates[moduleName].settings[settingName].value = value;
@@ -109,6 +143,9 @@ function App() {
         setAPIToken(token);
         const enabled = localStorage.getItem('enabled') || true;
         setEnabled(enabled);
+
+        const autoRefreshEnabled = localStorage.getItem('autoRefreshEnabled') || false;
+        setAutoRefreshEnabled(autoRefreshEnabled);
 
         const moduleStates = JSON.parse(localStorage.getItem('moduleStates') || '{}');
         setModuleStates(moduleStates)
@@ -132,7 +169,9 @@ function App() {
                 onAPITokenChange={onAPITokenChange}
                 onChannelChange={onChannelChange}
                 onToggleEnabled={onToggleEnabled}
-                checked={checked}
+                onToggleAutoRefresh={onToggleAutoRefresh}
+                enabled={enabled}
+                autoRefreshEnabled={autoRefreshEnabled}
                 channel={channel}
                 token={token}
                 readsPerSecond={rps} />

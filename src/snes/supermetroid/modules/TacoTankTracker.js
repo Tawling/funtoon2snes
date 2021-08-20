@@ -11,6 +11,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
         this.avoidDoubleTaco = false;
         this.attemptAligned = false;
         this.attemptCount = 0;
+        this.goodAttemptCount = 0;
         this.prevAttemptLookedGood = false;
         this.tankGrabFrames = 0;
         this.calculatedGrabForAttempt = false;
@@ -84,6 +85,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
             // Reset attempt tracker on room entry
             this.attempts = [];
             this.attemptCount = 0;
+            this.goodAttemptCount = 0;
             console.log('reset attempt count');
             this.prevAttemptLookedGood = false;
             this.prevReadTacoed = false;
@@ -166,7 +168,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
             }
         } else if (this.attemptCount > 0 && this.checkTransition(memory.roomID, Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM, undefined)) {
             // Report attempts on room exit or reset
-            sendEvent('exitTacoTank', {attempts: this.attempts, count: this.attemptCount, grabFrames: this.tankGrabFrames})
+            sendEvent('exitTacoTank', {attempts: this.attempts, count: this.attemptCount, grabFrames: this.tankGrabFrames, goodAttempts: this.goodAttemptCount})
             this.attempts = [];
             this.attemptCount = 0;
             this.avoidDoubleTaco = false;
@@ -195,6 +197,9 @@ export default class TacoTankTrackerModule extends MemoryModule {
                     } while (y < 579);
                     this.calculatedGrabForAttempt = true;
                 }
+            }
+            if (grabFrames > 0) {
+                this.goodAttemptCount++;
             }
             this.tankGrabFrames += grabFrames;
         }
