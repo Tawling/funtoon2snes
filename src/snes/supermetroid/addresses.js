@@ -29,10 +29,10 @@ export default {
     samusYRadius: new MemState(wram.uint16Read(0x0B00), 'samusYRadius', 'Samus Y Radius'),
     samusXSpeed: new MemState(wram.int16Read(0x0B42), 'samusXSpeed', 'Samus X Sub-Speed'),
     samusXSubSpeed: new MemState(wram.uint16Read(0x0B44), 'samusXSubSpeed', 'Samus X Sub-Speed'),
-    samusXSubMomentum: new MemState(wram.uint16Read(0x0B44), 'samusXSubMomentum', 'Samus X Sub-Momentum'),
+    samusXSubMomentum: new MemState(wram.uint16Read(0x0B48), 'samusXSubMomentum', 'Samus X Sub-Momentum'),
     samusYSpeed: new MemState(wram.int16Read(0x0B2E), 'samusYSpeed', 'Samus Y Sub-Speed'),
     samusYSubSpeed: new MemState(wram.uint16Read(0x0B2C), 'samusYSubSpeed', 'Samus Y Sub-Speed'),
-    samusYDirection: new MemState(wram.dataRead(0x0B36, 19), 'samusYDirection', 'Samus Y Direction'),
+    samusYDirection: new MemState(wram.uint16Read(0x0B36), 'samusYDirection', 'Samus Y Direction'),
     samusPose: new MemState(wram.uint16Read(0x0A1C), 'samusPose', 'Samus Pose'),
     collectedItems: new MemState(wram.dataRead(0xD870, 19), 'collectedItems', '"Collected Items" Bit Array'),
 }

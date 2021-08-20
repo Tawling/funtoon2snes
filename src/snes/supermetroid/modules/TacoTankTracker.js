@@ -26,7 +26,6 @@ export default class TacoTankTrackerModule extends MemoryModule {
 
     getMemoryReads() {
         return [
-            // Is it possible to get X/SubX/Y/SubY in one read?
             Addresses.roomID,
             Addresses.samusX,
             Addresses.samusSubX,
