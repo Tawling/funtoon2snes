@@ -9,3 +9,4 @@ try {
     console.error(e)
 }
 fs.writeFileSync('./public/version.txt', '' + (n+1))
+fs.writeFileSync('./build/version.txt', '' + (n+1))
