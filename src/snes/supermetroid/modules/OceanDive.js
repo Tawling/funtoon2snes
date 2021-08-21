@@ -33,7 +33,7 @@ export default class MoatDiveModule extends MemoryModule {
         ]
     }
     
-    async memoryReadAvailable(memory, sendEvent) {
+    async memoryReadAvailable({ memory, sendEvent }) {
         let curTime = Date.now() / 1000;
         
         if (

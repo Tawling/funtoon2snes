@@ -12,6 +12,7 @@ export default class MemoryModule {
         this.tooltip = null;
         this.description = null;
         this.events = {};
+        this.__setReloadUnsafe = null;
     }
 
     get settings() {
@@ -21,11 +22,17 @@ export default class MemoryModule {
         return this._settings
     }
 
+    set reloadUnsafe(unsafe) {
+        if (this.__setReloadUnsafe) {
+            this.__setReloadUnsafe(unsafe);
+        }
+    }
+
     getMemoryReads() {
         throw Error('You must implement getMemoryReads()');
     }
 
-    async memoryReadAvailable(memory, handleEvent) {
+    async memoryReadAvailable({ memory, sendEvent, globalState, setRefreshUnsafe }) {
         throw Error('You must implement memoryReadAvailable()');
     }
 

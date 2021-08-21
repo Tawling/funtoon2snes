@@ -20,8 +20,11 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "incbuild": "react-app-rewired build && node update-version.js",
+    "incbuild": "node update-version.js && react-app-rewired build",
     "incver": "node update-version.js",
+    "deploy": "Xcopy /E/I/Y .\\build .\\live",
+    "builddeploy": "react-app-rewired build && Xcopy /E/I/Y .\\build .\\live",
+    "incbuilddeploy": "node update-version.js && react-app-rewired build && Xcopy /E/I/Y .\\build .\\live",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
   },

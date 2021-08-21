@@ -10,7 +10,7 @@ export default class Connection {
         this.usb2snes.onListDevices = this.onListDevices;
         this.usb2snes.onDisconnect = this.onDisconnect;
 
-        this.moduleManager = new ModuleManager(this.usb2snes, callExternal);
+        this.moduleManager = new ModuleManager(this.usb2snes, callExternal, this.setReloadUnsafe);
 
         this.apiToken = "";
         this.channel = "";
@@ -84,6 +84,11 @@ export default class Connection {
     setModuleStates = (moduleStates) => {
         this.moduleManager.setModuleStates(moduleStates);
         this.callExternal('setModuleStates', this.moduleManager.getModuleStates());
+    }
+
+    setReloadUnsafe = (unsafe) => {
+        console.log('sending reloadUnsafe', unsafe);
+        this.callExternal('setReloadUnsafe', unsafe);
     }
 
     eventLoop = async () => {

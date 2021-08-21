@@ -7,6 +7,8 @@ import ConnectionWorker from './Connection.worker' // eslint-disable-line
 
 let refreshInterval = null;
 let version = null;
+let needsReload = false;
+let reloadUnsafe = false;
 
 function App() {
     const worker = useRef(null);
@@ -43,7 +45,13 @@ function App() {
                         version = isNaN(serverVersion) ? 0 : serverVersion;
                         console.log('set version', version);
                     } else if (serverVersion !== version) {
-                        window.location.reload();
+                        if (reloadUnsafe) {
+                            needsReload = true;
+                            console.log('unsafe to reload, posponing until safe');
+                        } else {
+                            console.log('reloading');
+                            window.location.reload();
+                        }
                     }
                 } catch (e) {
                     console.log('failed to fetch version number');
@@ -89,6 +97,11 @@ function App() {
                     window.localStorage.setItem('moduleStates', JSON.stringify(event.data.args[0]));
                     setModuleStates(...event.data.args);
                     break;
+                case 'setReloadUnsafe':
+                    reloadUnsafe = event.data.args[0];
+                    if (!reloadUnsafe && needsReload) {
+                        window.location.reload();
+                    }
                 default:
             }
         });
@@ -144,7 +157,7 @@ function App() {
         const enabled = localStorage.getItem('enabled') || true;
         setEnabled(enabled);
 
-        const autoRefreshEnabled = localStorage.getItem('autoRefreshEnabled') || false;
+        const autoRefreshEnabled = localStorage.getItem('autoRefreshEnabled') || true;
         setAutoRefreshEnabled(autoRefreshEnabled);
 
         const moduleStates = JSON.parse(localStorage.getItem('moduleStates') || '{}');

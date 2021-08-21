@@ -42,7 +42,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
         ]
     }
     
-    async memoryReadAvailable(memory, sendEvent, globalState) {
+    async memoryReadAvailable({ memory, sendEvent, globalState }) {
         if (globalState.readsPerSecond < this.settings.rpsThreshold) {
             // Cancel if we drop below the rps threshold
             return
@@ -92,6 +92,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
             this.avoidDoubleTaco = false;
             this.tankGrabFrames = 0;
             this.calculatedGrabForAttempt = false;
+            this.reloadUnsafe = true;
         }
         if (memory.roomID.value === Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM &&
             memory.samusX.value >= 453 &&
@@ -166,11 +167,14 @@ export default class TacoTankTrackerModule extends MemoryModule {
                 this.prevReadTacoed = false;
                 this.avoidDoubleTaco = true;
             }
-        } else if (this.attemptCount > 0 && this.checkTransition(memory.roomID, Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM, undefined)) {
-            // Report attempts on room exit or reset
-            sendEvent('exitTacoTank', {attempts: this.attempts, count: this.attemptCount, grabFrames: this.tankGrabFrames, goodAttempts: this.goodAttemptCount})
-            this.attempts = [];
-            this.attemptCount = 0;
+        } else if (this.checkTransition(memory.roomID, Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM, undefined)) {
+            if (this.attemptCount > 0){
+                // Report attempts on room exit or reset
+                sendEvent('exitTacoTank', {attempts: this.attempts, count: this.attemptCount, grabFrames: this.tankGrabFrames, goodAttempts: this.goodAttemptCount})
+                this.attempts = [];
+                this.attemptCount = 0;
+            }
+            this.reloadUnsafe = false;
             this.avoidDoubleTaco = false;
         } else {
             this.avoidDoubleTaco = false;
@@ -178,7 +182,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
 
         if (!this.calculatedGrabForAttempt) {
             let grabFrames = 0;
-            if (memory.samusYDirection.value === 2 && memory.samusY.value < 579) {
+            if (memory.samusYDirection.value === 2 && memory.samusY.value < 579 && memory.samusY.value > 550) {
                 console.log('detected possible grab jump... subspeed:', memory.samusXSubSpeed.value, 'submomentum:', memory.samusXSubMomentum.value);
                 if (memory.samusXSubSpeed.value === 0x3000 && memory.samusXSubMomentum.value === 0x4000) {
                     console.log('calculating grab frames...')
@@ -196,12 +200,15 @@ export default class TacoTankTrackerModule extends MemoryModule {
                         speed += 0.109375;
                     } while (y < 579);
                     this.calculatedGrabForAttempt = true;
+
+                    if (grabFrames > 0) {
+                        this.goodAttemptCount++;
+                    }
+
+                    this.tankGrabFrames += grabFrames;
+                    console.log('total so far:', this.tankGrabFrames);
                 }
             }
-            if (grabFrames > 0) {
-                this.goodAttemptCount++;
-            }
-            this.tankGrabFrames += grabFrames;
         }
     }
 }

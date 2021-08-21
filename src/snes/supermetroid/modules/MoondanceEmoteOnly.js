@@ -26,7 +26,7 @@ export default class MoondanceEmoteOnlyModule extends MemoryModule {
         ]
     }
     
-    async memoryReadAvailable(memory, sendEvent) {
+    async memoryReadAvailable({ memory, sendEvent }) {
         if (this.emoteOnly == EmoteState.Off && memory.samusMaxPBs.value == 0 && this.checkTransition(memory.roomID, Rooms.GreenBrinstar.GREEN_BRINSTAR_MAIN_SHAFT, Rooms.PinkBrinstar.DACHORA_ROOM)) {
             sendEvent('emoteOnly', true, 10);
             this.emoteOnly = EmoteState.On;

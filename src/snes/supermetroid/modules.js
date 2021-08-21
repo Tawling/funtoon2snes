@@ -7,11 +7,11 @@ import TacoTankTracker from './modules/TacoTankTracker'
 import ResetEventModule from './modules/ResetEvent'
 
 export const SuperMetroid = [
-    new ResetEventModule(),
-    new PhantoonGameModule(),
-    new CeresGameModule(),
-    new MoondanceEmoteOnlyModule(),
-    new MoatDiveModule(),
-    new OceanDiveModule(),
-    new TacoTankTracker(),
+    ResetEventModule,
+    PhantoonGameModule,
+    CeresGameModule,
+    MoondanceEmoteOnlyModule,
+    MoatDiveModule,
+    OceanDiveModule,
+    TacoTankTracker,
 ];

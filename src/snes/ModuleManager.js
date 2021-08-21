@@ -1,15 +1,34 @@
 import { SuperMetroid } from "./supermetroid/modules";
 
 export default class ModuleManager {
-    constructor(usb2snes, callExternal) {
+    constructor(usb2snes, callExternal, setReloadUnsafe) {
         this.usb2snes = usb2snes;
         this.callExternal = callExternal
         this.apiToken = '';
         this.channel = '';
+        this.reloadUnsafeCount = 0;
         
         this.modules = [
             ...SuperMetroid,
-        ]
+        ].map((Module) => {
+            const m = new Module();
+            let reloadUnsafe = false;
+            m.__setReloadUnsafe = (b) => {
+                if (reloadUnsafe && !b) {
+                    this.reloadUnsafeCount -= 1;
+                    if (this.reloadUnsafeCount === 0) {
+                        setReloadUnsafe(false);
+                    }
+                    console.log('unsafe', this.reloadUnsafeCount)
+                }else if (!reloadUnsafe && b) {
+                    this.reloadUnsafeCount += 1;
+                    setReloadUnsafe(true);
+                    console.log('unsafe', this.reloadUnsafeCount)
+                }
+                reloadUnsafe = b;
+            };
+            return m;
+        })
     }
 
     setModuleStates(states) {
@@ -82,7 +101,7 @@ export default class ModuleManager {
         // Run module logic
         for (const module of enabledModules) {
             if (module.enabled) {
-                module.memoryReadAvailable(mems, this.sendEvent, globalState);
+                module.memoryReadAvailable({memory: mems, sendEvent: this.sendEvent, globalState, setReloadUnsafe: this.setReloadUnsafe });
             }
         }
     }

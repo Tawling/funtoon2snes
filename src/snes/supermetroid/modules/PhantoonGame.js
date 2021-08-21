@@ -1,6 +1,6 @@
 import MemoryModule from '../../../util/memory/MemoryModule';
 import { Rooms, PhantoonPatterns, BossStates } from '../enums';
-import { readBossStateFlag } from '../smutils';
+import { readBigIntFlag } from '../smutils';
 import Addresses from '../addresses';
 
 const PhantoonGameState = {
@@ -39,11 +39,12 @@ export default class PhantoonGameModule extends MemoryModule {
         ]
     }
     
-    async memoryReadAvailable(memory, sendEvent) {
+    async memoryReadAvailable({ memory, sendEvent }) {
         // Handle a run being reset
         if (memory.roomID.prevFrameValue !== undefined && memory.roomID.prevFrameValue !== Rooms.EMPTY && memory.roomID.value === Rooms.EMPTY) {
             if (this.inPhantoonFight && this.phantoonPatterns.length > 0) {
                 sendEvent('phanEnd', this.phantoonPatterns.join(' '), 2000);
+                this.reloadUnsafe = false;
             }
             else if (this.phantoonGameState == PhantoonGameState.Opened) {
                 sendEvent('phanClose');
@@ -67,6 +68,7 @@ export default class PhantoonGameModule extends MemoryModule {
                         this.inPhantoonFight = false;
                         sendEvent('phanEnd', this.phantoonPatterns.join(' '), 3);
                         this.phantoonGameState = PhantoonGameState.Ended;
+                        this.reloadUnsafe = false;
                     } else if (this.phantoonPatterns.length === this.currentPhantoonRound) {
                         this.currentPhantoonRound++;
                     }
@@ -93,14 +95,16 @@ export default class PhantoonGameModule extends MemoryModule {
             this.inPhantoonFight = false;
             this.phantoonPatterns = [];
             sendEvent('phanEnd', 'death', 2000);
+            this.reloadUnsafe = false;
         }
         
-        const phantoonState = readBossStateFlag(memory.bossStates.value, BossStates.PHANTOON);
+        const phantoonState = readBigIntFlag(memory.bossStates.value, BossStates.PHANTOON);
         if (PhantoonGameState.Ended === phantoonState && (
                 this.checkTransition(memory.roomID, Rooms.Crateria.THE_MOAT, Rooms.Crateria.WEST_OCEAN)
                 || this.checkTransition(memory.roomID, Rooms.Crateria.FORGOTTEN_HIGHWAY_ELEVATOR, Rooms.Crateria.FORGOTTEN_HIGHWAY_ELBOW)
             )) {
             sendEvent('phanOpen');
+            this.reloadUnsafe = true;
             this.phantoonGameState = PhantoonGameState.Opened;
         }
 

@@ -1,6 +1,7 @@
 import MemoryModule from '../../../util/memory/MemoryModule';
-import { Rooms, GameStates } from '../enums';
+import { Rooms } from '../enums';
 import Addresses from '../addresses';
+import { isDemo } from '../smutils';
 
 export default class ResetEventModule extends MemoryModule {
     constructor() {
@@ -11,21 +12,19 @@ export default class ResetEventModule extends MemoryModule {
     getMemoryReads() {
         return [
             Addresses.gameState,
+            Addresses.roomID,
         ]
     }
     
-    async memoryReadAvailable(memory, sendEvent, globalState) {
-        if (this.checkTransition(memory.roomID, undefined, Rooms.EMPTY) && [
-            GameStates.TRANSITION_FROM_DEMO,
-            GameStates.TRANSITION_FROM_DEMO_2,
-            GameStates.PLAYING_DEMO,
-            GameStates.TRANSITION_TO_DEMO,
-            GameStates.TRANSITION_TO_DEMO_2
-        ].indexOf(memory.gameState.value) < 0) {
+    async memoryReadAvailable({ memory, sendEvent, globalState }) {
+        if (this.checkTransition(memory.roomID, undefined, Rooms.EMPTY) &&
+            !isDemo(memory.gameState.value) &&
+            !isDemo(memory.gameState.prev())
+        ) {
             sendEvent('resetGame');
-            globalState.reset = true;
+            globalState.isReset = true;
         } else {
-            globalState.reset = false;
+            globalState.isReset = false;
         }
     }
 }
