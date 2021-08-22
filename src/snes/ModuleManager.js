@@ -70,7 +70,7 @@ export default class ModuleManager {
                 event,
                 data,
             }),
-        })), delay);
+        })), Math.floor(delay*1000));
     }
 
     async loop(globalState) {
