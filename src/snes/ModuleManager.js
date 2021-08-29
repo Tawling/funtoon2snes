@@ -1,3 +1,4 @@
+import GameDetectorModule from "./GameDetectorModule";
 import { SuperMetroid } from "./supermetroid/modules";
 
 export default class ModuleManager {
@@ -9,6 +10,7 @@ export default class ModuleManager {
         this.reloadUnsafeCount = 0;
         
         this.modules = [
+            GameDetectorModule,
             ...SuperMetroid,
         ].map((Module) => {
             const m = new Module();
