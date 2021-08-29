@@ -3,7 +3,7 @@ export async function readAsArrayBuffer(blob) {
     return new Promise((resolve, reject) => {
         fileReader.onerror = () => {
             fileReader.abort();
-            reject(new DOMException('Error parsing data'));
+            reject(new DOMException("Error parsing data"));
         };
 
         fileReader.onload = (e) => {

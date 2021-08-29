@@ -1,5 +1,5 @@
 export default class MemState {
-    constructor(dataRead, key = '', displayName = '', depth = 2) {
+    constructor(dataRead, key = "", displayName = "", depth = 2) {
         this.displayName = displayName;
         this.key = key;
         this.dataRead = dataRead;
@@ -26,11 +26,11 @@ export default class MemState {
         return this.values[0];
     }
 
-    prevUniqueValue(n=1) {
+    prevUniqueValue(n = 1) {
         return this.values[n];
     }
 
-    prev(n=1) {
+    prev(n = 1) {
         return this.values[n];
     }
 }

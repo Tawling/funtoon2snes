@@ -68,8 +68,12 @@ export default function ConnectionPanel(props) {
                 </Label>
                 <br />
                 <Label>
-                    <Input type="checkbox" checked={autoRefreshEnabled} onInput={(e) => onToggleAutoRefresh(!autoRefreshEnabled)} /> Enable
-                    Auto Update (checks for new version every 2 minutes and refreshes automatically)
+                    <Input
+                        type="checkbox"
+                        checked={autoRefreshEnabled}
+                        onInput={(e) => onToggleAutoRefresh(!autoRefreshEnabled)}
+                    />{" "}
+                    Enable Auto Update (checks for new version every 2 minutes and refreshes automatically)
                 </Label>
                 <br />
                 Reads per Second: {(readsPerSecond || 0).toFixed(2)}

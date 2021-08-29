@@ -1,39 +1,40 @@
-export const WRAM_BASE_ADDR =   0xF50000;
-export const SRAM_BASE_ADDR =   0xE00000;
-export const ROM_BASE_ADDR  =   0x000000;
+export const WRAM_BASE_ADDR = 0xf50000;
+export const SRAM_BASE_ADDR = 0xe00000;
+export const ROM_BASE_ADDR = 0x000000;
 
 export class ReadBlock {
     constructor(reads) {
         this.reads = reads;
         this.start = this.reads[0].value.address;
         this.offset = this.reads[0].value.ramOffset;
-        this.size = this.reads[this.reads.length - 1].value.address + this.reads[this.reads.length - 1].value.size
-        - this.reads[0].value.address;
+        this.size =
+            this.reads[this.reads.length - 1].value.address +
+            this.reads[this.reads.length - 1].value.size -
+            this.reads[0].value.address;
     }
 
     toOperands() {
-        return [
-            (this.start + this.offset).toString(16),
-            (this.size).toString(16),
-        ];
+        return [(this.start + this.offset).toString(16), this.size.toString(16)];
     }
 
     performReads(memory) {
         for (const read of this.reads) {
-            read.value = read.value.transformValue(memory.slice(read.value.address - this.start, read.value.address - this.start + read.value.size));
+            read.value = read.value.transformValue(
+                memory.slice(read.value.address - this.start, read.value.address - this.start + read.value.size)
+            );
         }
     }
 }
 
 export class DataRead {
-    constructor (address, size, ramOffset = 0) {
+    constructor(address, size, ramOffset = 0) {
         this.address = address;
         this.ramOffset = ramOffset;
         this.size = size;
     }
 
     toOperands() {
-        return [(this.address + this.ramOffset).toString(16), (this.size).toString(16)];
+        return [(this.address + this.ramOffset).toString(16), this.size.toString(16)];
     }
 
     transformValue(value) {
@@ -136,7 +137,7 @@ class BCDRead extends DataRead {
                 res.unshift(`00${v.toString(16)}`.slice(-2));
             }
         }
-        return res.reduce((acc, v) => v + acc, '');
+        return res.reduce((acc, v) => v + acc, "");
     }
 }
 
@@ -151,7 +152,7 @@ export const generic = {
     uint64Read: (address, ramOffset = 0) => new Uint64Read(address, ramOffset),
     int64Read: (address, ramOffset = 0) => new Int64Read(address, ramOffset),
     bcdRead: (address, size, littleEndian = true, ramOffset = 0) => new BCDRead(address, size, littleEndian, ramOffset),
-}
+};
 
 export const wram = {
     dataRead: (address, size) => new DataRead(address, size, WRAM_BASE_ADDR),
@@ -164,7 +165,7 @@ export const wram = {
     uint64Read: (address) => new Uint64Read(address, WRAM_BASE_ADDR),
     int64Read: (address) => new Int64Read(address, WRAM_BASE_ADDR),
     bcdRead: (address, size, littleEndian) => new BCDRead(address, size, littleEndian, WRAM_BASE_ADDR),
-}
+};
 
 export const sram = {
     dataRead: (address, size) => new DataRead(address, size, SRAM_BASE_ADDR),
@@ -177,6 +178,6 @@ export const sram = {
     uint64Read: (address) => new Uint64Read(address, SRAM_BASE_ADDR),
     int64Read: (address) => new Int64Read(address, SRAM_BASE_ADDR),
     bcdRead: (address, size, littleEndian) => new BCDRead(address, size, littleEndian, SRAM_BASE_ADDR),
-}
+};
 
 export default generic;

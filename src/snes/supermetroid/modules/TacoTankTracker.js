@@ -1,11 +1,11 @@
-import MemoryModule from '../../../util/memory/MemoryModule';
-import { Rooms, SamusPose } from '../enums';
-import Addresses from '../addresses';
+import MemoryModule from "../../../util/memory/MemoryModule";
+import { Rooms, SamusPose } from "../enums";
+import Addresses from "../addresses";
 
 export default class TacoTankTrackerModule extends MemoryModule {
     constructor() {
         super("tacoTankTracker", "Taco Tank Tracker", false);
-        this.tooltip = "Totally Tracks Taco Tank Tries. Ask Taw_ about scripts to make this work in chat."
+        this.tooltip = "Totally Tracks Taco Tank Tries. Ask Taw_ about scripts to make this work in chat.";
         this.attempts = [];
         this.prevReadTacoed = false;
         this.avoidDoubleTaco = false;
@@ -20,10 +20,10 @@ export default class TacoTankTrackerModule extends MemoryModule {
     settingDefs = {
         rpsThreshold: {
             display: "Disable if Reads-per-second is below",
-            type: 'number',
+            type: "number",
             default: 16,
-        }
-    }
+        },
+    };
 
     getMemoryReads() {
         return [
@@ -39,21 +39,21 @@ export default class TacoTankTrackerModule extends MemoryModule {
             Addresses.samusXSubMomentum,
             Addresses.samusYSpeed,
             Addresses.samusYSubSpeed,
-        ]
+        ];
     }
-    
+
     async memoryReadAvailable({ memory, sendEvent, globalState }) {
         if (globalState.readsPerSecond < this.settings.rpsThreshold) {
             // Cancel if we drop below the rps threshold
-            return
+            return;
         }
 
         if (
             !this.attemptAligned &&
             memory.samusX.value === 555 &&
-            memory.samusSubX.value === 0xFFFF &&
+            memory.samusSubX.value === 0xffff &&
             memory.samusY.value === 699 &&
-            memory.samusSubY.value === 0xFFFF &&
+            memory.samusSubY.value === 0xffff &&
             !(memory.samusPose.value & 0x01)
         ) {
             // We are set up for a new attempt...
@@ -72,12 +72,36 @@ export default class TacoTankTrackerModule extends MemoryModule {
             this.avoidDoubleTaco = true;
             if (memory.collectedItems.prev(1)[3] !== memory.collectedItems.value[3]) {
                 // GRAB
-                sendEvent('tacoTank', {x: memory.samusX.prev(), subx: memory.samusSubX.prev().toString(16), y: memory.samusY.prev(), suby: memory.samusSubY.prev().toString(16), grab: true});
-                this.attempts.push({x: memory.samusX.prev(), subx: memory.samusSubX.prev().toString(16), y: memory.samusY.prev(), suby: memory.samusSubY.prev().toString(16), grab: true});
+                sendEvent("tacoTank", {
+                    x: memory.samusX.prev(),
+                    subx: memory.samusSubX.prev().toString(16),
+                    y: memory.samusY.prev(),
+                    suby: memory.samusSubY.prev().toString(16),
+                    grab: true,
+                });
+                this.attempts.push({
+                    x: memory.samusX.prev(),
+                    subx: memory.samusSubX.prev().toString(16),
+                    y: memory.samusY.prev(),
+                    suby: memory.samusSubY.prev().toString(16),
+                    grab: true,
+                });
             } else {
                 // OSCILLATOR
-                sendEvent('tacoTank', {x: memory.samusX.prev(), subx: memory.samusSubX.prev().toString(16), y: memory.samusY.prev(), suby: memory.samusSubY.prev().toString(16), grab: false});
-                this.attempts.push({x: memory.samusX.prev(), subx: memory.samusSubX.prev().toString(16), y: memory.samusY.prev(), suby: memory.samusSubY.prev().toString(16), grab: false});
+                sendEvent("tacoTank", {
+                    x: memory.samusX.prev(),
+                    subx: memory.samusSubX.prev().toString(16),
+                    y: memory.samusY.prev(),
+                    suby: memory.samusSubY.prev().toString(16),
+                    grab: false,
+                });
+                this.attempts.push({
+                    x: memory.samusX.prev(),
+                    subx: memory.samusSubX.prev().toString(16),
+                    y: memory.samusY.prev(),
+                    suby: memory.samusSubY.prev().toString(16),
+                    grab: false,
+                });
             }
         }
 
@@ -86,7 +110,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
             this.attempts = [];
             this.attemptCount = 0;
             this.goodAttemptCount = 0;
-            console.log('reset attempt count');
+            console.log("reset attempt count");
             this.prevAttemptLookedGood = false;
             this.prevReadTacoed = false;
             this.avoidDoubleTaco = false;
@@ -94,7 +118,8 @@ export default class TacoTankTrackerModule extends MemoryModule {
             this.calculatedGrabForAttempt = false;
             this.reloadUnsafe = true;
         }
-        if (memory.roomID.value === Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM &&
+        if (
+            memory.roomID.value === Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM &&
             memory.samusX.value >= 453 &&
             memory.samusX.value <= 468
         ) {
@@ -103,57 +128,63 @@ export default class TacoTankTrackerModule extends MemoryModule {
                 if (!this.avoidDoubleTaco) {
                     this.prevReadTacoed = true;
                 }
-            } else if (memory.samusX.value > 467 ||
-                       (memory.samusX.value === 467 && memory.samusSubX.value >= 36864)) {
+            } else if (memory.samusX.value > 467 || (memory.samusX.value === 467 && memory.samusSubX.value >= 36864)) {
                 this.avoidDoubleTaco = false;
-            } else if ((memory.samusY.value === 580 && memory.samusSubY.value === 13312) ||
-                       (memory.samusY.value === 580 && memory.samusSubY.value === 20480) ||
-                       (memory.samusY.value === 580 && memory.samusSubY.value === 27648)) {
+            } else if (
+                (memory.samusY.value === 580 && memory.samusSubY.value === 13312) ||
+                (memory.samusY.value === 580 && memory.samusSubY.value === 20480) ||
+                (memory.samusY.value === 580 && memory.samusSubY.value === 27648)
+            ) {
                 if (!this.avoidDoubleTaco) {
                     this.prevReadTacoed = true;
                 }
-            } else if (memory.samusX.value > 466 ||
-                       (memory.samusX.value === 466 && memory.samusSubX.value >= 8192)) {
+            } else if (memory.samusX.value > 466 || (memory.samusX.value === 466 && memory.samusSubX.value >= 8192)) {
                 this.avoidDoubleTaco = false;
-            } else if ((memory.samusY.value === 581 && memory.samusSubY.value === 19456) ||
-                       (memory.samusY.value === 581 && memory.samusSubY.value === 33792) ||
-                       (memory.samusY.value === 581 && memory.samusSubY.value === 48128)) {
+            } else if (
+                (memory.samusY.value === 581 && memory.samusSubY.value === 19456) ||
+                (memory.samusY.value === 581 && memory.samusSubY.value === 33792) ||
+                (memory.samusY.value === 581 && memory.samusSubY.value === 48128)
+            ) {
                 if (!this.avoidDoubleTaco) {
                     this.prevReadTacoed = true;
                 }
-            } else if (memory.samusX.value > 464 ||
-                       (memory.samusX.value === 464 && memory.samusSubX.value >= 45056)) {
+            } else if (memory.samusX.value > 464 || (memory.samusX.value === 464 && memory.samusSubX.value >= 45056)) {
                 this.avoidDoubleTaco = false;
-            } else if ((memory.samusY.value === 582 && memory.samusSubY.value === 18432) ||
-                       (memory.samusY.value === 582 && memory.samusSubY.value === 39936) ||
-                       (memory.samusY.value === 582 && memory.samusSubY.value === 61440)) {
+            } else if (
+                (memory.samusY.value === 582 && memory.samusSubY.value === 18432) ||
+                (memory.samusY.value === 582 && memory.samusSubY.value === 39936) ||
+                (memory.samusY.value === 582 && memory.samusSubY.value === 61440)
+            ) {
                 if (!this.avoidDoubleTaco) {
                     this.prevReadTacoed = true;
                 }
-            } else if (memory.samusX.value > 463 ||
-                       (memory.samusX.value === 463 && memory.samusSubX.value >= 16384)) {
+            } else if (memory.samusX.value > 463 || (memory.samusX.value === 463 && memory.samusSubX.value >= 16384)) {
                 this.avoidDoubleTaco = false;
-            } else if ((memory.samusY.value === 583 && memory.samusSubY.value === 10240) ||
-                       (memory.samusY.value === 583 && memory.samusSubY.value === 38912) ||
-                       (memory.samusY.value === 584 && memory.samusSubY.value === 2048)) {
+            } else if (
+                (memory.samusY.value === 583 && memory.samusSubY.value === 10240) ||
+                (memory.samusY.value === 583 && memory.samusSubY.value === 38912) ||
+                (memory.samusY.value === 584 && memory.samusSubY.value === 2048)
+            ) {
                 if (!this.avoidDoubleTaco) {
                     this.prevReadTacoed = true;
                 }
-            } else if (memory.samusX.value > 461 ||
-                       (memory.samusX.value === 461 && memory.samusSubX.value >= 53248)) {
+            } else if (memory.samusX.value > 461 || (memory.samusX.value === 461 && memory.samusSubX.value >= 53248)) {
                 this.avoidDoubleTaco = false;
-            } else if ((memory.samusY.value === 583 && memory.samusSubY.value === 60416) ||
-                       (memory.samusY.value === 584 && memory.samusSubY.value === 30720) ||
-                       (memory.samusY.value === 585 && memory.samusSubY.value === 1024)) {
+            } else if (
+                (memory.samusY.value === 583 && memory.samusSubY.value === 60416) ||
+                (memory.samusY.value === 584 && memory.samusSubY.value === 30720) ||
+                (memory.samusY.value === 585 && memory.samusSubY.value === 1024)
+            ) {
                 if (!this.avoidDoubleTaco) {
                     this.prevReadTacoed = true;
                 }
-            } else if (memory.samusX.value > 460 ||
-                       (memory.samusX.value === 460 && memory.samusSubX.value >= 24576)) {
+            } else if (memory.samusX.value > 460 || (memory.samusX.value === 460 && memory.samusSubX.value >= 24576)) {
                 this.avoidDoubleTaco = false;
-            } else if ((memory.samusY.value === 584 && memory.samusSubY.value === 37888) ||
-                       (memory.samusY.value === 585 && memory.samusSubY.value === 15360) ||
-                       (memory.samusY.value === 585 && memory.samusSubY.value === 58368)) {
+            } else if (
+                (memory.samusY.value === 584 && memory.samusSubY.value === 37888) ||
+                (memory.samusY.value === 585 && memory.samusSubY.value === 15360) ||
+                (memory.samusY.value === 585 && memory.samusSubY.value === 58368)
+            ) {
                 if (!this.avoidDoubleTaco) {
                     this.prevReadTacoed = true;
                 }
@@ -162,15 +193,32 @@ export default class TacoTankTrackerModule extends MemoryModule {
             }
             if (this.prevReadTacoed && memory.collectedItems.prev(1)[3] !== memory.collectedItems.value[3]) {
                 // GRAB
-                sendEvent('tacoTank', {x: memory.samusX.value, subx: memory.samusSubX.value.toString(16), y: memory.samusY.value, suby: memory.samusSubY.value.toString(16), grab: true});
-                this.attempts.push({x: memory.samusX.value, subx: memory.samusSubX.value.toString(16), y: memory.samusY.value, suby: memory.samusSubY.value.toString(16), grab: true});
+                sendEvent("tacoTank", {
+                    x: memory.samusX.value,
+                    subx: memory.samusSubX.value.toString(16),
+                    y: memory.samusY.value,
+                    suby: memory.samusSubY.value.toString(16),
+                    grab: true,
+                });
+                this.attempts.push({
+                    x: memory.samusX.value,
+                    subx: memory.samusSubX.value.toString(16),
+                    y: memory.samusY.value,
+                    suby: memory.samusSubY.value.toString(16),
+                    grab: true,
+                });
                 this.prevReadTacoed = false;
                 this.avoidDoubleTaco = true;
             }
         } else if (this.checkTransition(memory.roomID, Rooms.BlueBrinstar.BLUE_BRINSTAR_ENERGY_TANK_ROOM, undefined)) {
-            if (this.attemptCount > 0){
+            if (this.attemptCount > 0) {
                 // Report attempts on room exit or reset
-                sendEvent('exitTacoTank', {attempts: this.attempts, count: this.attemptCount, grabFrames: this.tankGrabFrames, goodAttempts: this.goodAttemptCount})
+                sendEvent("exitTacoTank", {
+                    attempts: this.attempts,
+                    count: this.attemptCount,
+                    grabFrames: this.tankGrabFrames,
+                    goodAttempts: this.goodAttemptCount,
+                });
                 this.attempts = [];
                 this.attemptCount = 0;
             }
@@ -183,17 +231,22 @@ export default class TacoTankTrackerModule extends MemoryModule {
         if (!this.calculatedGrabForAttempt) {
             let grabFrames = 0;
             if (memory.samusYDirection.value === 2 && memory.samusY.value < 579 && memory.samusY.value > 550) {
-                console.log('detected possible grab jump... subspeed:', memory.samusXSubSpeed.value, 'submomentum:', memory.samusXSubMomentum.value);
+                console.log(
+                    "detected possible grab jump... subspeed:",
+                    memory.samusXSubSpeed.value,
+                    "submomentum:",
+                    memory.samusXSubMomentum.value
+                );
                 if (memory.samusXSubSpeed.value === 0x3000 && memory.samusXSubMomentum.value === 0x4000) {
-                    console.log('calculating grab frames...')
-                    let speed = memory.samusYSpeed.value + memory.samusYSubSpeed.value/65536;
-                    let x = memory.samusX.value + memory.samusSubX.value/65536;
-                    let y = memory.samusY.value + memory.samusSubY.value/65536;
+                    console.log("calculating grab frames...");
+                    let speed = memory.samusYSpeed.value + memory.samusYSubSpeed.value / 65536;
+                    let x = memory.samusX.value + memory.samusSubX.value / 65536;
+                    let y = memory.samusY.value + memory.samusSubY.value / 65536;
                     do {
-                        console.log('x:', x, 'y:', y, 'speed:', speed)
+                        console.log("x:", x, "y:", y, "speed:", speed);
                         if (x < 469) {
                             grabFrames++;
-                            console.log('grab frame:', grabFrames)
+                            console.log("grab frame:", grabFrames);
                         }
                         x -= 1.4375;
                         y += speed;
@@ -206,7 +259,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
                     }
 
                     this.tankGrabFrames += grabFrames;
-                    console.log('total so far:', this.tankGrabFrames);
+                    console.log("total so far:", this.tankGrabFrames);
                 }
             }
         }

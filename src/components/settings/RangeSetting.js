@@ -1,5 +1,5 @@
-import React from 'react';
-import { Input } from 'reactstrap';
+import React from "react";
+import { Input } from "reactstrap";
 
 export default function RangeSetting({ def, settingName, moduleName, onModuleSettingChange }) {
     return (
@@ -8,9 +8,7 @@ export default function RangeSetting({ def, settingName, moduleName, onModuleSet
             <Input
                 type="range"
                 {...(def.attributes || {})}
-                onChange={(e) =>
-                    onModuleSettingChange(moduleName, settingName, e.target.value)
-                }
+                onChange={(e) => onModuleSettingChange(moduleName, settingName, e.target.value)}
                 value={def.value}
             />
         </li>

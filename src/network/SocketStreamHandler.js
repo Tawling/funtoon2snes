@@ -19,26 +19,26 @@ export default class SocketStreamHandler {
 
     clearQueue() {
         this.mutex.cancel();
-        console.log('clearing', this.queue.length, 'queued items');
-        this.queue.map((i) => i.reject('connection killed'));
+        console.log("clearing", this.queue.length, "queued items");
+        this.queue.map((i) => i.reject("connection killed"));
         this.queue = [];
     }
 
     connect = () => {
-        this.reconnectTimeout = clearTimeout(this.reconnectTimeout)
+        this.reconnectTimeout = clearTimeout(this.reconnectTimeout);
         this.clearQueue();
         this.mutex.cancel();
         return this.mutex.runExclusive(async () => {
             this.ws = null;
             try {
-                await this.openWS('ws://localhost:23074');
-                console.log('Successfully connected to Usb2Snes')
+                await this.openWS("ws://localhost:23074");
+                console.log("Successfully connected to Usb2Snes");
             } catch {
                 try {
-                    await this.openWS('ws://localhost:8080');
-                    console.log('Successfully connected to QUsb2Snes')
+                    await this.openWS("ws://localhost:8080");
+                    console.log("Successfully connected to QUsb2Snes");
                 } catch (error) {
-                    console.log('Could not connect to the Usb2Snes service, retrying:', error);
+                    console.log("Could not connect to the Usb2Snes service, retrying:", error);
                     this.reconnectTimeout = setTimeout(this.connect, 3000);
                     return;
                 }
@@ -48,18 +48,18 @@ export default class SocketStreamHandler {
             this.ws.onerror = this.handleError;
 
             if (this.onConnect !== null) {
-                this.onConnect()
+                this.onConnect();
             }
 
             this.clearQueue();
             this.mutex.cancel();
         });
-    }
+    };
 
     openWS(url) {
         return new Promise((resolve, reject) => {
             if (this.ws !== null) {
-                reject('ALREADY CONNECTED')
+                reject("ALREADY CONNECTED");
             }
 
             let socket = new WebSocket(url);
@@ -67,26 +67,26 @@ export default class SocketStreamHandler {
                 this.ws = socket;
                 this.clearQueue();
                 resolve(socket);
-            }
+            };
 
             socket.onerror = (err) => {
                 reject(err);
-            }
+            };
         });
     }
 
     handleClose = () => {
-        console.error('Connection forcefully closed')
+        console.error("Connection forcefully closed");
         this.clearQueue();
         this.ws = null;
         if (this.onDisconnect !== null) {
-            this.onDisconnect(this.shouldReconnect)
+            this.onDisconnect(this.shouldReconnect);
         }
         if (this.shouldReconnect) {
-            clearTimeout(this.reconnectTimeout)
+            clearTimeout(this.reconnectTimeout);
             this.reconnectTimeout = setTimeout(this.connect, 10);
         }
-    }
+    };
 
     handleMessage = (event) => {
         this.mutex.runExclusive(async () => {
@@ -107,7 +107,7 @@ export default class SocketStreamHandler {
                         // Append incoming data to outputBuffer
                         const tmpBuffer = new Uint8Array(context.buffer.byteLength + arrayBuffer.byteLength);
                         tmpBuffer.set(context.buffer);
-                        tmpBuffer.set(arrayBuffer, context.buffer.byteLength)
+                        tmpBuffer.set(arrayBuffer, context.buffer.byteLength);
                         context.buffer = tmpBuffer;
 
                         // End if we have read enough data
@@ -117,7 +117,7 @@ export default class SocketStreamHandler {
                             resolve(context.buffer);
                         }
                     } catch (err) {
-                        console.log('failed byte read', err);
+                        console.log("failed byte read", err);
                         this.queue.shift();
                         reject(err);
                     }
@@ -127,8 +127,8 @@ export default class SocketStreamHandler {
                     resolve(event.data);
                 }
             }
-        })
-    }
+        });
+    };
 
     handleError(err) {
         this.mutex.runExclusive(async () => {
@@ -138,7 +138,7 @@ export default class SocketStreamHandler {
             if (context) {
                 context.reject(err);
             }
-        })
+        });
     }
 
     send(msg, noReply = false) {
@@ -154,7 +154,7 @@ export default class SocketStreamHandler {
 
             this.ws.send(msg);
 
-            console.log('send:', msg);
+            console.log("send:", msg);
             if (noReply) {
                 resolve(true);
             }
@@ -164,7 +164,7 @@ export default class SocketStreamHandler {
     sendBin(msg, size = 2) {
         return new Promise((resolve, reject) => {
             if (size <= 0) {
-                reject('Invalid size');
+                reject("Invalid size");
             }
             this.queue.push({
                 size,

@@ -3,14 +3,12 @@ import MemoryModule from "../util/memory/MemoryModule";
 export default class GameDetectorModule extends MemoryModule {
     constructor() {
         super("globalGameDetector", "Game Detector", true, true);
-        this.tooltip = "Detects the current game."
+        this.tooltip = "Detects the current game.";
     }
 
     getMemoryReads() {
-        return []
+        return [];
     }
-    
-    async memoryReadAvailable({ memory, sendEvent, globalState }) {
-        
-    }
+
+    async memoryReadAvailable({ memory, sendEvent, globalState }) {}
 }
