@@ -18,11 +18,9 @@ export default class ModuleManager {
                     if (this.reloadUnsafeCount === 0) {
                         setReloadUnsafe(false);
                     }
-                    console.log("unsafe", this.reloadUnsafeCount);
                 } else if (!reloadUnsafe && b) {
                     this.reloadUnsafeCount += 1;
                     setReloadUnsafe(true);
-                    console.log("unsafe", this.reloadUnsafeCount);
                 }
                 reloadUnsafe = b;
             };

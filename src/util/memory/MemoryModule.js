@@ -22,6 +22,9 @@ export default class MemoryModule {
         return this._settings;
     }
 
+    /**
+     * @param {boolean} unsafe
+     */
     set reloadUnsafe(unsafe) {
         if (this.__setReloadUnsafe) {
             this.__setReloadUnsafe(unsafe);
