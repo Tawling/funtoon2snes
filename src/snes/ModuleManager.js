@@ -45,6 +45,7 @@ export default class ModuleManager {
             newStates[module.moduleName] = {
                 displayName: module.displayName,
                 enabled: module.enabled,
+                hidden: module.hidden,
                 tooltip: module.tooltip,
                 description: module.description,
                 settings: module.getSettings(),

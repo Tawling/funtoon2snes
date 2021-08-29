@@ -5,10 +5,11 @@ const getDefaultSettingsObject = (def) => {
 
 export default class MemoryModule {
 
-    constructor(moduleName, displayName, defaultEnabled = true) {
+    constructor(moduleName, displayName, defaultEnabled = true, hidden = false) {
         this.moduleName = moduleName;
         this.displayName = displayName;
         this.enabled = defaultEnabled;
+        this.hidden = hidden;
         this.tooltip = null;
         this.description = null;
         this.events = {};
