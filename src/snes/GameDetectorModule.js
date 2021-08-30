@@ -13,12 +13,12 @@ export default class GameDetectorModule extends MemoryModule {
 
     async memoryReadAvailable({ memory, sendEvent, globalState }) {
         globalState.gameChanged = false;
-        if (this.checkChange(memory.headerChecksum)) {
+        if (memory.headerChecksum.prev() === undefined || this.checkChange(memory.headerChecksum)) {
             // Flag game as changed if checksum changes
             globalState.gameChanged = true;
 
             const game = [memory.headerGameTitle.value.strip()];
-            
+
             // TODO: check for game and game variants and push values into game string list
             switch (memory.headerGameTitle.value) {
                 default:
