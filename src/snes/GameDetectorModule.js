@@ -13,7 +13,7 @@ export default class GameDetectorModule extends MemoryModule {
 
     async memoryReadAvailable({ memory, sendEvent, globalState }) {
         globalState.gameChanged = false;
-        if (memory.headerChecksum.prev() === undefined || this.checkChange(memory.headerChecksum)) {
+        if (memory.headerChecksum.prevUnique() === undefined || this.checkChange(memory.headerChecksum)) {
             // Flag game as changed if checksum changes
             globalState.gameChanged = true;
 

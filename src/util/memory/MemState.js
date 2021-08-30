@@ -8,10 +8,9 @@ export default class MemState {
         this.values = [];
         this.uniqueValues = [];
         this.prevFrameValue = undefined;
-        this.prevReadCount = undefined;
     }
 
-    update(value, readCount = undefined) {
+    update(value) {
         if (this.values.length < this.depth) {
             this.values = new Array(this.depth);
             this.values.fill(value);
@@ -21,7 +20,6 @@ export default class MemState {
             this.uniqueValues.fill(value);
         }
         this.prevFrameValue = this.values[0];
-        this.prevReadCount = readCount;
         if (value !== this.uniqueValues[0]) {
             this.uniqueValues.unshift(value);
             this.uniqueValues.pop();
