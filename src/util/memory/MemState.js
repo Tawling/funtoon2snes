@@ -21,11 +21,11 @@ export default class MemState {
         }
         this.prevFrameValue = this.values[0];
         if (value !== this.uniqueValues[0]) {
-            this.uniqueValues.unshift(value);
             this.uniqueValues.pop();
+            this.uniqueValues.unshift(value);
         }
-        this.values.unshift(value);
         this.values.pop();
+        this.values.unshift(value);
     }
 
     get value() {
