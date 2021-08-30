@@ -13,6 +13,7 @@ export default class MemoryModule {
         this.description = null;
         this.events = {};
         this.__setReloadUnsafe = null;
+        this.__shouldRunForGame = false;
     }
 
     get settings() {
@@ -32,7 +33,17 @@ export default class MemoryModule {
     }
 
     /**
-     * @returns {Array[DataRead]} Memory addresses to be read for the next memoryReadAvailable call
+     * Determines whether this module should run or not based on the current game tags. This will be re-ran any time the
+     * game tags change.
+     * @param {object} gameTags A dictionary of game tag strings for the current game. The keys are the tags, and values are all `true`.
+     * @returns {boolean} Whether to run this module or not based on the current game.
+     */
+    shouldRunForGame(gameTags) {
+        throw Error("You must implement shouldRunForGame()");
+    }
+
+    /**
+     * @returns {DataRead[]} Memory addresses to be read for the next memoryReadAvailable call
      */
     getMemoryReads() {
         throw Error("You must implement getMemoryReads()");

@@ -107,7 +107,10 @@ export default class ModuleManager {
 
         // Run module logic
         for (const module of enabledModules) {
-            if (module.enabled) {
+            if (globalState.gameTagsChanged) {
+                module.__shouldRunForGame = module.shouldRunForGame(globalState.persistent.gameTags);
+            }
+            if (module.enabled && module.__shouldRunForGame) {
                 module.memoryReadAvailable({
                     memory: mems,
                     sendEvent: this.sendEvent,

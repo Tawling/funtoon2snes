@@ -10,6 +10,10 @@ export default class ResetEventModule extends MemoryModule {
             "Sends an event to FUNtoon when the run is reset. This can be handled by scripts however you desire.";
     }
 
+    shouldRunForGame(gameTags) {
+        return gameTags.SM;
+    }
+
     getMemoryReads() {
         return [Addresses.gameState, Addresses.roomID];
     }

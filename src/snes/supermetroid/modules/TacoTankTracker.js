@@ -25,6 +25,10 @@ export default class TacoTankTrackerModule extends MemoryModule {
         },
     };
 
+    shouldRunForGame(gameTags) {
+        return gameTags.SM;
+    }
+
     getMemoryReads() {
         return [
             Addresses.roomID,

@@ -8,6 +8,10 @@ export default class DeathEventModule extends MemoryModule {
         this.tooltip = "Sends an event to FUNtoon when Samus dies. This can be handled by scripts however you desire.";
     }
 
+    shouldRunForGame(gameTags) {
+        return gameTags.SM;
+    }
+
     getMemoryReads() {
         return [Addresses.gameState];
     }

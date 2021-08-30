@@ -26,6 +26,10 @@ export default class MoatDiveModule extends MemoryModule {
         super.setEnabled(enabled);
     }
 
+    shouldRunForGame(gameTags) {
+        return gameTags.SM;
+    }
+
     getMemoryReads() {
         return [Addresses.roomID, Addresses.samusWaterPhysics];
     }

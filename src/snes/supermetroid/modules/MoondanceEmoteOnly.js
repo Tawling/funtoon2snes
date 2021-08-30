@@ -19,6 +19,10 @@ export default class MoondanceEmoteOnlyModule extends MemoryModule {
         this.emoteOnly = EmoteState.Off;
     }
 
+    shouldRunForGame(gameTags) {
+        return gameTags.SM;
+    }
+
     getMemoryReads() {
         return [Addresses.roomID, Addresses.samusMaxPBs];
     }

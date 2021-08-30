@@ -28,6 +28,10 @@ export default class CeresGameModule extends MemoryModule {
         this.ceresState = CeresGameState.Closed;
     }
 
+    shouldRunForGame(gameTags) {
+        return gameTags.SM;
+    }
+
     getMemoryReads() {
         return [Addresses.roomID, Addresses.gameState, Addresses.ceresTimer, Addresses.ceresState];
     }

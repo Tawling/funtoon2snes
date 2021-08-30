@@ -27,6 +27,10 @@ export default class PhantoonGameModule extends MemoryModule {
         this.currentPhantoonRound = 0;
     }
 
+    shouldRunForGame(gameTags) {
+        return gameTags.SM;
+    }
+
     getMemoryReads() {
         return [
             Addresses.roomID,
