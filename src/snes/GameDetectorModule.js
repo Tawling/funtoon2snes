@@ -13,7 +13,7 @@ export default class GameDetectorModule extends MemoryModule {
     }
 
     getMemoryReads() {
-        return [headerAddresses.headerGameTitle, headerAddresses.headerChecksum];
+        return [headerAddresses.headerGameTitle, headerAddresses.headerChecksum, headerAddresses.headerRAMSize];
     }
 
     async memoryReadAvailable({ memory, sendEvent, globalState }) {
@@ -22,7 +22,7 @@ export default class GameDetectorModule extends MemoryModule {
             // Flag game as changed if checksum changes
             globalState.gameTagsChanged = true;
 
-            const gameTags = { [memory.headerGameTitle.value.strip()]: true }
+            const gameTags = { [memory.headerGameTitle.value.strip()]: true };
 
             // Check for game and game variants and push values into game string list
 
@@ -30,6 +30,9 @@ export default class GameDetectorModule extends MemoryModule {
                 case "Super Metroid":
                 case "SUPER METROID":
                     gameTags["SM"] = true;
+                    if (memory.headerRAMSize >= 0x05) {
+                        gameTags["PRACTICE"] = true;
+                    }
                     break;
                 case "ZELDANODENSETSU":
                     gameTags["ALTTP"] = true;

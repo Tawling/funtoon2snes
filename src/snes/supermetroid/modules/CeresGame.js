@@ -29,7 +29,7 @@ export default class CeresGameModule extends MemoryModule {
     }
 
     shouldRunForGame(gameTags) {
-        return gameTags.SM;
+        return gameTags.SM && !gameTags.PRACTICE;
     }
 
     getMemoryReads() {
