@@ -175,7 +175,7 @@ function App() {
             THIS DOES NOT WORK PROPERLY WITH PRACTICE ROM due to hardware limitations.
             <p>
                 <a href="https://github.com/Tawling/qusb2funtoon" target="_blank" rel="noreferrer">
-                    (source)
+                    (GitHub source)
                 </a>
             </p>
             <ConnectionPanel

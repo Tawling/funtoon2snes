@@ -14,6 +14,8 @@ export default class Connection {
 
         this.apiToken = "";
         this.channel = "";
+
+        this.persistentGlobalState = {};
     }
 
     onExternal = ({ name, args }) => {
@@ -95,7 +97,10 @@ export default class Connection {
         if (this.enabled) {
             if (this.usb2snes.isAttached()) {
                 try {
-                    await this.moduleManager.loop({ readsPerSecond: this.readsPerSecond });
+                    await this.moduleManager.loop({
+                        persistent: this.persistentGlobalState,
+                        readsPerSecond: this.readsPerSecond,
+                    });
                     this.readCount++;
                 } catch (e) {
                     console.log(e);
