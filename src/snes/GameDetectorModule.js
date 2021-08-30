@@ -19,13 +19,25 @@ export default class GameDetectorModule extends MemoryModule {
 
             const game = [memory.headerGameTitle.value.strip()];
 
-            // TODO: check for game and game variants and push values into game string list
-            switch (memory.headerGameTitle.value) {
+            // Check for game and game variants and push values into game string list
+
+            switch (game[0]) {
+                case "Super Metroid":
+                case "SUPER METROID":
+                    game.push("SM");
+                    break;
+                case "ZELDANODENSETSU":
+                    game.push("ALTTP");
+                    break;
+                case "ALTTP+SM RANDOMIZER":
+                    game.push("SMZ3");
+                    break;
                 default:
             }
+
             // Put game state into persistent global state data
             globalState.persistent.currentGame = game;
-            sendEvent('gameROMChanged', game);
+            sendEvent("gameROMChanged", game);
         }
     }
 }
