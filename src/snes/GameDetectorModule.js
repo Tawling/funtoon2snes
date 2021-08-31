@@ -16,17 +16,17 @@ export default class GameDetectorModule extends MemoryModule {
         return [headerAddresses.headerGameTitle, headerAddresses.headerChecksum, headerAddresses.headerRAMSize];
     }
 
-    async memoryReadAvailable({ memory, sendEvent, globalState }) {
+    memoryReadAvailable({ memory, sendEvent, globalState }) {
         globalState.gameTagsChanged = false;
-        if (memory.headerChecksum.prevUnique() === undefined || this.checkChange(memory.headerChecksum)) {
+        if ((memory.headerChecksum.prevFrameValue === undefined && memory.headerChecksum.value !== undefined) || this.checkChange(memory.headerChecksum)) {
             // Flag game as changed if checksum changes
             globalState.gameTagsChanged = true;
 
-            const gameTags = { [memory.headerGameTitle.value.strip()]: true };
+            const gameTags = { [memory.headerGameTitle.value.trim()]: true };
 
             // Check for game and game variants and push values into game string list
 
-            switch (game[0]) {
+            switch (memory.headerGameTitle.value.trim()) {
                 case "Super Metroid":
                 case "SUPER METROID":
                     gameTags["SM"] = true;
@@ -47,6 +47,8 @@ export default class GameDetectorModule extends MemoryModule {
             // Put game state into persistent global state data
             globalState.persistent.gameTags = gameTags;
             sendEvent("gameROMChanged", Object.keys(gameTags));
+        } else if (!globalState.persistent.gameTags) {
+            globalState.persistent.gameTags = {};
         }
     }
 }

@@ -43,7 +43,7 @@ export default class PhantoonGameModule extends MemoryModule {
         ];
     }
 
-    async memoryReadAvailable({ memory, sendEvent }) {
+    memoryReadAvailable({ memory, sendEvent }) {
         // Handle a run being reset
         if (
             memory.roomID.prevFrameValue !== undefined &&

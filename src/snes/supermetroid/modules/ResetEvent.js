@@ -18,7 +18,7 @@ export default class ResetEventModule extends MemoryModule {
         return [Addresses.gameState, Addresses.roomID];
     }
 
-    async memoryReadAvailable({ memory, sendEvent, globalState }) {
+    memoryReadAvailable({ memory, sendEvent, globalState }) {
         if (
             this.checkTransition(memory.roomID, undefined, Rooms.EMPTY) &&
             !isDemo(memory.gameState.value) &&

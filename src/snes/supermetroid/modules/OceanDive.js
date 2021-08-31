@@ -34,7 +34,7 @@ export default class MoatDiveModule extends MemoryModule {
         return [Addresses.roomID, Addresses.samusWaterPhysics];
     }
 
-    async memoryReadAvailable({ memory, sendEvent }) {
+    memoryReadAvailable({ memory, sendEvent }) {
         let curTime = Date.now() / 1000;
 
         if (

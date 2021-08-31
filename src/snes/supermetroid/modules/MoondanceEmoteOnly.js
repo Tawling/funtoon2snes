@@ -27,7 +27,7 @@ export default class MoondanceEmoteOnlyModule extends MemoryModule {
         return [Addresses.roomID, Addresses.samusMaxPBs];
     }
 
-    async memoryReadAvailable({ memory, sendEvent }) {
+    memoryReadAvailable({ memory, sendEvent }) {
         if (
             this.emoteOnly == EmoteState.Off &&
             memory.samusMaxPBs.value == 0 &&

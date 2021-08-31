@@ -16,7 +16,7 @@ export default class DeathEventModule extends MemoryModule {
         return [Addresses.gameState];
     }
 
-    async memoryReadAvailable({ memory, sendEvent, globalState }) {
+    memoryReadAvailable({ memory, sendEvent, globalState }) {
         if (this.checkTransition(memory.gameState, undefined, GameStates.SAMUS_DEAD)) {
             sendEvent("samusDeath");
             globalState.isDeath = true;

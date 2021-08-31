@@ -11,6 +11,7 @@ export default class MemState {
     }
 
     update(value) {
+        this.prevFrameValue = this.values[0];
         if (this.values.length < this.depth) {
             this.values = new Array(this.depth);
             this.values.fill(value);
@@ -19,7 +20,6 @@ export default class MemState {
             this.uniqueValues = new Array(this.uniqueDepth);
             this.uniqueValues.fill(value);
         }
-        this.prevFrameValue = this.values[0];
         if (value !== this.uniqueValues[0]) {
             this.uniqueValues.pop();
             this.uniqueValues.unshift(value);

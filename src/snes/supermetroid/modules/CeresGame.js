@@ -36,7 +36,7 @@ export default class CeresGameModule extends MemoryModule {
         return [Addresses.roomID, Addresses.gameState, Addresses.ceresTimer, Addresses.ceresState];
     }
 
-    async memoryReadAvailable({ memory, sendEvent, globalState, setReloadUnsafe }) {
+    memoryReadAvailable({ memory, sendEvent, globalState, setReloadUnsafe }) {
         if (this.ceresState != CeresGameState.Closed && !this.settings.ignoreResets.value && globalState.isReset) {
             sendEvent("ceresReset");
             this.ceresState = CeresGameState.Closed;

@@ -15,6 +15,6 @@ export function isDemo(gameState) {
             GameStates.PLAYING_DEMO,
             GameStates.TRANSITION_TO_DEMO,
             GameStates.TRANSITION_TO_DEMO_2,
-        ].indexOf(gameState) < 0
+        ].indexOf(gameState) >= 0
     );
 }

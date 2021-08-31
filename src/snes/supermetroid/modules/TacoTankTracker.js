@@ -46,7 +46,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
         ];
     }
 
-    async memoryReadAvailable({ memory, sendEvent, globalState }) {
+    memoryReadAvailable({ memory, sendEvent, globalState }) {
         if (globalState.readsPerSecond < this.settings.rpsThreshold) {
             // Cancel if we drop below the rps threshold
             return;
