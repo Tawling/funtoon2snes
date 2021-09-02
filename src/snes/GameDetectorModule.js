@@ -39,17 +39,25 @@ export default class GameDetectorModule extends MemoryModule {
     memoryReadAvailable({ memory, sendEvent, globalState }) {
         globalState.gameTagsChanged = false;
 
-        console.log(
-            memory.loHeaderMapMode.value.toString(16),
-            memory.hiHeaderMapMode.value.toString(16),
-            '"' + memory.loHeaderGameTitle.value + '"',
-            '"' + memory.hiHeaderGameTitle.value + '"',
-        );
+        // console.log(
+        //     memory.loHeaderMapMode.value.toString(16),
+        //     memory.hiHeaderMapMode.value.toString(16),
+        //     '"' + memory.loHeaderGameTitle.value + '"',
+        //     '"' + memory.hiHeaderGameTitle.value + '"'
+        // );
 
         // Check for HiROM or LoROM bits
-        if ((memory.loHeaderMapMode.value & 1) === 0) {
+        const loROMValid = (memory.loHeaderMapMode.value & 0b11101000) === 0b00100000;
+        const hiROMValid = (memory.hiHeaderMapMode.value & 0b11101000) === 0b00100000;
+        if (
+            loROMValid &&
+            ((memory.loHeaderMapMode.value & 0b111) === 0b000 || (memory.loHeaderMapMode.value & 0b111) === 0b011)
+        ) {
             this.isLoRAM = true;
-        } else if ((memory.hiHeaderMapMode.value & 1) === 1) {
+        } else if (
+            hiROMValid &&
+            ((memory.hiHeaderMapMode.value & 0b111) === 0b001 || (memory.hiHeaderMapMode.value & 0b111) === 0b101)
+        ) {
             this.isLoRAM = false;
         } else {
             console.log("INVALID HEADER");
