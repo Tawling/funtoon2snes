@@ -173,7 +173,7 @@ export default class SocketStreamHandler {
 
             this.ws.send(msg);
 
-            console.log('sendBin:', msg);
+            // console.log('sendBin:', msg);
         });
     }
 
