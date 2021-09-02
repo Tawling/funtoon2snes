@@ -28,7 +28,7 @@ export default class PhantoonGameModule extends MemoryModule {
     }
 
     shouldRunForGame(gameTags) {
-        return gameTags.SM && !gameTags.PRACTICE;
+        return gameTags.SM && gameTags.VANILLA;
     }
 
     getMemoryReads() {

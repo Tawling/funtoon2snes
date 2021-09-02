@@ -1,5 +1,6 @@
 import MemoryModule from "../util/memory/MemoryModule";
 import headerAddresses from "./headerAddresses";
+import smz3Addresses from "./smz3/addresses";
 
 export default class GameDetectorModule extends MemoryModule {
     constructor() {
@@ -19,12 +20,7 @@ export default class GameDetectorModule extends MemoryModule {
             headerAddresses.hiHeaderMapMode,
             headerAddresses.loHeaderMapMode,
 
-            // headerAddresses.loHeaderGameTitle,
-            // headerAddresses.loHeaderChecksum,
-            // headerAddresses.loHeaderRAMSize,
-            // headerAddresses.hiHeaderGameTitle,
-            // headerAddresses.hiHeaderChecksum,
-            // headerAddresses.hiHeaderRAMSize,
+            smz3Addresses.smz3CurrentGame,
 
             ...(this.isLoRAM
                 ? [headerAddresses.loHeaderGameTitle, headerAddresses.loHeaderChecksum, headerAddresses.loHeaderRAMSize]
@@ -38,13 +34,6 @@ export default class GameDetectorModule extends MemoryModule {
 
     memoryReadAvailable({ memory, sendEvent, globalState }) {
         globalState.gameTagsChanged = false;
-
-        // console.log(
-        //     memory.loHeaderMapMode.value.toString(16),
-        //     memory.hiHeaderMapMode.value.toString(16),
-        //     '"' + memory.loHeaderGameTitle.value + '"',
-        //     '"' + memory.hiHeaderGameTitle.value + '"'
-        // );
 
         // Check for HiROM or LoROM bits
         const loROMValid = (memory.loHeaderMapMode.value & 0b11101000) === 0b00100000;
@@ -105,6 +94,8 @@ export default class GameDetectorModule extends MemoryModule {
                     gameTags["SM"] = true;
                     if (ramSize.value >= 0x05) {
                         gameTags["PRACTICE"] = true;
+                    } else {
+                        gameTags["VANILLA"] = true;
                     }
                     break;
                 case "ZELDANODENSETSU":
@@ -112,6 +103,13 @@ export default class GameDetectorModule extends MemoryModule {
                     break;
                 case "ALTTP+SM RANDOMIZER":
                     gameTags["SMZ3"] = true;
+                    if (smz3Addresses.smz3CurrentGame.value === 0x0000) {
+                        gameTags["ALTTP"] = true;
+                    } else if (smz3Addresses.smz3CurrentGame.value < 0x8000) {
+                        gameTags["SM"] = true;
+                    } else {
+                        gameTags["CREDITS"] = true;
+                    }
                     // TODO: check flag for current internal game and push corresponding tag
                     break;
                 default:
