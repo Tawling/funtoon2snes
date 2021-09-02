@@ -74,7 +74,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
             // This catches errors where the read occurred JUST before bitfield changed for collected items.
             this.prevReadTacoed = false;
             this.avoidDoubleTaco = true;
-            if (memory.collectedItems.prev(1)[3] !== memory.collectedItems.value[3]) {
+            if (memory.collectedItems.prev()[3] !== memory.collectedItems.value[3]) {
                 // GRAB
                 sendEvent("tacoTank", {
                     x: memory.samusX.prev(),

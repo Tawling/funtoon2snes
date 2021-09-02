@@ -88,12 +88,10 @@ export default class ModuleManager {
         const enabledModules = this.modules.filter(({ enabled }) => enabled);
 
         for (const module of enabledModules) {
-            if (module.enabled) {
-                const moduleReads = module.getMemoryReads();
-                for (const addr of moduleReads) {
-                    reads[addr.key] = addr.dataRead;
-                    mems[addr.key] = addr;
-                }
+            const moduleReads = module.getMemoryReads();
+            for (const addr of moduleReads) {
+                reads[addr.key] = addr.dataRead;
+                mems[addr.key] = addr;
             }
         }
 

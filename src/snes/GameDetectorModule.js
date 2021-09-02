@@ -6,6 +6,8 @@ export default class GameDetectorModule extends MemoryModule {
         super("globalGameDetector", "Game Detector", true, true);
         this.tooltip = "Detects the current game.";
         this.__shouldRunForGame = true;
+        this.isLoRAM = true;
+        this.headerRead = false;
     }
 
     shouldRunForGame() {
@@ -13,24 +15,69 @@ export default class GameDetectorModule extends MemoryModule {
     }
 
     getMemoryReads() {
-        return [headerAddresses.headerGameTitle, headerAddresses.headerChecksum, headerAddresses.headerRAMSize];
+        return [
+            headerAddresses.hiHeaderMapMode,
+            headerAddresses.loHeaderMapMode,
+            ...(this.isLoRAM
+                ? [headerAddresses.loHeaderGameTitle, headerAddresses.loHeaderChecksum, headerAddresses.loHeaderRAMSize]
+                : [
+                      headerAddresses.hiHeaderGameTitle,
+                      headerAddresses.hiHeaderChecksum,
+                      headerAddresses.hiHeaderRAMSize,
+                  ]),
+        ];
     }
 
     memoryReadAvailable({ memory, sendEvent, globalState }) {
         globalState.gameTagsChanged = false;
-        if ((memory.headerChecksum.prevFrameValue === undefined && memory.headerChecksum.value !== undefined) || this.checkChange(memory.headerChecksum)) {
-            // Flag game as changed if checksum changes
+
+        // Check for HiROM or LoROM bits
+        if (memory.hiHeaderMapMode.value & (1 === 1)) {
+            this.isLoRAM = false;
+        } else if (memory.loHeaderMapMode.value & (1 === 0)) {
+            this.isLoRAM = true;
+        } else {
+            console.log("INVALID HEADER");
+            return;
+        }
+
+        if ((this.isLoRAM && !memory.loHeaderChecksum) || (!this.isLoRAM && !memory.hiHeaderChecksum)) {
+            // header values read were for the wrong map mode
+            this.headerRead = false;
+            return;
+        }
+
+        let checksum, ramSize, gameTitle;
+
+        if (this.isLoRAM) {
+            checksum = memory.loHeaderChecksum;
+            ramSize = memory.loHeaderRAMSize;
+            gameTitle = memory.loHeaderGameTitle;
+        } else {
+            checksum = memory.hiHeaderChecksum;
+            ramSize = memory.hiHeaderRAMSize;
+            gameTitle = memory.hiHeaderGameTitle;
+        }
+
+        if (
+            !this.headerRead ||
+            (checksum.prevFrameValue === undefined && checksum.value !== undefined) ||
+            this.checkChange(checksum) ||
+            this.checkChange(ramSize)
+        ) {
+            this.headerRead = true;
+            // Flag game as changed if header changes
             globalState.gameTagsChanged = true;
 
-            const gameTags = { [memory.headerGameTitle.value.trim()]: true };
+            const gameTags = { [gameTitle.value.trim()]: true };
 
             // Check for game and game variants and push values into game string list
 
-            switch (memory.headerGameTitle.value.trim()) {
+            switch (gameTitle.value.trim()) {
                 case "Super Metroid":
                 case "SUPER METROID":
                     gameTags["SM"] = true;
-                    if (memory.headerRAMSize >= 0x05) {
+                    if (ramSize.value >= 0x05) {
                         gameTags["PRACTICE"] = true;
                     }
                     break;

@@ -40,9 +40,9 @@ export default class MoatDiveModule extends MemoryModule {
         if (
             curTime - this.lastTrigger > this.settings.cooldown.value &&
             Addresses.roomID.value === Rooms.Crateria.THE_MOAT &&
-            Addresses.roomID.prev(1) !== Rooms.Crateria.WEST_OCEAN &&
+            Addresses.roomID.prevUnique() !== Rooms.Crateria.WEST_OCEAN &&
             memory.samusWaterPhysics.value === LiquidPhysicsType.WATER &&
-            memory.samusWaterPhysics.prevFrameValue === LiquidPhysicsType.AIR
+            memory.samusWaterPhysics.prev() === LiquidPhysicsType.AIR
         ) {
             sendEvent("msg", this.settings.chatMessage.value, 4);
             this.lastTrigger = Date.now() / 1000;
