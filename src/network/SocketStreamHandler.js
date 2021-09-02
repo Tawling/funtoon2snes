@@ -1,5 +1,4 @@
 import { Mutex } from "async-mutex";
-import { readAsArrayBuffer } from "../util/utils";
 
 export default class SocketStreamHandler {
     constructor({ onConnect, onDisconnect } = {}) {
@@ -63,6 +62,7 @@ export default class SocketStreamHandler {
             }
 
             let socket = new WebSocket(url);
+            socket.binaryType = "arraybuffer";
             socket.onopen = () => {
                 this.ws = socket;
                 this.clearQueue();
@@ -101,8 +101,7 @@ export default class SocketStreamHandler {
                     }
                     // Read incoming data
                     try {
-                        //const buf = await event.data.arrayBuffer();
-                        const buf = await readAsArrayBuffer(event.data);
+                        const buf = event.data;
                         const arrayBuffer = new Uint8Array(buf);
                         // Append incoming data to outputBuffer
                         const tmpBuffer = new Uint8Array(context.buffer.byteLength + arrayBuffer.byteLength);
@@ -174,7 +173,7 @@ export default class SocketStreamHandler {
 
             this.ws.send(msg);
 
-            // console.log('sendBin:', msg);
+            console.log('sendBin:', msg);
         });
     }
 
