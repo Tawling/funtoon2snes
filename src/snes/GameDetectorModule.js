@@ -19,20 +19,20 @@ export default class GameDetectorModule extends MemoryModule {
             headerAddresses.hiHeaderMapMode,
             headerAddresses.loHeaderMapMode,
 
-            headerAddresses.loHeaderGameTitle,
-            headerAddresses.loHeaderChecksum,
-            headerAddresses.loHeaderRAMSize,
-            headerAddresses.hiHeaderGameTitle,
-            headerAddresses.hiHeaderChecksum,
-            headerAddresses.hiHeaderRAMSize,
+            // headerAddresses.loHeaderGameTitle,
+            // headerAddresses.loHeaderChecksum,
+            // headerAddresses.loHeaderRAMSize,
+            // headerAddresses.hiHeaderGameTitle,
+            // headerAddresses.hiHeaderChecksum,
+            // headerAddresses.hiHeaderRAMSize,
 
-            // ...(this.isLoRAM
-            //     ? [headerAddresses.loHeaderGameTitle, headerAddresses.loHeaderChecksum, headerAddresses.loHeaderRAMSize]
-            //     : [
-            //           headerAddresses.hiHeaderGameTitle,
-            //           headerAddresses.hiHeaderChecksum,
-            //           headerAddresses.hiHeaderRAMSize,
-            //       ]),
+            ...(this.isLoRAM
+                ? [headerAddresses.loHeaderGameTitle, headerAddresses.loHeaderChecksum, headerAddresses.loHeaderRAMSize]
+                : [
+                      headerAddresses.hiHeaderGameTitle,
+                      headerAddresses.hiHeaderChecksum,
+                      headerAddresses.hiHeaderRAMSize,
+                  ]),
         ];
     }
 
