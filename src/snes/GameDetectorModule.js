@@ -18,32 +18,50 @@ export default class GameDetectorModule extends MemoryModule {
         return [
             headerAddresses.hiHeaderMapMode,
             headerAddresses.loHeaderMapMode,
-            ...(this.isLoRAM
-                ? [headerAddresses.loHeaderGameTitle, headerAddresses.loHeaderChecksum, headerAddresses.loHeaderRAMSize]
-                : [
-                      headerAddresses.hiHeaderGameTitle,
-                      headerAddresses.hiHeaderChecksum,
-                      headerAddresses.hiHeaderRAMSize,
-                  ]),
+
+            headerAddresses.loHeaderGameTitle,
+            headerAddresses.loHeaderChecksum,
+            headerAddresses.loHeaderRAMSize,
+            headerAddresses.hiHeaderGameTitle,
+            headerAddresses.hiHeaderChecksum,
+            headerAddresses.hiHeaderRAMSize,
+
+            // ...(this.isLoRAM
+            //     ? [headerAddresses.loHeaderGameTitle, headerAddresses.loHeaderChecksum, headerAddresses.loHeaderRAMSize]
+            //     : [
+            //           headerAddresses.hiHeaderGameTitle,
+            //           headerAddresses.hiHeaderChecksum,
+            //           headerAddresses.hiHeaderRAMSize,
+            //       ]),
         ];
     }
 
     memoryReadAvailable({ memory, sendEvent, globalState }) {
         globalState.gameTagsChanged = false;
 
+        console.log(
+            memory.loHeaderMapMode.value.toString(16),
+            memory.hiHeaderMapMode.value.toString(16),
+            '"' + memory.loHeaderGameTitle.value + '"',
+            '"' + memory.hiHeaderGameTitle.value + '"',
+        );
+
         // Check for HiROM or LoROM bits
-        if (memory.hiHeaderMapMode.value & (1 === 1)) {
-            this.isLoRAM = false;
-        } else if (memory.loHeaderMapMode.value & (1 === 0)) {
+        if ((memory.loHeaderMapMode.value & 1) === 0) {
             this.isLoRAM = true;
+        } else if ((memory.hiHeaderMapMode.value & 1) === 1) {
+            this.isLoRAM = false;
         } else {
             console.log("INVALID HEADER");
             return;
         }
 
+        // console.log(this.isLoRAM);
+
         if ((this.isLoRAM && !memory.loHeaderChecksum) || (!this.isLoRAM && !memory.hiHeaderChecksum)) {
             // header values read were for the wrong map mode
             this.headerRead = false;
+            console.log("Header not read...postponing until next read.");
             return;
         }
 
@@ -93,7 +111,7 @@ export default class GameDetectorModule extends MemoryModule {
 
             // Put game state into persistent global state data
             globalState.persistent.gameTags = gameTags;
-            sendEvent("gameROMChanged", Object.keys(gameTags));
+            sendEvent("gameROMDetected", Object.keys(gameTags));
         } else if (!globalState.persistent.gameTags) {
             globalState.persistent.gameTags = {};
         }
