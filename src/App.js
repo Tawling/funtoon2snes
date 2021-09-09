@@ -102,6 +102,7 @@ function App() {
                     if (!reloadUnsafe && needsReload) {
                         window.location.reload();
                     }
+                    break;
                 default:
             }
         });
