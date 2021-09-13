@@ -27,7 +27,7 @@ export default class DLCSpoSpo extends MemoryModule {
     }
 
     memoryReadAvailable({ memory, sendEvent }) {
-        const spospoDead = readBigIntFlag(memory.bossStates.value, BossStates.SPORESPAWN);
+        const spospoDead = readBigIntFlag(memory.bossStates.value, BossStates.SPORE_SPAWN);
         if (!spospoDead && this.checkTransition(memory.roomID, undefined, Rooms.GreenBrinstar.SPORE_SPAWN_ROOM)) {
             sendEvent("msg", this.settings.chatMessage.value, 4);
         }
