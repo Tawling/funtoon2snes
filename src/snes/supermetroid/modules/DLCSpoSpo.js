@@ -2,6 +2,7 @@ import MemoryModule from "../../../util/memory/MemoryModule";
 import { Rooms } from "../enums";
 import Addresses from "../addresses";
 import { BossStates } from "../enums";
+import { readBigIntFlag } from "../smutils";
 
 export default class DLCSpoSpo extends MemoryModule {
     constructor() {
