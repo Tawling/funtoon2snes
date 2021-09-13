@@ -2,6 +2,7 @@ import MemoryModule from "../../../util/memory/MemoryModule";
 import { Rooms } from "../enums";
 import Addresses from "../addresses";
 import { BossStates } from "../enums";
+import { readBigIntFlag } from "../smutils";
 
 export default class KQKMiss extends MemoryModule {
     constructor() {
@@ -18,7 +19,7 @@ export default class KQKMiss extends MemoryModule {
     };
 
     shouldRunForGame(gameTags) {
-        return gameTags.SM && gameTags.VANILLA;
+        return gameTags.SM;
     }
 
     getMemoryReads() {
@@ -26,14 +27,15 @@ export default class KQKMiss extends MemoryModule {
     }
 
     memoryReadAvailable({ memory, sendEvent }) {
-        const kraidDead = readBigIntFlag(memory.bossStates.value, BossStates.KRAID);
-        if (
-            !kraidDead &&
-            memory.roomID.value === Rooms.Warehouse.KRAID_ROOM &&
-            this.checkTransition(memory.scroll1, undefined, 0x0202) &&
-            this.checkTransition(memory.scroll2, undefined, 0x0101)
-        ) {
-            sendEvent("msg", this.settings.chatMessage.value, 4);
+        if (memory.roomID.value === Rooms.Warehouse.KRAID_ROOM) {
+            const kraidDead = readBigIntFlag(memory.bossStates.value, BossStates.KRAID);
+            if (
+                !kraidDead &&
+                this.checkTransition(memory.scroll1, 0x0000, 0x0202) &&
+                this.checkTransition(memory.scroll2, 0x0001, 0x0101)
+            ) {
+                sendEvent("msg", this.settings.chatMessage.value, 4);
+            }
         }
     }
 }
