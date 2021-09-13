@@ -110,9 +110,9 @@ export default class PhantoonGameModule extends MemoryModule {
             this.reloadUnsafe = false;
         }
 
-        const phantoonState = readBigIntFlag(memory.bossStates.value, BossStates.PHANTOON);
+        const phantoonDead = readBigIntFlag(memory.bossStates.value, BossStates.PHANTOON);
         if (
-            PhantoonGameState.Ended === phantoonState &&
+            PhantoonGameState.Ended === phantoonDead &&
             (this.checkTransition(memory.roomID, Rooms.Crateria.THE_MOAT, Rooms.Crateria.WEST_OCEAN) ||
                 this.checkTransition(
                     memory.roomID,

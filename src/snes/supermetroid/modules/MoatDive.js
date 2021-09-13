@@ -22,10 +22,6 @@ export default class MoatDiveModule extends MemoryModule {
         },
     };
 
-    setEnabled(enabled) {
-        super.setEnabled(enabled);
-    }
-
     shouldRunForGame(gameTags) {
         return gameTags.SM && gameTags.VANILLA;
     }
@@ -39,8 +35,8 @@ export default class MoatDiveModule extends MemoryModule {
 
         if (
             curTime - this.lastTrigger > this.settings.cooldown.value &&
-            Addresses.roomID.value === Rooms.Crateria.THE_MOAT &&
-            Addresses.roomID.prevUnique() !== Rooms.Crateria.WEST_OCEAN &&
+            memory.roomID.value === Rooms.Crateria.THE_MOAT &&
+            memory.roomID.prevUnique() !== Rooms.Crateria.WEST_OCEAN &&
             memory.samusWaterPhysics.value === LiquidPhysicsType.WATER &&
             memory.samusWaterPhysics.prev() === LiquidPhysicsType.AIR
         ) {
