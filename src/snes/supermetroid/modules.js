@@ -8,6 +8,7 @@ import ResetEventModule from "./modules/ResetEvent";
 import DeathEventModule from "./modules/DeathEvent";
 import NiceModule from "./modules/Nice";
 import KQKMiss from "./modules/KQKMiss";
+import DLCSpoSpo from "./modules/DLCSpoSpo";
 
 export const SuperMetroid = [
     ResetEventModule,
@@ -18,6 +19,7 @@ export const SuperMetroid = [
     MoatDiveModule,
     OceanDiveModule,
     KQKMiss,
+    DLCSpoSpo,
     TacoTankTracker,
     NiceModule,
 ];
