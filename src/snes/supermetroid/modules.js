@@ -7,6 +7,7 @@ import TacoTankTracker from "./modules/TacoTankTracker";
 import ResetEventModule from "./modules/ResetEvent";
 import DeathEventModule from "./modules/DeathEvent";
 import NiceModule from "./modules/Nice";
+import KQKMiss from "./modules/KQKMiss";
 
 export const SuperMetroid = [
     ResetEventModule,
@@ -16,6 +17,7 @@ export const SuperMetroid = [
     MoondanceEmoteOnlyModule,
     MoatDiveModule,
     OceanDiveModule,
+    KQKMiss,
     TacoTankTracker,
     NiceModule,
 ];

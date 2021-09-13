@@ -35,4 +35,6 @@ export default {
     samusYDirection: new MemState(wram.uint16Read(0x0b36), "samusYDirection", "Samus Y Direction"),
     samusPose: new MemState(wram.uint16Read(0x0a1c), "samusPose", "Samus Pose"),
     collectedItems: new MemState(wram.dataRead(0xd870, 19), "collectedItems", '"Collected Items" Bit Array'),
+    scroll1: new MemState(wram.uint16Read(0xcd20), "scroll1", "Scroll read #1"),
+    scroll2: new MemState(wram.uint16Read(0xcd22), "scroll2", "Scroll read #2"),
 };
