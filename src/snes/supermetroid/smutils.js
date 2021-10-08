@@ -1,12 +1,5 @@
 import { GameStates } from "./enums";
 
-export function readIntFlag(eventStateValue, eventStateID) {
-    return (eventStateValue >> eventStateID) & 1;
-}
-export function readBigIntFlag(bossStateValue, bossStateID) {
-    return parseInt((bossStateValue >> BigInt(bossStateID)) & BigInt(1));
-}
-
 export function isDemo(gameState) {
     return (
         [

@@ -19,6 +19,7 @@ export default class SocketStreamHandler {
     clearQueue() {
         this.mutex.cancel();
         console.log("clearing", this.queue.length, "queued items");
+        console.log('Queue item:', this.queue[0]);
         this.queue.map((i) => i.reject("connection killed"));
         this.queue = [];
     }

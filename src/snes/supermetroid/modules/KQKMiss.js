@@ -2,7 +2,7 @@ import MemoryModule from "../../../util/memory/MemoryModule";
 import { Rooms } from "../enums";
 import Addresses from "../addresses";
 import { BossStates } from "../enums";
-import { readBigIntFlag } from "../smutils";
+import { readBigIntFlag } from "../../../util/utils";
 
 export default class KQKMiss extends MemoryModule {
     constructor() {

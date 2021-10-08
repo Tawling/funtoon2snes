@@ -75,7 +75,7 @@ export default class CeresGameModule extends MemoryModule {
             ) {
                 this.ceresState = CeresGameState.Closed;
                 sendEvent("ceresEnd", memory.ceresTimer.value, 3);
-                this.reloadUnsafe = false;
+                setTimeout(() => this.reloadUnsafe = false, 3200);
             }
         }
     }

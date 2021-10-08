@@ -1,6 +1,6 @@
 import MemoryModule from "../../../util/memory/MemoryModule";
 import { Rooms, PhantoonPatterns, BossStates } from "../enums";
-import { readBigIntFlag } from "../smutils";
+import { readBigIntFlag } from "../../../util/utils";
 import Addresses from "../addresses";
 
 const PhantoonGameState = {
@@ -112,7 +112,7 @@ export default class PhantoonGameModule extends MemoryModule {
 
         const phantoonDead = readBigIntFlag(memory.bossStates.value, BossStates.PHANTOON);
         if (
-            PhantoonGameState.Ended === phantoonDead &&
+            !phantoonDead &&
             (this.checkTransition(memory.roomID, Rooms.Crateria.THE_MOAT, Rooms.Crateria.WEST_OCEAN) ||
                 this.checkTransition(
                     memory.roomID,

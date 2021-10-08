@@ -7,6 +7,7 @@ export default class NiceModule extends MemoryModule {
         this.tooltip = "Says 'Nice' when health is nice.";
         this.reported = false;
         this.lastNon69Time = Date.now();
+        this.lastReport = 0;
     }
 
     settingDefs = {
@@ -14,6 +15,11 @@ export default class NiceModule extends MemoryModule {
             display: "Say 'Nice' if health is 69 for at least this many seconds",
             type: "number",
             default: 2,
+        },
+        cooldown: {
+            display: "Cooldown",
+            type: "number",
+            default: 30,
         },
     };
 
@@ -27,10 +33,16 @@ export default class NiceModule extends MemoryModule {
 
     memoryReadAvailable({ memory, sendEvent }) {
         const time = Date.now();
-        if (!this.reported && memory.samusHP.value % 100 === 69 && time - this.lastNon69Time > this.settings.threshold) {
+        if (
+            !this.reported &&
+            memory.samusHP.value % 100 === 69 &&
+            time - this.lastNon69Time > this.settings.threshold.value * 1000 &&
+            time - this.lastReport > this.settings.cooldown.value * 1000
+        ) {
             this.reported = true;
-            sendEvent('msg', 'Nice.');
-        } else {
+            this.lastReport = Date.now();
+            sendEvent("msg", "Nice HP", 3);
+        } else if (memory.samusHP.value % 100 !== 69) {
             this.reported = false;
             this.lastNon69Time = time;
         }

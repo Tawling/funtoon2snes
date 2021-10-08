@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Card, CardBody } from "reactstrap";
 import "./App.css";
 import ConnectionPanel from "./components/ConnectionPanel";
 import ModulesPanel from "./components/ModulesPanel";
@@ -173,12 +174,6 @@ function App() {
     return (
         <div className="App">
             <h1>USB2SNES Memory Tracking for FUNtoon Integration</h1>
-            THIS DOES NOT WORK PROPERLY WITH PRACTICE ROM due to hardware limitations.
-            <p>
-                <a href="https://github.com/Tawling/qusb2funtoon" target="_blank" rel="noreferrer">
-                    (GitHub source)
-                </a>
-            </p>
             <ConnectionPanel
                 deviceInfo={deviceInfo}
                 deviceList={deviceList}
@@ -194,6 +189,29 @@ function App() {
                 token={token}
                 readsPerSecond={rps}
             />
+            <Card>
+                <CardBody>
+                    <p>
+                        Due to issues with the SD2SNES/FXPak Pro firmware, some SNES ROMs may result in lower
+                        Reads-Per-Second values, particularly practice ROMs.
+                        <br />
+                        Check out the <a href="https://sd2snes.de/blog/archives/1157">beta firmware</a> for a potential
+                        fix.
+                    </p>
+                    <p>
+                        Come join the{" "}
+                        <a href="https://discord.gg/HdnJBhp" target="_blank" rel="noreferrer">
+                            Official FUNtoon Discord Server
+                        </a>{" "}
+                        for help, information, updates, and suggestions.
+                    </p>
+                    <p>
+                        <a href="https://github.com/Tawling/funtoon2snes" target="_blank" rel="noreferrer">
+                            (GitHub source)
+                        </a>
+                    </p>
+                </CardBody>
+            </Card>
             <ModulesPanel
                 moduleStates={moduleStates}
                 onModuleSettingChange={onModuleSettingChange}

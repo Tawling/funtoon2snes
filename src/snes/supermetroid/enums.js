@@ -416,7 +416,7 @@ export const SamusPose = {
     FACING_LEFT_TURNING_STANDING:           0x26,
     // TODO
     //...
-    FACING_LEFT_NORMAL_JUMP_AIMING_UP_LEFT: 0x6A,
+    FACING_LEFT_NORMAL_JUMP_AIMING_UP_LEFT:     0x6A,
     //...
     FACING_LEFT_NORMAL_JUMP_AIMING_DOWN_LEFT:   0x6C,
 }
@@ -468,12 +468,11 @@ export const EventStates = {
     ZEBETITE_1_BROKEN:         0x03,
     ZEBETITE_2_BROKEN:         0x04,
     ZEBETITE_3_BROKEN:         0x05,
-
     PHANTOON_STATUE_GREY:      0x06,
     RIDLEY_STATUE_GREY:        0x07,
+
     DRAYGON_STATUE_GREY:       0x08,
     KRAID_STATUE_GREY:         0x09,
-
     TOURIAN_ENTRANCE_UNLOCKED: 0x0A,
     MARIDIA_TUBE_BROKEN:       0x0B,
     LN_CHOZO_LOWERED_ACID:     0x0C,
@@ -489,15 +488,15 @@ export const EventStates = {
 }
 
 export const BossStates = {
-    BOMB_TORIZO:   0x02,
-    SPORE_SPAWN:   0x09,
-    KRAID:        0x08,
-    PHANTOON:     0x18,
-    BOTWOON:      0x21,
-    DRAYGON:      0x20,
-    CROCOMIRE:    0x11,
-    GOLDEN_TORIZO: 0x12,
-    RIDLEY:       0x10,
+    BOMB_TORIZO:    0x02,
+    SPORE_SPAWN:    0x09,
+    KRAID:          0x08,
+    PHANTOON:       0x18,
+    BOTWOON:        0x21,
+    DRAYGON:        0x20,
+    CROCOMIRE:      0x11,
+    GOLDEN_TORIZO:  0x12,
+    RIDLEY:         0x10,
 }
 
 export const ItemFlags = {
