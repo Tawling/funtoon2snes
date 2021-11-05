@@ -1,7 +1,7 @@
 export default class Device {
-    constructor (deviceName, deviceInfo) {
+    constructor(deviceName, deviceInfo) {
         // deviceInfo example ["1.1.0", "Snes9x", "Super Metroid        ", "NO_CONTROL_CMD", "NO_FILE_CMD"]
-        const [ version, deviceType, romName, ...flags ] = deviceInfo;
+        const [version, deviceType, romName, ...flags] = deviceInfo;
         this.name = deviceName;
         this.version = version;
         this.deviceType = deviceType;
@@ -16,6 +16,6 @@ export default class Device {
             type: this.deviceType,
             romName: this.romName,
             flags: this.flags,
-        }
+        };
     }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "qusb2funtoon",
+  "name": "funtoon2snes",
   "version": "0.1.0",
   "private": true,
   "homepage": "./",
@@ -20,6 +20,13 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "build:inc": "react-app-rewired build && node update-version.js",
+    "bi": "react-app-rewired build && node update-version.js",
+    "deploy": "Xcopy /E/I/Y .\\build .\\live",
+    "build:deploy": "react-app-rewired build && Xcopy /E/I/Y .\\build .\\live",
+    "bd": "react-app-rewired build && Xcopy /E/I/Y .\\build .\\live",
+    "build:inc:deploy": "react-app-rewired build && node update-version.js && Xcopy /E/I/Y .\\build .\\live",
+    "bid": "react-app-rewired build && node update-version.js && Xcopy /E/I/Y .\\build .\\live",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
   },

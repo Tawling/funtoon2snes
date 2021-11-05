@@ -1,13 +1,25 @@
-import CeresGameModule from './modules/CeresGameModule'
-import PhantoonGameModule from './modules/PhantoonGameModule'
-import MoondanceEmoteOnlyModule from './modules/MoondanceEmoteOnlyModule'
-import MoatDiveModule from './modules/MoatDiveModule'
-import OceanDiveModule from './modules/OceanDiveModule'
+import CeresGameModule from "./modules/CeresGame";
+import PhantoonGameModule from "./modules/PhantoonGame";
+import MoondanceEmoteOnlyModule from "./modules/MoondanceEmoteOnly";
+import MoatDiveModule from "./modules/MoatDive";
+import OceanDiveModule from "./modules/OceanDive";
+import TacoTankTracker from "./modules/TacoTankTracker";
+import ResetEventModule from "./modules/ResetEvent";
+import DeathEventModule from "./modules/DeathEvent";
+import NiceModule from "./modules/Nice";
+import KQKMiss from "./modules/KQKMiss";
+import DLCSpoSpo from "./modules/DLCSpoSpo";
 
 export const SuperMetroid = [
-    new PhantoonGameModule(),
-    new CeresGameModule(),
-    new MoondanceEmoteOnlyModule(),
-    new MoatDiveModule(),
-    new OceanDiveModule(),
+    ResetEventModule,
+    DeathEventModule,
+    PhantoonGameModule,
+    CeresGameModule,
+    MoondanceEmoteOnlyModule,
+    MoatDiveModule,
+    OceanDiveModule,
+    KQKMiss,
+    DLCSpoSpo,
+    TacoTankTracker,
+    NiceModule,
 ];

@@ -1,15 +1,11 @@
-export async function readAsArrayBuffer(blob) {
-    const fileReader = new FileReader();
-    return new Promise((resolve, reject) => {
-        fileReader.onerror = () => {
-            fileReader.abort();
-            reject(new DOMException('Error parsing data'));
-        };
+export function readIntFlag(intValue, flagIndex) {
+    return !!((intValue >>> flagIndex) & 1);
+}
 
-        fileReader.onload = (e) => {
-            resolve(e.target.result);
-        };
+export function readBigIntFlag(bigIntValue, flagIndex) {
+    return !!parseInt((bigIntValue >> BigInt(flagIndex)) & BigInt(1));
+}
 
-        fileReader.readAsArrayBuffer(blob);
-    });
+export function readByteArrayFlag(byteArray, flagIndex) {
+    return !!(byteArray[(flagIndex >>> 3)] & (0b10000000 >>> (flagIndex & 0x111)));
 }

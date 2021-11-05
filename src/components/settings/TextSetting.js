@@ -1,5 +1,5 @@
-import React from 'react';
-import { Input } from 'reactstrap';
+import React from "react";
+import { Input } from "reactstrap";
 
 export default function TextSetting({ def, settingName, moduleName, onModuleSettingChange }) {
     return (
@@ -8,9 +8,7 @@ export default function TextSetting({ def, settingName, moduleName, onModuleSett
             <Input
                 type="text"
                 {...(def.attributes || {})}
-                onInput={(e) =>
-                    onModuleSettingChange(moduleName, settingName, e.target.value)
-                }
+                onInput={(e) => onModuleSettingChange(moduleName, settingName, e.target.value)}
                 value={def.value}
             />
         </li>
