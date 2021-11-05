@@ -101,19 +101,19 @@ export default class CeresGameModule extends MemoryModule {
                 this.ceresState = CeresGameState.Closed;
                 sendEvent("ceresEnd", memory.ceresTimer.value, 3);
 
-				if (this.settings.displayDoorTimes.value) {
-					sendEvent('msg', "Door transition times: " + this.ceresDoorTimes.join(', '), 3);
-				}
+                if (this.settings.displayDoorTimes.value) {
+                    sendEvent('msg', "Door transition times: " + this.ceresDoorTimes.join(', '), 3);
+                }
                 
                 setTimeout(() => this.reloadUnsafe = false, 3200);
             }
         }
-		else if (this.ceresState == CeresGameState.PendingResult) {
-			let transitionIndex = this.getTransitionIndex(memory);
-			
-			if (transitionIndex >= 0) {
-				this.ceresDoorTimes[transitionIndex] = memory.ceresTimer.value.toString(16);
-			}
-		}
+        else if (this.ceresState == CeresGameState.PendingResult) {
+            let transitionIndex = this.getTransitionIndex(memory);
+            
+            if (transitionIndex >= 0) {
+                this.ceresDoorTimes[transitionIndex] = memory.ceresTimer.value.toString(16);
+            }
+        }
     }
 }
