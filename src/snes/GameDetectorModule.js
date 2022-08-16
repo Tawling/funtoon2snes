@@ -20,7 +20,7 @@ export default class GameDetectorModule extends MemoryModule {
             headerAddresses.hiHeaderMapMode,
             headerAddresses.loHeaderMapMode,
 
-            smz3Addresses.smz3CurrentGame,
+            // smz3Addresses.smz3CurrentGame,
 
             ...(this.isLoRAM
                 ? [headerAddresses.loHeaderGameTitle, headerAddresses.loHeaderChecksum, headerAddresses.loHeaderRAMSize]
@@ -103,13 +103,13 @@ export default class GameDetectorModule extends MemoryModule {
                     break;
                 case "ALTTP+SM RANDOMIZER":
                     gameTags["SMZ3"] = true;
-                    if (smz3Addresses.smz3CurrentGame.value === 0x0000) {
-                        gameTags["ALTTP"] = true;
-                    } else if (smz3Addresses.smz3CurrentGame.value < 0x8000) {
-                        gameTags["SM"] = true;
-                    } else {
-                        gameTags["CREDITS"] = true;
-                    }
+                    // if (smz3Addresses.smz3CurrentGame.value === 0x0000) {
+                    //     gameTags["ALTTP"] = true;
+                    // } else if (smz3Addresses.smz3CurrentGame.value < 0x8000) {
+                    //     gameTags["SM"] = true;
+                    // } else {
+                    //     gameTags["CREDITS"] = true;
+                    // }
                     // TODO: check flag for current internal game and push corresponding tag
                     break;
                 default:
