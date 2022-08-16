@@ -51,7 +51,7 @@ export default class PhantoonGameModule extends MemoryModule {
             memory.roomID.value === Rooms.EMPTY
         ) {
             if (this.inPhantoonFight && this.phantoonPatterns.length > 0) {
-                sendEvent("phanEnd", this.phantoonPatterns.join(" "), 2000);
+                sendEvent("phanEnd", this.phantoonPatterns.join(" "), 3);
                 this.reloadUnsafe = false;
             } else if (this.phantoonGameState == PhantoonGameState.Opened) {
                 sendEvent("phanClose");
@@ -106,7 +106,7 @@ export default class PhantoonGameModule extends MemoryModule {
         ) {
             this.inPhantoonFight = false;
             this.phantoonPatterns = [];
-            sendEvent("phanEnd", "death", 2000);
+            sendEvent("phanEnd", "death", 3);
             this.reloadUnsafe = false;
         }
 
@@ -120,7 +120,7 @@ export default class PhantoonGameModule extends MemoryModule {
                     Rooms.Crateria.FORGOTTEN_HIGHWAY_ELBOW
                 ))
         ) {
-            sendEvent("phanOpen");
+            sendEvent("phanOpen", 5);
             this.reloadUnsafe = true;
             this.phantoonGameState = PhantoonGameState.Opened;
         }

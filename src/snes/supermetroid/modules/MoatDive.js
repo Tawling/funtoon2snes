@@ -40,7 +40,7 @@ export default class MoatDiveModule extends MemoryModule {
             memory.samusWaterPhysics.value === LiquidPhysicsType.WATER &&
             memory.samusWaterPhysics.prev() === LiquidPhysicsType.AIR
         ) {
-            sendEvent("msg", this.settings.chatMessage.value, 4);
+            sendEvent("msg", this.settings.chatMessage.value, 5);
             this.lastTrigger = Date.now() / 1000;
         }
     }
