@@ -11,3 +11,17 @@ export function isDemo(gameState) {
         ].indexOf(gameState) >= 0
     );
 }
+
+export function isDeath(gameState) {
+    return (
+        [
+            GameStates.SAMUS_DEAD,
+            GameStates.SAMUS_DEAD_BLACK_OUT,
+            GameStates.SAMUS_DEAD_BLACK_OUT_2,
+            GameStates.SAMUS_DEAD_BEGIN_DEATH_ANIMATION,
+            GameStates.SAMUS_DEAD_FLASHING,
+            GameStates.SAMUS_DEAD_EXPLOSION,
+            GameStates.SAMUS_DEAD_FADE_TO_BLACK,
+        ].indexOf(gameState) >= 0
+    );
+}

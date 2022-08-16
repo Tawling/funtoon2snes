@@ -1,6 +1,9 @@
 import MemoryModule from "../../../util/memory/MemoryModule";
 import { GameStates } from "../enums";
 import Addresses from "../addresses";
+import { isDeath } from "../smutils";
+
+const deathStates = [GameStates.SAMUS_DEAD, GameStates.SAMUS_DEAD_BLACK_OUT, GameStates.SAMUS_DEAD_BLACK_OUT_2, GameStates.SAMUS_DEAD_BEGIN_DEATH_ANIMATION, GameStates.SAMUS_DEAD_FLASHING, GameStates.SAMUS_DEAD_EXPLOSION, GameStates.SAMUS_DEAD_FADE_TO_BLACK]
 
 export default class DeathEventModule extends MemoryModule {
     constructor() {
@@ -17,7 +20,7 @@ export default class DeathEventModule extends MemoryModule {
     }
 
     memoryReadAvailable({ memory, sendEvent, globalState }) {
-        if (this.checkTransition(memory.gameState, undefined, GameStates.SAMUS_DEAD)) {
+        if (!isDeath(memory.gameState.prevFrameValue) && isDeath(memory.gameState.value)) {
             sendEvent("samusDeath");
             globalState.isDeath = true;
         } else {
