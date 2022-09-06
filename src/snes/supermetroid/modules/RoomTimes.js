@@ -29,7 +29,7 @@ export default class DLCSpoSpo extends MemoryModule {
     memoryReadAvailable({ memory, sendEvent }) {
         if (this.state.exit && this.checkChange(memory.roomID)) {
             // We got next room ID, time to send event
-            sendEvent('smRoomTime', {
+            sendEvent("smRoomTime", {
                 frameCount: this.state.totalFrames,
                 totalSeconds: this.state.roomTime,
                 roomID: this.state.roomID,
@@ -46,13 +46,15 @@ export default class DLCSpoSpo extends MemoryModule {
                     sporeSpawn: readBigIntFlag(memory.bossStates.value, BossStates.SPORE_SPAWN),
                     crocomire: readBigIntFlag(memory.bossStates.value, BossStates.CROCOMIRE),
                 },
-            })
-            this.state = {}
+                exitFrameDelta: this.state.exitFrameDelta,
+                entryFrameDelta: this.state.entryFrameDelta,
+            });
+            this.state = {};
         } else if (
             this.checkTransition(
                 memory.gameState,
                 noneOf(GameStates.HIT_DOOR_BLOCK, GameStates.LOAD_NEXT_ROOM, GameStates.LOAD_NEXT_ROOM_2),
-                [GameStates.HIT_DOOR_BLOCK, GameStates.LOAD_NEXT_ROOM, GameStates.LOAD_NEXT_ROOM_2],
+                [GameStates.HIT_DOOR_BLOCK, GameStates.LOAD_NEXT_ROOM, GameStates.LOAD_NEXT_ROOM_2]
             )
         ) {
             // Exiting room
@@ -65,22 +67,23 @@ export default class DLCSpoSpo extends MemoryModule {
             const exitTime = Date.now() - timeDelta * 1000;
             if (this.state.entry) {
                 // full room was tracked, log the prev room and time
-                const roomTime = exitTime - this.state.entry
-                const totalFrames = Math.round(roomTime*60/1000); // Should this round in only one direction?
-                this.state.totalFrames = totalFrames
-                this.state.exit = exitTime
-                this.state.prevRoomID = memory.roomID.prevUnique()
-                this.state.roomID = memory.roomID.value
-                this.state.roomTime = roomTime / 1000
+                const roomTime = exitTime - this.state.entry;
+                const totalFrames = Math.round((roomTime * 60) / 1000); // Should this round in only one direction?
+                this.state.totalFrames = totalFrames;
+                this.state.exit = exitTime;
+                this.state.prevRoomID = memory.roomID.prevUnique();
+                this.state.roomID = memory.roomID.value;
+                this.state.roomTime = roomTime / 1000;
+                this.state.exitFrameDelta = exitFrameDelta;
             } else {
                 // room wasn't tracked fully. We only have an exit time.
-                console.log('No room entrance time...skipping room time event')
+                console.log("No room entrance time...skipping room time event");
             }
         } else if (this.checkTransition(memory.gameState, GameStates.LOAD_NEXT_ROOM_2, undefined)) {
             // Entering room
-            const entryFrameDelta = memory.gameTimeFrames.value - memory.gameTimeFrames.prev();
-            const timeDelta = (entryFrameDelta / 60 - 1) / 60;
-            this.state = { entry: Date.now() - timeDelta * 1000 };
+            const entryFrameDelta = (memory.gameTimeFrames.value - memory.gameTimeFrames.prev() + 60) % 60;
+            const timeDelta = (entryFrameDelta - 1) / 60;
+            this.state = { entry: Date.now() - timeDelta * 1000, entryFrameDelta };
         }
     }
 
