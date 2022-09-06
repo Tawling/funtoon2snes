@@ -1,3 +1,5 @@
+import { Blacklist } from "../utils";
+
 const getDefaultSettingsObject = (def) => {
     if (!def) return {};
     return Object.keys(def).reduce((acc, val) => ({ ...acc, [val]: { ...def[val], value: def[val].default } }), {});
@@ -75,25 +77,35 @@ export default class MemoryModule {
     /**
      * A helper function to detect whether a read has changed to and/or from a specific value or values.
      * @param {DataRead} read The DataRead to test.
-     * @param {any|Array[any]|undefined} from The value or array of values to expect in the previous read, or undefined if any value is acceptable.
-     * @param {any|Array[any]|undefined} to The value or array of values to expect in the current read, or undefined if any value is acceptable.
+     * @param {any|Array[any]|Blacklist|undefined} from The value or array of values to expect in the previous read, or undefined if any value is acceptable.
+     * @param {any|Array[any]|Blacklist|undefined} to The value or array of values to expect in the current read, or undefined if any value is acceptable.
      * @returns True if the value of the read changed from any of the expected `from` values to any of the expected `to` values.
      */
     checkTransition(read, from, to) {
-        const fromTrue = Array.isArray(from) ? from.some((v) => v == read.prevFrameValue) : read.prevFrameValue == from;
-        const toTrue = Array.isArray(to) ? to.some((v) => v == read.value) : read.value == to;
+        const fromTrue =
+            from instanceof Blacklist
+                ? !from.values.some((v) => v == read.prevFrameValue)
+                : Array.isArray(from)
+                ? from.some((v) => v == read.prevFrameValue)
+                : read.prevFrameValue == from;
+        const toTrue =
+            to instanceof Blacklist
+                ? !to.values.some((v) => v == read.value)
+                : Array.isArray(to)
+                ? to.some((v) => v == read.value)
+                : read.value == to;
         return this.checkChange(read) && (from === undefined || fromTrue) && (to === undefined || toTrue);
     }
 
     /**
-     * @param {boolean} enabled 
+     * @param {boolean} enabled
      */
     setEnabled(enabled) {
         this.enabled = enabled;
     }
 
     /**
-     * @param {object} settingsObj Object containing setting changes. This value will be composed with the previous settings only at the top level of the object. 
+     * @param {object} settingsObj Object containing setting changes. This value will be composed with the previous settings only at the top level of the object.
      */
     setSettings({ enabled = true, ...settings }) {
         const prevSettings = { ...this.settings };
@@ -111,8 +123,8 @@ export default class MemoryModule {
 
     /**
      * Callback when settings are changed in any way, including enabled/disabled status.
-     * @param {object} prevSettings 
-     * @param {object} newSettings 
+     * @param {object} prevSettings
+     * @param {object} newSettings
      */
     handleSettingsChanged(prevSettings, newSettings) {}
 

@@ -2,6 +2,8 @@ import { wram } from "../datatypes";
 import MemState from "../../util/memory/MemState";
 
 export default {
+    frameCounter: new MemState(wram.uint16Read(0x05b6), "frameCounter", "Frame Counter (without lag frames)"),
+    nmiCounter: new MemState(wram.uint16Read(0x05b8), "nmiCounter", "NMI Frame Counter (with lag frames)"),
     roomID: new MemState(wram.uint16Read(0x079b), "roomID", "Room ID"),
     gameState: new MemState(wram.uint16Read(0x0998), "gameState", "Game State"),
     samusHP: new MemState(wram.uint16Read(0x09c2), "samusHP", "Samus HP"),
@@ -37,4 +39,11 @@ export default {
     collectedItems: new MemState(wram.dataRead(0xd870, 19), "collectedItems", '"Collected Items" Bit Array'),
     scroll1: new MemState(wram.uint16Read(0xcd20), "scroll1", "Scroll read #1"),
     scroll2: new MemState(wram.uint16Read(0xcd22), "scroll2", "Scroll read #2"),
+    gameTimeFrames: new MemState(wram.uint16Read(0x09da), "gameTimeFrames", "Game Time, Frames"),
+    gameTimeSeconds: new MemState(wram.uint16Read(0x09dc), "gameTimeSeconds", "Game Time, Seconds"),
+    gameTimeMinutes: new MemState(wram.uint16Read(0x09de), "gameTimeMinutes", "Game Time, Minutes"),
+    gameTimeHours: new MemState(wram.uint16Read(0x09e0), "gameTimeHours", "Game Time, Hours"),
+    doorTransitionFunction: new MemState(wram.uint16Read(0x099c), "doorTransitionFunction", "Door Transition Function"),
+    paletteIndex: new MemState(wram.uint16Read(0xc404), "paletteIndex", "Palette Index for $C000 and $C200"),
+    paletteChangeNumerator: new MemState(wram.uint16Read(0xc400), "paletteChangeNumerator", "Palette Change Numerator"),
 };
