@@ -47,7 +47,7 @@ export default class MemoryModule {
     /**
      * @returns {DataRead[]} Memory addresses to be read for the next memoryReadAvailable call
      */
-    getMemoryReads() {
+    getMemoryReads(globalState) {
         throw Error("You must implement getMemoryReads()");
     }
 

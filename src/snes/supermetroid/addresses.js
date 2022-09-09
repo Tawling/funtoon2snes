@@ -46,4 +46,8 @@ export default {
     doorTransitionFunction: new MemState(wram.uint16Read(0x099c), "doorTransitionFunction", "Door Transition Function"),
     paletteIndex: new MemState(wram.uint16Read(0xc404), "paletteIndex", "Palette Index for $C000 and $C200"),
     paletteChangeNumerator: new MemState(wram.uint16Read(0xc400), "paletteChangeNumerator", "Palette Change Numerator"),
+
+    prRealtimeRoom: new MemState(wram.uint16Read(0xFD06), "prRealtimeRoom", '[Practice Rom] Realtime Room'),
+    prLastRealtimeRoom: new MemState(wram.uint16Read(0xFD08), "prLastRealtimeRoom", '[Practice Rom] Last Realtime Room'),
+    prTransitionCounter: new MemState(wram.uint16Read(0xFD10), "prTransitionCounter", '[Practice Rom] Transition Counter'),
 };

@@ -12,10 +12,10 @@ export default class DLCSpoSpo extends MemoryModule {
     }
 
     shouldRunForGame(gameTags) {
-        return gameTags.SM && gameTags.VANILLA;
+        return gameTags.SM;
     }
 
-    getMemoryReads() {
+    getMemoryReads(globalState) {
         return [
             Addresses.roomID,
             Addresses.bossStates,
@@ -23,10 +23,13 @@ export default class DLCSpoSpo extends MemoryModule {
             Addresses.gameTimeFrames,
             Addresses.doorTransitionFunction,
             Addresses.paletteChangeNumerator,
+            ...((globalState.persistent.gameTags || {}).PRACTICE
+                ? [Addresses.prLastRealtimeRoom, Addresses.prRealtimeRoom, Addresses.prTransitionCounter]
+                : []),
         ];
     }
 
-    memoryReadAvailable({ memory, sendEvent }) {
+    memoryReadAvailable({ memory, sendEvent, globalState }) {
         if (this.state.exit && this.checkChange(memory.roomID)) {
             // We got next room ID, time to send event
             sendEvent("smRoomTime", {
@@ -48,6 +51,12 @@ export default class DLCSpoSpo extends MemoryModule {
                 },
                 exitFrameDelta: this.state.exitFrameDelta,
                 entryFrameDelta: this.state.entryFrameDelta,
+                practice: !!globalState.persistent.gameTags.PRACTICE,
+                practiceFrames: globalState.persistent.gameTags.PRACTICE ? memory.prLastRealtimeRoom.value : 0,
+                practiceExitDelta: globalState.persistent.gameTags.PRACTICE
+                    ? memory.prTransitionCounter.value
+                    : 0,
+                practiceEntryDelta: this.state.practiceEntryDelta,
             });
             this.state = {};
         } else if (
@@ -64,14 +73,13 @@ export default class DLCSpoSpo extends MemoryModule {
                 return;
             }
             const timeDelta = (exitFrameDelta - 1) / 60;
-            const exitTime = Date.now() - timeDelta * 1000;
+            const exitTime = performance.now() - timeDelta * 1000;
             if (this.state.entry) {
                 // full room was tracked, log the prev room and time
                 const roomTime = exitTime - this.state.entry;
                 const totalFrames = Math.round((roomTime * 60) / 1000); // Should this round in only one direction?
                 this.state.totalFrames = totalFrames;
                 this.state.exit = exitTime;
-                this.state.prevRoomID = memory.roomID.prevUnique();
                 this.state.roomID = memory.roomID.value;
                 this.state.roomTime = roomTime / 1000;
                 this.state.exitFrameDelta = exitFrameDelta;
@@ -83,7 +91,12 @@ export default class DLCSpoSpo extends MemoryModule {
             // Entering room
             const entryFrameDelta = (memory.gameTimeFrames.value - memory.gameTimeFrames.prev() + 60) % 60;
             const timeDelta = (entryFrameDelta - 1) / 60;
-            this.state = { entry: Date.now() - timeDelta * 1000, entryFrameDelta };
+            this.state = {
+                entry: performance.now() - timeDelta * 1000,
+                entryFrameDelta,
+                prevRoomID: memory.roomID.prevUnique(),
+                practiceEntryDelta: globalState.persistent.gameTags.PRACTICE ? memory.prRealtimeRoom.value : 0,
+            };
         }
     }
 
