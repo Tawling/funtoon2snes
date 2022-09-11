@@ -23,7 +23,7 @@ export default class IGTReport extends MemoryModule {
     }
 
     memoryReadAvailable({ memory, sendEvent }) {
-        if (this.checkTransition(memory.gameState, undefined, GameStates.BEAT_THE_GAME)) {
+        if (this.checkTransition(memory.gameState, undefined, GameStates.END_CREDITS_CINEMATIC)) {
             sendEvent("smIGTReport", {
                 hours: memory.gameTimeHours.value,
                 minutes: memory.gameTimeMinutes.value,
