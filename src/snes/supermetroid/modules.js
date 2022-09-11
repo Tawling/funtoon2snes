@@ -10,6 +10,7 @@ import NiceModule from "./modules/Nice";
 import KQKMiss from "./modules/KQKMiss";
 import DLCSpoSpo from "./modules/DLCSpoSpo";
 import RoomTimes from "./modules/RoomTimes";
+import IGTReport from "./modules/IGTReport";
 
 export const SuperMetroid = [
     ResetEventModule,
@@ -17,6 +18,7 @@ export const SuperMetroid = [
     PhantoonGameModule,
     CeresGameModule,
     RoomTimes,
+    IGTReport,
     MoondanceEmoteOnlyModule,
     MoatDiveModule,
     OceanDiveModule,

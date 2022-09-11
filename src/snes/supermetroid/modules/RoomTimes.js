@@ -4,7 +4,7 @@ import Addresses from "../addresses";
 import { BossStates } from "../enums";
 import { noneOf, readBigIntFlag } from "../../../util/utils";
 
-export default class DLCSpoSpo extends MemoryModule {
+export default class RoomTimes extends MemoryModule {
     constructor() {
         super("roomTimes", "Track Room Times", true);
         this.tooltip = "Tracks room times, sending events to FUNtoon for further processing.";
