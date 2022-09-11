@@ -14,7 +14,7 @@ export default class IGTReport extends MemoryModule {
 
     getMemoryReads() {
         return [
-            Aderesses.gameState,
+            Addresses.gameState,
             Addresses.gameTimeFrames,
             Addresses.gameTimeSeconds,
             Addresses.gameTimeMinutes,
