@@ -11,6 +11,7 @@ import KQKMiss from "./modules/KQKMiss";
 import DLCSpoSpo from "./modules/DLCSpoSpo";
 import RoomTimes from "./modules/RoomTimes";
 import IGTReport from "./modules/IGTReport";
+import RidleyOverkillTracker from "./modules/RidleyOverkillTracker";
 
 export const SuperMetroid = [
     ResetEventModule,
@@ -24,6 +25,7 @@ export const SuperMetroid = [
     OceanDiveModule,
     KQKMiss,
     DLCSpoSpo,
+    RidleyOverkillTracker,
     TacoTankTracker,
     NiceModule,
 ];
