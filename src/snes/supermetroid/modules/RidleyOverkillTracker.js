@@ -10,7 +10,7 @@ export default class RidleyOverkillTracker extends MemoryModule {
     }
 
     settingDefs = {
-        displayDoorTimes: {
+        useEventInsteadOfMessage: {
             display: "Use a custom event (name: ridleyOverkill) instead of default message",
             type: "bool",
             default: false,
@@ -33,13 +33,14 @@ export default class RidleyOverkillTracker extends MemoryModule {
             Addresses.enemyHP,
             Addresses.samusHP,
             Addresses.samusReserveHP,
-            Addresses.ridleyIframeTimer,
-            Addresses.ridleyShotDamage,
+            Addresses.roomsFirstEnemyIframes,
+            Addresses.enemyProjectileDamage,
         ];
     }
 
     reset() {
         this.lastCheck = 0;
+        this.iframesLeft = 0;
         this.inRidleyFight = false;
         this.startCounting = false;
         this.additionalShotCounter = 0;
@@ -52,16 +53,9 @@ export default class RidleyOverkillTracker extends MemoryModule {
             'additional <{plural("shot", ' + this.additionalShotCounter + ')}>'
     }
 
-    memoryReadAvailable({ memory, sendEvent }) {
+    memoryReadAvailable({ memory, sendEvent, globalState}) {
         // Handle a run being reset
-        if (
-            memory.roomID.prevFrameValue !== undefined &&
-            memory.roomID.prevFrameValue !== Rooms.EMPTY &&
-            memory.roomID.value === Rooms.EMPTY
-        ) {
-            if (this.inRidleyFight) {
-                // were in ridley fight but reset due to ridley
-            }
+        if (globalState.isReset) {
             this.reset();
             return;
         }
@@ -84,7 +78,7 @@ export default class RidleyOverkillTracker extends MemoryModule {
             // we left ridley room in whatever direction
             if (this.checkTransition(memory.roomID, Rooms.LowerNorfair.RIDLEY_ROOM)) {
                 if (this.additionalShotCounter > 0) {
-                    if (this.settings.displayDoorTimes.value) {
+                    if (this.settings.useEventInsteadOfMessage.value) {
                         sendEvent('ridleyOverkill', {shots:this.additionalShotCounter, damage:this.additionalDamageDealt});
                     }
                     else {
@@ -98,7 +92,8 @@ export default class RidleyOverkillTracker extends MemoryModule {
             else if (memory.enemyHP.value <= 1000 && this.checkTransition(memory.enemyHP, undefined, 0)) {
                 this.startCounting = true;
 
-                // make sure to do next check only after 10 frames
+                // make sure to do next check only after x frames when the current damage is done
+                this.iframesLeft = memory.roomsFirstEnemyIframes.value;
                 this.lastCheck = Date.now();
             }
 
@@ -107,14 +102,20 @@ export default class RidleyOverkillTracker extends MemoryModule {
 
                 const time = Date.now();
 
-                // only check every 10 frames
-                if (time - this.lastCheck > (1000 / 60 * 10))  {
-                    if (memory.ridleyIframeTimer && memory.ridleyIframeTimer.value === 10) {
+                // only check every x + 1 frames
+                if (time - this.lastCheck > (1000 / 60 * (this.iframesLeft + 1)))  {
+                    // everytime we check and iframes are there, check how many iframes are left
+                    if (memory.roomsFirstEnemyIframes && memory.roomsFirstEnemyIframes.value > 0) {
+                        // keep track of how many iframes are left and only check again after this
+                        this.iframesLeft = memory.roomsFirstEnemyIframes.value;
+
                         this.additionalShotCounter++;
 
-                        if (memory.ridleyShotDamage && memory.ridleyShotDamage.value > 0) {
-                            // this is not reliable, somehow this is below 900 sometimes
-                            this.additionalDamageDealt += memory.ridleyShotDamage.value;
+                        if (memory.enemyProjectileDamage && memory.enemyProjectileDamage.value > 0) {
+                            // this is not reliable, somehow this is below 900 sometimes,
+                            // depending on how many iframes were missed due to read speed
+                            // maybe in future we should calculate current damage output (beam combo) * shotCount
+                            this.additionalDamageDealt += memory.enemyProjectileDamage.value;
                         }
 
                         this.lastCheck = Date.now();
@@ -125,12 +126,7 @@ export default class RidleyOverkillTracker extends MemoryModule {
 
 
         // If samus gets hurt, we have to check if she's dead, so we can end the game
-        if (
-            this.inRidleyFight &&
-            this.checkChange(memory.samusHP) &&
-            memory.samusHP.value === 0 &&
-            memory.samusReserveHP.value === 0
-        ) {
+        if (this.inRidleyFight && globalState.isDeath) {
             this.reset();
             this.reloadUnsafe = false;
         }

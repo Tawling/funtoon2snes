@@ -51,6 +51,6 @@ export default {
     prLastRealtimeRoom: new MemState(wram.uint16Read(0xFD08), "prLastRealtimeRoom", '[Practice Rom] Last Realtime Room'),
     prTransitionCounter: new MemState(wram.uint16Read(0xFD10), "prTransitionCounter", '[Practice Rom] Transition Counter'),
 
-    ridleyIframeTimer: new MemState(wram.uint16Read(0x0fa0), 'ridleyIframeTimer', 'Ridley Iframe Timer'),
-    ridleyShotDamage: new MemState(wram.uint16Read(0x187A), 'ridleyShotDamage', 'Ridley Shot Damage'),
+    roomsFirstEnemyIframes: new MemState(wram.uint16Read(0x0fa0), 'roomsFirstEnemyIframes', 'Room\'s first enemy iframes'),
+    enemyProjectileDamage: new MemState(wram.uint16Read(0x187A), 'enemyProjectileDamage', 'Enemy damage when projectile collides'),
 };
