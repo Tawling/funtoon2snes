@@ -50,7 +50,7 @@ export default class RidleyOverkillTracker extends MemoryModule {
     getMessage() {
         return 'That was an overkill. ' +
             'You had ' + this.additionalShotCounter + ' ' +
-            'additional <{plural("shot", ' + this.additionalShotCounter + ')}>'
+            'additional shot' + (this.additionalShotCounter > 1 ? 's' : '');
     }
 
     memoryReadAvailable({ memory, sendEvent, globalState}) {
