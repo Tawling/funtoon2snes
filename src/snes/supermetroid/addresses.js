@@ -50,4 +50,7 @@ export default {
     prRealtimeRoom: new MemState(wram.uint16Read(0xFD06), "prRealtimeRoom", '[Practice Rom] Realtime Room'),
     prLastRealtimeRoom: new MemState(wram.uint16Read(0xFD08), "prLastRealtimeRoom", '[Practice Rom] Last Realtime Room'),
     prTransitionCounter: new MemState(wram.uint16Read(0xFD10), "prTransitionCounter", '[Practice Rom] Transition Counter'),
+
+    roomsFirstEnemyIframes: new MemState(wram.uint16Read(0x0fa0), 'roomsFirstEnemyIframes', 'Room\'s first enemy iframes'),
+    enemyProjectileDamage: new MemState(wram.uint16Read(0x187A), 'enemyProjectileDamage', 'Enemy damage when projectile collides'),
 };
