@@ -4,9 +4,11 @@ import Addresses from "../addresses";
 import { BossStates } from "../enums";
 import { noneOf, readBigIntFlag } from "../../../util/utils";
 
+const FPS = 60.098813897441;
+
 export default class RoomTimes extends MemoryModule {
     constructor() {
-        super("roomTimes", "Track Room Times", true);
+        super("roomTimes", "Track Room Times", true, false);
         this.tooltip = "Tracks room times, sending events to FUNtoon for further processing.";
         this.state = {};
     }
@@ -32,7 +34,7 @@ export default class RoomTimes extends MemoryModule {
     memoryReadAvailable({ memory, sendEvent, globalState }) {
         if (this.state.exit && this.checkChange(memory.roomID)) {
             // We got next room ID, time to send event
-            sendEvent("smRoomTime", {
+            const eventData = {
                 frameCount: this.state.totalFrames,
                 totalSeconds: this.state.roomTime,
                 roomID: this.state.roomID,
@@ -57,7 +59,9 @@ export default class RoomTimes extends MemoryModule {
                     ? memory.prTransitionCounter.value
                     : 0,
                 practiceEntryDelta: this.state.practiceEntryDelta,
-            });
+            };
+            globalState.lastRoomTimeEvent = eventData
+            sendEvent("smRoomTime", eventData);
             this.state = {};
         } else if (
             this.checkTransition(
@@ -72,12 +76,12 @@ export default class RoomTimes extends MemoryModule {
                 this.state = {};
                 return;
             }
-            const timeDelta = (exitFrameDelta - 1) / 60;
+            const timeDelta = (exitFrameDelta - 1) / FPS;
             const exitTime = performance.now() - timeDelta * 1000;
             if (this.state.entry) {
                 // full room was tracked, log the prev room and time
                 const roomTime = exitTime - this.state.entry;
-                const totalFrames = Math.round((roomTime * 60) / 1000); // Should this round in only one direction?
+                const totalFrames = Math.round((roomTime * FPS) / 1000); // Should this round in only one direction?
                 this.state.totalFrames = totalFrames;
                 this.state.exit = exitTime;
                 this.state.roomID = memory.roomID.value;
@@ -90,7 +94,7 @@ export default class RoomTimes extends MemoryModule {
         } else if (this.checkTransition(memory.gameState, GameStates.LOAD_NEXT_ROOM_2, undefined)) {
             // Entering room
             const entryFrameDelta = (memory.gameTimeFrames.value - memory.gameTimeFrames.prev() + 60) % 60;
-            const timeDelta = (entryFrameDelta - 1) / 60;
+            const timeDelta = (entryFrameDelta - 1) / FPS;
             this.state = {
                 entry: performance.now() - timeDelta * 1000,
                 entryFrameDelta,
