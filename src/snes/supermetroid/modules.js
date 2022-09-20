@@ -11,13 +11,15 @@ import KQKMiss from "./modules/KQKMiss";
 import DLCSpoSpo from "./modules/DLCSpoSpo";
 import RoomTimes from "./modules/RoomTimes";
 import IGTReport from "./modules/IGTReport";
+import RidleyGameModule from "./modules/RidleyGame";
 
 export const SuperMetroid = [
     ResetEventModule,
     DeathEventModule,
+    RoomTimes,
     PhantoonGameModule,
     CeresGameModule,
-    RoomTimes,
+    RidleyGameModule,
     IGTReport,
     MoondanceEmoteOnlyModule,
     MoatDiveModule,
