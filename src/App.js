@@ -171,6 +171,7 @@ function App() {
         callExternal("setModuleStates", moduleStates);
     }, [token, channel]); // eslint-disable-line react-hooks/exhaustive-deps
 
+    const overlayURL = `https://funtoon.party/tracking.html?channel=${channel.toLowerCase()}&token=${token}`
     return (
         <div className="App">
             <h1>USB2SNES Memory Tracking for FUNtoon Integration</h1>
@@ -189,6 +190,12 @@ function App() {
                 token={token}
                 readsPerSecond={rps}
             />
+            <Card>
+                <CardBody>
+                    <p><strong>New stream overlay for room times!</strong></p>
+                    <p>After entering your channel name and FUNtoon API token above, add a Browser Source in OBS with the URL of <a href={overlayURL}>this page</a>.</p>
+                </CardBody>
+            </Card>
             <Card>
                 <CardBody>
                     <p>

@@ -46,11 +46,14 @@ export default {
     doorTransitionFunction: new MemState(wram.uint16Read(0x099c), "doorTransitionFunction", "Door Transition Function"),
     paletteIndex: new MemState(wram.uint16Read(0xc404), "paletteIndex", "Palette Index for $C000 and $C200"),
     paletteChangeNumerator: new MemState(wram.uint16Read(0xc400), "paletteChangeNumerator", "Palette Change Numerator"),
-
-    prRealtimeRoom: new MemState(wram.uint16Read(0xFD06), "prRealtimeRoom", '[Practice Rom] Realtime Room'),
-    prLastRealtimeRoom: new MemState(wram.uint16Read(0xFD08), "prLastRealtimeRoom", '[Practice Rom] Last Realtime Room'),
-    prTransitionCounter: new MemState(wram.uint16Read(0xFD10), "prTransitionCounter", '[Practice Rom] Transition Counter'),
+    frameCounter: new MemState(wram.uint16Read(0x05B6), "frameCounter", "Frame Counter (no lag frames)"),
+    nmiCounter: new MemState(wram.uint16Read(0x05B8), "nmiCounter", "NMI Frame Counter (with lag frames)"),
 
     roomsFirstEnemyIframes: new MemState(wram.uint16Read(0x0fa0), 'roomsFirstEnemyIframes', 'Room\'s first enemy iframes'),
     enemyProjectileDamage: new MemState(wram.uint16Read(0x187A), 'enemyProjectileDamage', 'Enemy damage when projectile collides'),
+
+    // Practice Rom addresses
+    prRealtimeRoom: new MemState(wram.uint16Read(0xFD06), "prRealtimeRoom", '[Practice Rom] Realtime Room'),
+    prLastRealtimeRoom: new MemState(wram.uint16Read(0xFD08), "prLastRealtimeRoom", '[Practice Rom] Last Realtime Room'),
+    prTransitionCounter: new MemState(wram.uint16Read(0xFD10), "prTransitionCounter", '[Practice Rom] Transition Counter'),
 };

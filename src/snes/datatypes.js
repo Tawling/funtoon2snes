@@ -14,6 +14,9 @@ const JISX0201 =
     "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +
     "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
 
+/**
+ * A block of DataReads used for batched requests
+ */
 export class ReadBlock {
     constructor(reads) {
         this.reads = reads;
@@ -38,6 +41,10 @@ export class ReadBlock {
     }
 }
 
+/**
+ * DataRead represents a memory address and byte length to be read upon request of a module.
+ * Subclasses implement data reads that are automatically processed as a specific data type.
+ */
 export class DataRead {
     constructor(address, size, ramOffset = 0) {
         this.address = address;
@@ -54,6 +61,9 @@ export class DataRead {
     }
 }
 
+/**
+ * Unsigned 8-bit integer value to be read upon request of a module.
+ */
 class Uint8Read extends DataRead {
     constructor(address, ramOffset) {
         super(address, 1, ramOffset);
@@ -64,6 +74,9 @@ class Uint8Read extends DataRead {
     }
 }
 
+/**
+ * Signed 8-bit integer value to be read upon request of a module.
+ */
 class Int8Read extends DataRead {
     constructor(address, ramOffset) {
         super(address, 1, ramOffset);
@@ -74,6 +87,9 @@ class Int8Read extends DataRead {
     }
 }
 
+/**
+ * Unsigned 16-bit integer value to be read upon request of a module.
+ */
 class Uint16Read extends DataRead {
     constructor(address, ramOffset) {
         super(address, 2, ramOffset);
@@ -84,6 +100,9 @@ class Uint16Read extends DataRead {
     }
 }
 
+/**
+ * Signed 16-bit integer value to be read upon request of a module.
+ */
 class Int16Read extends DataRead {
     constructor(address, ramOffset) {
         super(address, 2, ramOffset);
@@ -94,6 +113,9 @@ class Int16Read extends DataRead {
     }
 }
 
+/**
+ * Unsigned 32-bit integer value to be read upon request of a module.
+ */
 class Uint32Read extends DataRead {
     constructor(address, ramOffset) {
         super(address, 4, ramOffset);
@@ -104,6 +126,9 @@ class Uint32Read extends DataRead {
     }
 }
 
+/**
+ * Signed 32-bit integer value to be read upon request of a module.
+ */
 class Int32Read extends DataRead {
     constructor(address, ramOffset) {
         super(address, 4, ramOffset);
@@ -114,6 +139,9 @@ class Int32Read extends DataRead {
     }
 }
 
+/**
+ * Unsigned 64-bit integer value to be read upon request of a module.
+ */
 class Uint64Read extends DataRead {
     constructor(address, ramOffset) {
         super(address, 8, ramOffset);
@@ -124,6 +152,9 @@ class Uint64Read extends DataRead {
     }
 }
 
+/**
+ * Signed 64-bit integer value to be read upon request of a module.
+ */
 class Int64Read extends DataRead {
     constructor(address, ramOffset) {
         super(address, 8, ramOffset);
@@ -134,6 +165,10 @@ class Int64Read extends DataRead {
     }
 }
 
+/**
+ * Binary-Coded Decimal value to be read upon request of a module.
+ * (0x1234 hex ==> 1234 dec) 
+ */
 class BCDRead extends DataRead {
     constructor(address, size, littleEndian = true, ramOffset) {
         super(address, size, ramOffset);
@@ -153,6 +188,9 @@ class BCDRead extends DataRead {
     }
 }
 
+/**
+ * JISX0201 encoded string value to be read upon request of a module.
+ */
 export class JISX0201Read extends DataRead {
     constructor(address, size, ramOffset = 0) {
         super(address, size, ramOffset);
@@ -167,6 +205,7 @@ export class JISX0201Read extends DataRead {
     }
 }
 
+// All data read types with a default RAM offset of 0, allowing user specification.
 export const generic = {
     dataRead: (address, size, ramOffset = 0) => new DataRead(address, size, ramOffset),
     uint8Read: (address, ramOffset = 0) => new Uint8Read(address, ramOffset),
@@ -181,6 +220,7 @@ export const generic = {
     jisx0201Read: (address, size, ramOffset = 0) => new JISX0201Read(address, size, ramOffset),
 };
 
+// All data read types with a RAM offset of ROM start
 export const rom = {
     dataRead: (address, size) => new DataRead(address, size, ROM_BASE_ADDR),
     jisx0201Read: (address, size) => new JISX0201Read(address, size, ROM_BASE_ADDR),
@@ -196,6 +236,7 @@ export const rom = {
     jisx0201Read: (address, size) => new JISX0201Read(address, size, ROM_BASE_ADDR),
 };
 
+// All data read types with a RAM offset of WRAM start
 export const wram = {
     dataRead: (address, size) => new DataRead(address, size, WRAM_BASE_ADDR),
     uint8Read: (address) => new Uint8Read(address, WRAM_BASE_ADDR),
@@ -210,6 +251,7 @@ export const wram = {
     jisx0201Read: (address, size) => new JISX0201Read(address, size, WRAM_BASE_ADDR),
 };
 
+// All data read types with a RAM offset of SRAM start
 export const sram = {
     dataRead: (address, size) => new DataRead(address, size, SRAM_BASE_ADDR),
     uint8Read: (address) => new Uint8Read(address, SRAM_BASE_ADDR),

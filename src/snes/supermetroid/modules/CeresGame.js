@@ -91,22 +91,14 @@ export default class CeresGameModule extends MemoryModule {
                 GameStates.CERES_DESTROYED_CINEMATIC
             )
         ) {
-            if (
-                this.checkTransition(
-                    memory.gameState,
-                    [GameStates.BLACK_OUT_FROM_CERES, GameStates.CERES_ELEVATOR],
-                    GameStates.CERES_DESTROYED_CINEMATIC
-                )
-            ) {
-                this.ceresState = CeresGameState.Closed;
-                sendEvent("ceresEnd", memory.ceresTimer.value, 3);
+            this.ceresState = CeresGameState.Closed;
+            sendEvent("ceresEnd", memory.ceresTimer.value, 3);
 
-                if (this.settings.displayDoorTimes.value) {
-                    sendEvent('msg', "Door transition times: " + this.ceresDoorTimes.join(', '), 3);
-                }
-                
-                setTimeout(() => this.reloadUnsafe = false, 3200);
+            if (this.settings.displayDoorTimes.value) {
+                sendEvent('msg', "Door transition times: " + this.ceresDoorTimes.join(', '), 3);
             }
+            
+            setTimeout(() => this.reloadUnsafe = false, 3200);
         }
         else if (this.ceresState == CeresGameState.PendingResult) {
             let transitionIndex = this.getTransitionIndex(memory);
