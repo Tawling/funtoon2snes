@@ -25,3 +25,21 @@ export function isDeath(gameState) {
         ].indexOf(gameState) >= 0
     );
 }
+
+export function isIGTPaused(gameState) {
+    return (
+        [
+            GameStates.GAMEPLAY,
+            GameStates.FADE_TO_PAUSE,
+            GameStates.FADE_FROM_PAUSE,
+            GameStates.INIT_GAME_AFTER_LOAD,
+            GameStates.SAMUS_DEAD,
+            GameStates.SAMUS_DEAD_BLACK_OUT,
+            GameStates.AUTO_RESERVE,
+            GameStates.CERES_ELEVATOR,
+            GameStates.BLACK_OUT_FROM_CERES,
+            GameStates.CERES_TIME_UP,
+            GameStates.BEAT_THE_GAME,
+        ].indexOf(gameState) < 0
+    );
+}
