@@ -36,7 +36,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
             Addresses.samusSubX,
             Addresses.samusY,
             Addresses.samusSubY,
-            Addresses.collectedItems,
+            Addresses.collectedItemBits,
             Addresses.samusPose,
             Addresses.samusYDirection,
             Addresses.samusXSubSpeed,
@@ -74,7 +74,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
             // This catches errors where the read occurred JUST before bitfield changed for collected items.
             this.prevReadTacoed = false;
             this.avoidDoubleTaco = true;
-            if (memory.collectedItems.prev()[3] !== memory.collectedItems.value[3]) {
+            if (memory.collectedItemBits.prev()[3] !== memory.collectedItemBits.value[3]) {
                 // GRAB
                 sendEvent("tacoTank", {
                     x: memory.samusX.prev(),
@@ -195,7 +195,7 @@ export default class TacoTankTrackerModule extends MemoryModule {
             } else {
                 this.avoidDoubleTaco = false;
             }
-            if (this.prevReadTacoed && memory.collectedItems.prev(1)[3] !== memory.collectedItems.value[3]) {
+            if (this.prevReadTacoed && memory.collectedItemBits.prev(1)[3] !== memory.collectedItemBits.value[3]) {
                 // GRAB
                 sendEvent("tacoTank", {
                     x: memory.samusX.value,

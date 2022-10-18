@@ -421,6 +421,20 @@ export const SamusPose = {
     FACING_LEFT_NORMAL_JUMP_AIMING_DOWN_LEFT:   0x6C,
 }
 
+export const EquipmentFlags = {
+    VARIA_SUIT: 0x1,
+    SPRING_BALL: 0x2,
+    MORPH_BALL: 0x4,
+    SCREW_ATTACK: 0x8,
+    GRAVITY_SUIT: 0x20,
+    HI_JUMP_BOOTS: 0x100,
+    SPACE_JUMP: 0x200,
+    BOMBS: 0x1000,
+    SPEED_BOOSTER: 0x2000,
+    GRAPPLE: 0x4000,
+    XRAY: 0x8000,
+}
+
 export const CollectedBeamFlags = {
     WAVE:   0x0001,
     ICE:    0x0002,

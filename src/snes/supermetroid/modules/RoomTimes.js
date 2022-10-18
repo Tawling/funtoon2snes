@@ -1,5 +1,5 @@
 import MemoryModule from "../../../util/memory/MemoryModule";
-import { GameStates, Rooms } from "../enums";
+import { EquipmentFlags, GameStates, Rooms } from "../enums";
 import Addresses from "../addresses";
 import { BossStates } from "../enums";
 import { noneOf, readBigIntFlag } from "../../../util/utils";
@@ -29,22 +29,18 @@ export default class RoomTimes extends MemoryModule {
         return [
             Addresses.roomID,
             Addresses.bossStates,
-            Addresses.paletteIndex,
             Addresses.gameTimeFrames,
             Addresses.gameTimeSeconds,
             Addresses.gameTimeMinutes,
             Addresses.gameTimeHours,
             Addresses.frameCounter,
             Addresses.nmiCounter,
-            Addresses.doorTransitionFunction,
-            Addresses.paletteChangeNumerator,
             ...((globalState.persistent.gameTags || {}).PRACTICE
                 ? [Addresses.prLastRealtimeRoom, Addresses.prRealtimeRoom, Addresses.prTransitionCounter]
                 : []),
-            Addresses.collectedItems,
-            Addresses.ceresState,
-            Addresses.ceresTimer,
-            Addresses.samusPose,
+            Addresses.collectedItemBits,
+            Addresses.collectedEquipment,
+            Addresses.equippedEquipment,
             Addresses.samusMissiles,
             Addresses.samusMaxMissiles,
             Addresses.samusSupers,
@@ -117,6 +113,7 @@ export default class RoomTimes extends MemoryModule {
                     prevRoomID: memory.roomID.prevUnique(),
                     practiceEntryDelta: globalState.persistent.gameTags.PRACTICE ? memory.prRealtimeRoom.value : 0,
                     entryIGT: prevIGT,
+                    entryState: this.getSamusState(memory),
                 };
             }
         }
@@ -136,17 +133,6 @@ export default class RoomTimes extends MemoryModule {
                 roomID: this.state.roomID,
                 prevRoomID: this.state.prevRoomID,
                 nextRoomID: memory.roomID.value,
-                bossesKilled: {
-                    phantoon: readBigIntFlag(memory.bossStates.value, BossStates.PHANTOON),
-                    ridley: readBigIntFlag(memory.bossStates.value, BossStates.RIDLEY),
-                    kraid: readBigIntFlag(memory.bossStates.value, BossStates.KRAID),
-                    draygon: readBigIntFlag(memory.bossStates.value, BossStates.DRAYGON),
-                    botwoon: readBigIntFlag(memory.bossStates.value, BossStates.BOTWOON),
-                    bombTorizo: readBigIntFlag(memory.bossStates.value, BossStates.BOMB_TORIZO),
-                    goldenTorizo: readBigIntFlag(memory.bossStates.value, BossStates.GOLDEN_TORIZO),
-                    sporeSpawn: readBigIntFlag(memory.bossStates.value, BossStates.SPORE_SPAWN),
-                    crocomire: readBigIntFlag(memory.bossStates.value, BossStates.CROCOMIRE),
-                },
                 exitFrameDelta: this.state.exitFrameDelta,
                 entryFrameDelta: this.state.entryFrameDelta,
                 practice: !!globalState.persistent.gameTags.PRACTICE,
@@ -154,6 +140,9 @@ export default class RoomTimes extends MemoryModule {
                 practiceExitDelta: globalState.persistent.gameTags.PRACTICE ? memory.prTransitionCounter.value : 0,
                 practiceEntryDelta: this.state.practiceEntryDelta,
                 rps: globalState.readsPerSecond,
+                readTime: globalState.readTime,
+                entryState: this.state.entryState,
+                exitState: this.state.exitState,
             };
             globalState.lastRoomTimeEvent = eventData;
             sendEvent("smRoomTime", eventData);
@@ -171,17 +160,14 @@ export default class RoomTimes extends MemoryModule {
             this.checkTransition(memory.gameState, undefined, GameStates.BEAT_THE_GAME)
         ) {
             // Exiting room
-            if (this.state.entryTime) {
+            if (this.state.entryTime && !this.state.exitTime) {
                 // full room was tracked, log the prev room and time
 
                 const igtDelta = currentIGT - prevIGT;
                 const frameDelta = counterDelta(memory.frameCounter.prevFrameValue, memory.frameCounter.value);
                 const lag = counterDelta(memory.nmiCounter.prevFrameValue, memory.nmiCounter.value) - frameDelta;
 
-                console.log(igtDelta, frameDelta, lag);
-
                 const exitFrameDelta = frameDelta - igtDelta; // + lag?
-                console.log(exitFrameDelta, (exitFrameDelta - 1) / FPS);
                 const exitTime = performance.now() - ((exitFrameDelta - 1) / FPS) * 1000;
 
                 const roomTime = exitTime - this.state.entryTime;
@@ -194,6 +180,10 @@ export default class RoomTimes extends MemoryModule {
                 console.log("total frames: ", totalFrames);
 
                 console.log("delta: ", roomTimeFrames - totalFrames);
+
+                console.log("f->s: ", totalFrames/FPS);
+                console.log("total sec: ", roomTime / 1000);
+                console.log("delta s: ", roomTime / 1000 - (totalFrames/FPS))
 
                 this.state.totalFrames = totalFrames;
                 this.state.exitTime = exitTime;
@@ -212,6 +202,7 @@ export default class RoomTimes extends MemoryModule {
                     lag;
                 this.state.exitIGT = currentIGT;
                 this.state.igtFrames = currentIGT - this.state.entryIGT;
+                this.state.exitState = this.getSamusState(memory);
                 console.log(this.state);
             } else {
                 // room wasn't tracked fully. We only have an exit time.
@@ -220,9 +211,62 @@ export default class RoomTimes extends MemoryModule {
         }
         // TODO: detect MB phase changes and send as separate timing event?
         // TODO: track baby skip jumps??
-        // TODO: track ammo usage
-        // TODO: track health changes
-        // TODO: track item pickups
+        // TODO: track ammo usage and drops mid-room?
+        // TODO: track health changes mid-room?
         // TODO: log door transition times
+    }
+
+    getSamusState(memory) {
+        return {
+            hp: memory.samusHP.value,
+            maxHP: memory.samusMaxHP.value,
+            missiles: memory.samusMissiles.value,
+            maxMissiles: memory.samusMaxMissiles.value,
+            supers: memory.samusSupers.value,
+            maxSupers: memory.samusMaxSupers.value,
+            powerBombs: memory.samusPBs.value,
+            maxPowerBombs: memory.samusMaxPBs.value,
+            reserveHP: memory.samusReserveHP.value,
+            maxReserveHP: memory.samusMaxReserveHP.value,
+            collectedItems: Array.from(memory.collectedItemBits.value),
+            equipment: {
+                variaSuit: !!(memory.collectedEquipment.value & EquipmentFlags.VARIA_SUIT),
+                springBall: !!(memory.collectedEquipment.value & EquipmentFlags.SPRING_BALL),
+                morphBall: !!(memory.collectedEquipment.value & EquipmentFlags.MORPH_BALL),
+                screwAttack: !!(memory.collectedEquipment.value & EquipmentFlags.SCREW_ATTACK),
+                gravitySuit: !!(memory.collectedEquipment.value & EquipmentFlags.GRAVITY_SUIT),
+                hiJumpBoots: !!(memory.collectedEquipment.value & EquipmentFlags.HI_JUMP_BOOTS),
+                spaceJump: !!(memory.collectedEquipment.value & EquipmentFlags.SPACE_JUMP),
+                bombs: !!(memory.collectedEquipment.value & EquipmentFlags.BOMBS),
+                speedBooster: !!(memory.collectedEquipment.value & EquipmentFlags.SPEED_BOOSTER),
+                grapple: !!(memory.collectedEquipment.value & EquipmentFlags.GRAPPLE),
+                xray: !!(memory.collectedEquipment.value & EquipmentFlags.XRAY),
+            },
+            equips: {
+                variaSuit: !!(memory.equippedEquipment.value & EquipmentFlags.VARIA_SUIT),
+                springBall: !!(memory.equippedEquipment.value & EquipmentFlags.SPRING_BALL),
+                morphBall: !!(memory.equippedEquipment.value & EquipmentFlags.MORPH_BALL),
+                screwAttack: !!(memory.equippedEquipment.value & EquipmentFlags.SCREW_ATTACK),
+                gravitySuit: !!(memory.equippedEquipment.value & EquipmentFlags.GRAVITY_SUIT),
+                hiJumpBoots: !!(memory.equippedEquipment.value & EquipmentFlags.HI_JUMP_BOOTS),
+                spaceJump: !!(memory.equippedEquipment.value & EquipmentFlags.SPACE_JUMP),
+                bombs: !!(memory.equippedEquipment.value & EquipmentFlags.BOMBS),
+                speedBooster: !!(memory.equippedEquipment.value & EquipmentFlags.SPEED_BOOSTER),
+                grapple: !!(memory.equippedEquipment.value & EquipmentFlags.GRAPPLE),
+                xray: !!(memory.equippedEquipment.value & EquipmentFlags.XRAY),
+            },
+            bossesKilled: {
+                phantoon: readBigIntFlag(memory.bossStates.value, BossStates.PHANTOON),
+                ridley: readBigIntFlag(memory.bossStates.value, BossStates.RIDLEY),
+                kraid: readBigIntFlag(memory.bossStates.value, BossStates.KRAID),
+                draygon: readBigIntFlag(memory.bossStates.value, BossStates.DRAYGON),
+                botwoon: readBigIntFlag(memory.bossStates.value, BossStates.BOTWOON),
+                bombTorizo: readBigIntFlag(memory.bossStates.value, BossStates.BOMB_TORIZO),
+                goldenTorizo: readBigIntFlag(memory.bossStates.value, BossStates.GOLDEN_TORIZO),
+                sporeSpawn: readBigIntFlag(memory.bossStates.value, BossStates.SPORE_SPAWN),
+                crocomire: readBigIntFlag(memory.bossStates.value, BossStates.CROCOMIRE),
+            },
+            eventStates: memory.eventStates.value,
+        };
     }
 }
