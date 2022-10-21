@@ -30,10 +30,10 @@ export default class RidleyOverkillTracker extends MemoryModule {
         return [
             Addresses.roomID,
             Addresses.gameState,
-            Addresses.enemyHP,
+            Addresses.enemy0HP,
             Addresses.samusHP,
             Addresses.samusReserveHP,
-            Addresses.roomsFirstEnemyIframes,
+            Addresses.enemy0IFrames,
             Addresses.enemyProjectileDamage,
         ];
     }
@@ -64,9 +64,9 @@ export default class RidleyOverkillTracker extends MemoryModule {
         if (
             !this.inRidleyFight &&
             memory.roomID.value === Rooms.LowerNorfair.RIDLEY_ROOM &&
-            this.checkChange(memory.enemyHP)
+            this.checkChange(memory.enemy0HP)
         ) {
-            if (memory.enemyHP.value !== 0) {
+            if (memory.enemy0HP.value !== 0) {
                 this.inRidleyFight = true;
                 return;
             }
@@ -89,25 +89,25 @@ export default class RidleyOverkillTracker extends MemoryModule {
             }
 
             // keep watching for the last hit
-            else if (memory.enemyHP.value <= 1000 && this.checkTransition(memory.enemyHP, undefined, 0)) {
+            else if (memory.enemy0HP.value <= 1000 && this.checkTransition(memory.enemy0HP, undefined, 0)) {
                 this.startCounting = true;
 
                 // make sure to do next check only after x frames when the current damage is done
-                this.iframesLeft = memory.roomsFirstEnemyIframes.value;
+                this.iframesLeft = memory.enemy0IFrames.value;
                 this.lastCheck = Date.now();
             }
 
             // he is dead
-            else if (memory.enemyHP.value === 0 && this.startCounting) {
+            else if (memory.enemy0HP.value === 0 && this.startCounting) {
 
                 const time = Date.now();
 
                 // only check every x + 1 frames
                 if (time - this.lastCheck > (1000 / 60 * (this.iframesLeft + 1)))  {
                     // everytime we check and iframes are there, check how many iframes are left
-                    if (memory.roomsFirstEnemyIframes && memory.roomsFirstEnemyIframes.value > 0) {
+                    if (memory.enemy0IFrames && memory.enemy0IFrames.value > 0) {
                         // keep track of how many iframes are left and only check again after this
-                        this.iframesLeft = memory.roomsFirstEnemyIframes.value;
+                        this.iframesLeft = memory.enemy0IFrames.value;
 
                         this.additionalShotCounter++;
 

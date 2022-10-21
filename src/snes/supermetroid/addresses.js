@@ -8,7 +8,6 @@ export default {
     gameState: new MemState(wram.uint16Read(0x0998), "gameState", "Game State"),
     samusHP: new MemState(wram.uint16Read(0x09c2), "samusHP", "Samus HP"),
     samusMaxHP: new MemState(wram.uint16Read(0x09c4), "samusMaxHP", "Samus Max HP"),
-    enemyHP: new MemState(wram.uint16Read(0x0f8c), "enemyHP", "Enemy HP"),
     phantoonEyeTimer: new MemState(wram.uint16Read(0x0fe8), "phantoonEyeTimer", "Phantoon Eye Timer"),
     ceresTimer: new MemState(wram.bcdRead(0x0945, 2, true), "ceresTimer", "Ceres Timer"),
     ceresState: new MemState(wram.uint16Read(0x093f), "ceresState", "Ceres State"),
@@ -37,22 +36,39 @@ export default {
     samusYDirection: new MemState(wram.uint16Read(0x0b36), "samusYDirection", "Samus Y Direction"),
     samusPose: new MemState(wram.uint16Read(0x0a1c), "samusPose", "Samus Pose"),
     collectedItemBits: new MemState(wram.dataRead(0xd870, 19), "collectedItemBits", '"Collected Items" Bit Array'),
-    collectedEquipment: new MemState(wram.uint16Read(0x09a2), "collectedEquipment", 'Collected equipment flags'),
-    equippedEquipment: new MemState(wram.uint16Read(0x09a4), "equippedEquipment", 'Equipped equipment flags'),
+    collectedEquipment: new MemState(wram.uint16Read(0x09a2), "collectedEquipment", "Collected equipment flags"),
+    equippedEquipment: new MemState(wram.uint16Read(0x09a4), "equippedEquipment", "Equipped equipment flags"),
     scroll1: new MemState(wram.uint16Read(0xcd20), "scroll1", "Scroll read #1"),
     scroll2: new MemState(wram.uint16Read(0xcd22), "scroll2", "Scroll read #2"),
     gameTimeFrames: new MemState(wram.uint16Read(0x09da), "gameTimeFrames", "Game Time, Frames"),
     gameTimeSeconds: new MemState(wram.uint16Read(0x09dc), "gameTimeSeconds", "Game Time, Seconds"),
     gameTimeMinutes: new MemState(wram.uint16Read(0x09de), "gameTimeMinutes", "Game Time, Minutes"),
     gameTimeHours: new MemState(wram.uint16Read(0x09e0), "gameTimeHours", "Game Time, Hours"),
-    frameCounter: new MemState(wram.uint16Read(0x05B6), "frameCounter", "Frame Counter (no lag frames)"),
-    nmiCounter: new MemState(wram.uint16Read(0x05B8), "nmiCounter", "NMI Frame Counter (with lag frames)"),
-
-    roomsFirstEnemyIframes: new MemState(wram.uint16Read(0x0fa0), 'roomsFirstEnemyIframes', 'Room\'s first enemy iframes'),
-    enemyProjectileDamage: new MemState(wram.uint16Read(0x187A), 'enemyProjectileDamage', 'Enemy damage when projectile collides'),
+    frameCounter: new MemState(wram.uint16Read(0x05b6), "frameCounter", "Frame Counter (no lag frames)"),
+    nmiCounter: new MemState(wram.uint16Read(0x05b8), "nmiCounter", "NMI Frame Counter (with lag frames)"),
+    enemy0HP: new MemState(wram.uint16Read(0x0f8c), "enemy0HP", "Enemy 0 HP"),
+    enemy0IFrames: new MemState(
+        wram.uint16Read(0x0fa0),
+        "enemy0IFrames",
+        "Room's first enemy iframes"
+    ),
+    enemy1HP: new MemState(wram.uint16Read(0x0f8c - 0x0f78 + 0x0fb8), "enemy1HP", "Enemy 1 HP"),
+    enemyProjectileDamage: new MemState(
+        wram.uint16Read(0x187a),
+        "enemyProjectileDamage",
+        "Enemy damage when projectile collides"
+    ),
 
     // Practice Rom addresses
-    prRealtimeRoom: new MemState(wram.uint16Read(0xFD06), "prRealtimeRoom", '[Practice Rom] Realtime Room'),
-    prLastRealtimeRoom: new MemState(wram.uint16Read(0xFD08), "prLastRealtimeRoom", '[Practice Rom] Last Realtime Room'),
-    prTransitionCounter: new MemState(wram.uint16Read(0xFD10), "prTransitionCounter", '[Practice Rom] Transition Counter'),
+    prRealtimeRoom: new MemState(wram.uint16Read(0xfd06), "prRealtimeRoom", "[Practice Rom] Realtime Room"),
+    prLastRealtimeRoom: new MemState(
+        wram.uint16Read(0xfd08),
+        "prLastRealtimeRoom",
+        "[Practice Rom] Last Realtime Room"
+    ),
+    prTransitionCounter: new MemState(
+        wram.uint16Read(0xfd10),
+        "prTransitionCounter",
+        "[Practice Rom] Transition Counter"
+    ),
 };
