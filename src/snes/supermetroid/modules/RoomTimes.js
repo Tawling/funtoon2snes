@@ -61,13 +61,13 @@ export default class RoomTimes extends MemoryModule {
         }
 
         const isPaused = isIGTPaused(memory.gameState.value);
-        const wasPaused = isIGTPaused(memory.gameState.prevFrameValue);
+        const wasPaused = isIGTPaused(memory.gameState.prevReadValue);
 
         const prevIGT =
-            memory.gameTimeHours.prevFrameValue * 216000 +
-            memory.gameTimeMinutes.prevFrameValue * 3600 +
-            memory.gameTimeSeconds.prevFrameValue * 60 +
-            memory.gameTimeFrames.prevFrameValue;
+            memory.gameTimeHours.prevReadValue * 216000 +
+            memory.gameTimeMinutes.prevReadValue * 3600 +
+            memory.gameTimeSeconds.prevReadValue * 60 +
+            memory.gameTimeFrames.prevReadValue;
 
         const currentIGT =
             memory.gameTimeHours.value * 216000 +
@@ -76,11 +76,11 @@ export default class RoomTimes extends MemoryModule {
             memory.gameTimeFrames.value;
 
 
-        if (memory.nmiCounter.value < memory.nmiCounter.prevFrameValue) {
+        if (memory.nmiCounter.value < memory.nmiCounter.prevReadValue) {
             this.state.nmiRollover++;
         }
 
-        if (memory.frameCounter.value < memory.frameCounter.prevFrameValue) {
+        if (memory.frameCounter.value < memory.frameCounter.prevReadValue) {
             this.state.frameCountRollover++;
         }
 
@@ -105,8 +105,8 @@ export default class RoomTimes extends MemoryModule {
             ) {
                 // Room entrance
                 const lag =
-                    counterDelta(memory.nmiCounter.prevFrameValue, memory.nmiCounter.value) -
-                    counterDelta(memory.frameCounter.prevFrameValue, memory.frameCounter.value);
+                    counterDelta(memory.nmiCounter.prevReadValue, memory.nmiCounter.value) -
+                    counterDelta(memory.frameCounter.prevReadValue, memory.frameCounter.value);
                 const entryFrameDelta = currentIGT - prevIGT; // + lag;
                 console.log(entryFrameDelta, entryFrameDelta / FPS);
                 this.state = {
@@ -171,8 +171,8 @@ export default class RoomTimes extends MemoryModule {
                 // full room was tracked, log the prev room and time
 
                 const igtDelta = currentIGT - prevIGT;
-                const frameDelta = counterDelta(memory.frameCounter.prevFrameValue, memory.frameCounter.value);
-                const lag = counterDelta(memory.nmiCounter.prevFrameValue, memory.nmiCounter.value) - frameDelta;
+                const frameDelta = counterDelta(memory.frameCounter.prevReadValue, memory.frameCounter.value);
+                const lag = counterDelta(memory.nmiCounter.prevReadValue, memory.nmiCounter.value) - frameDelta;
 
                 const exitFrameDelta = frameDelta - igtDelta; // + lag?
                 const exitTime = performance.now() - ((exitFrameDelta - 1) / FPS) * 1000;

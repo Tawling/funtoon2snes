@@ -20,7 +20,7 @@ export default class DeathEventModule extends MemoryModule {
     }
 
     memoryReadAvailable({ memory, sendEvent, globalState }) {
-        if (!isDeath(memory.gameState.prevFrameValue) && isDeath(memory.gameState.value)) {
+        if (!isDeath(memory.gameState.prevReadValue) && isDeath(memory.gameState.value)) {
             sendEvent("samusDeath");
             globalState.isDeath = true;
         } else {

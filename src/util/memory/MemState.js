@@ -7,12 +7,12 @@ export default class MemState {
         this.uniqueDepth = uniqueDepth;
         this.values = [];
         this.uniqueValues = [];
-        this.prevFrameValue = undefined;
+        this.prevReadValue = undefined;
     }
 
     update(value) {
         // Update prev frame value
-        this.prevFrameValue = this.values[0];
+        this.prevReadValue = this.values[0];
         // Initialize value array if needed
         if (this.values.length < this.depth) {
             this.values = new Array(this.depth);

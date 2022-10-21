@@ -76,7 +76,7 @@ export default class GameDetectorModule extends MemoryModule {
 
         if (
             !this.headerRead ||
-            (checksum.prevFrameValue === undefined && checksum.value !== undefined) ||
+            (checksum.prevReadValue === undefined && checksum.value !== undefined) ||
             this.checkChange(checksum) ||
             this.checkChange(ramSize)
         ) {

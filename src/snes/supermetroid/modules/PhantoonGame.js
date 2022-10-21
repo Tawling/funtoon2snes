@@ -46,8 +46,8 @@ export default class PhantoonGameModule extends MemoryModule {
     memoryReadAvailable({ memory, sendEvent }) {
         // Handle a run being reset
         if (
-            memory.roomID.prevFrameValue !== undefined &&
-            memory.roomID.prevFrameValue !== Rooms.EMPTY &&
+            memory.roomID.prevReadValue !== undefined &&
+            memory.roomID.prevReadValue !== Rooms.EMPTY &&
             memory.roomID.value === Rooms.EMPTY
         ) {
             if (this.inPhantoonFight && this.phantoonPatterns.length > 0) {

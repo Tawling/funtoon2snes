@@ -69,8 +69,8 @@ export default class MemoryModule {
      */
     checkChange(read) {
         return (
-            (read.prevFrameValue !== undefined && read.value != read.prevFrameValue) ||
-            (read.value !== undefined && read.prevFrameValue === undefined)
+            (read.prevReadValue !== undefined && read.value != read.prevReadValue) ||
+            (read.value !== undefined && read.prevReadValue === undefined)
         );
     }
 
@@ -84,10 +84,10 @@ export default class MemoryModule {
     checkTransition(read, from, to) {
         const fromTrue =
             from instanceof Blacklist
-                ? !from.values.some((v) => v == read.prevFrameValue)
+                ? !from.values.some((v) => v == read.prevReadValue)
                 : Array.isArray(from)
-                ? from.some((v) => v == read.prevFrameValue)
-                : read.prevFrameValue == from;
+                ? from.some((v) => v == read.prevReadValue)
+                : read.prevReadValue == from;
         const toTrue =
             to instanceof Blacklist
                 ? !to.values.some((v) => v == read.value)
