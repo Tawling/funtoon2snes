@@ -75,12 +75,18 @@ export default class RoomTimes extends MemoryModule {
             memory.gameTimeSeconds.value * 60 +
             memory.gameTimeFrames.value;
 
+
         if (memory.nmiCounter.value < memory.nmiCounter.prevFrameValue) {
             this.state.nmiRollover++;
         }
 
         if (memory.frameCounter.value < memory.frameCounter.prevFrameValue) {
             this.state.frameCountRollover++;
+        }
+
+        if (currentIGT < prevIGT) {
+            // Savestate loaded
+            this.resetState();
         }
 
         if (!wasPaused && isPaused) {
@@ -128,6 +134,7 @@ export default class RoomTimes extends MemoryModule {
             const eventData = {
                 frameCount: this.state.totalFrames,
                 totalSeconds: this.state.roomTime,
+                trueSeconds: this.state.trueRoomTime,
                 lagFrames: this.state.lagFrames,
                 igtFrames: this.state.igtFrames,
                 roomID: this.state.roomID,
@@ -188,7 +195,8 @@ export default class RoomTimes extends MemoryModule {
                 this.state.totalFrames = totalFrames;
                 this.state.exitTime = exitTime;
                 this.state.roomID = memory.roomID.value;
-                this.state.roomTime = roomTime / 1000;
+                this.state.roomTime = totalFrames / FPS;
+                this.state.trueRoomTime = roomTime / 1000;
                 this.state.exitFrameDelta = exitFrameDelta;
 
                 this.state.exitNMI = memory.nmiCounter.value + 65536 * this.state.nmiRollover - exitFrameDelta;

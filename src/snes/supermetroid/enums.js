@@ -74,6 +74,7 @@ export const Rooms = {
         CRATERIA_POWER_BOMB_ROOM:                   0x93AA,
         CRATERIA_SAVE_ROOM:                         0x93D5,
         WEST_OCEAN:                                 0x93FE,
+        WEST_OCEAN_PARTIAL:                         0x968F,
         BOWLING_ALLEY_PATH:                         0x9461,
         CRATERIA_KIHUNTER_ROOM:                     0x948C,
         FORGOTTEN_HIGHWAY_ELEVATOR:                 0x94CC,
