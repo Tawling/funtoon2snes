@@ -51,7 +51,7 @@ export default class PhantoonGameModule extends MemoryModule {
             memory.roomID.value === Rooms.EMPTY
         ) {
             if (this.inPhantoonFight && this.phantoonPatterns.length > 0) {
-                sendEvent("phanEnd", this.phantoonPatterns.join(" "), 3);
+                sendEvent("phanEnd", this.phantoonPatterns.join(" ") + " x", 3);
                 this.reloadUnsafe = false;
             } else if (this.phantoonGameState == PhantoonGameState.Opened) {
                 sendEvent("phanClose");
