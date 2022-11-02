@@ -50,14 +50,16 @@ export default {
     enemy0IFrames: new MemState(
         wram.uint16Read(0x0fa0),
         "enemy0IFrames",
-        "Room's first enemy iframes"
+        "Enemy 0 I-Frames"
     ),
+    enemy0AIVariable1: new MemState(wram.uint16Read(0x0fa8), "enemy0AIVariable1", "Enemy 0 AI Variable #1"),
     enemy1HP: new MemState(wram.uint16Read(0x0f8c - 0x0f78 + 0x0fb8), "enemy1HP", "Enemy 1 HP"),
     enemyProjectileDamage: new MemState(
         wram.uint16Read(0x187a),
         "enemyProjectileDamage",
         "Enemy damage when projectile collides"
     ),
+    mb2BabyIndex: new MemState(wram.uint16Read(0x7854), "mb2BabyIndex", "MB2 Baby Enemy Index"),
 
     // Practice Rom addresses
     prRealtimeRoom: new MemState(wram.uint16Read(0xfd06), "prRealtimeRoom", "[Practice Rom] Realtime Room"),

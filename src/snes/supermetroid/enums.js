@@ -512,6 +512,7 @@ export const BossStates = {
     CROCOMIRE:      0x11,
     GOLDEN_TORIZO:  0x12,
     RIDLEY:         0x10,
+    MOTHER_BRAIN:   0x29,
 }
 
 export const ItemFlags = {

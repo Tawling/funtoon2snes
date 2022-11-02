@@ -3,7 +3,8 @@ import { EquipmentFlags, GameStates, Rooms } from "../enums";
 import Addresses from "../addresses";
 import { BossStates } from "../enums";
 import { noneOf, readBigIntFlag } from "../../../util/utils";
-import { counterDelta, isDemo, isIGTPaused } from "../smutils";
+import { isDemo, isIGTPaused } from "../utils/gameStateUtils";
+import { counterDelta } from "../utils/counterDelta";
 
 const FPS = 60.098813897441;
 
@@ -52,6 +53,9 @@ export default class RoomTimes extends MemoryModule {
             Addresses.samusHP,
             Addresses.samusMaxHP,
             Addresses.eventStates,
+            Addresses.enemy1HP, // Mother Brain HP
+            Addresses.mb2BabyIndex,
+            Addresses.enemy0AIVariable1,
         ];
     }
 
@@ -75,7 +79,6 @@ export default class RoomTimes extends MemoryModule {
             memory.gameTimeSeconds.value * 60 +
             memory.gameTimeFrames.value;
 
-
         if (memory.nmiCounter.value < memory.nmiCounter.prevReadValue) {
             this.state.nmiRollover++;
         }
@@ -91,6 +94,7 @@ export default class RoomTimes extends MemoryModule {
 
         if (!wasPaused && isPaused) {
             // IGT pause detected
+            this.state.paused = true;
         } else if (wasPaused && !isPaused) {
             // IGT unpause detected
             if (
@@ -150,6 +154,7 @@ export default class RoomTimes extends MemoryModule {
                 readTime: globalState.readTime,
                 entryState: this.state.entryState,
                 exitState: this.state.exitState,
+                igtWasPaused: !!this.state.paused,
             };
             globalState.lastRoomTimeEvent = eventData;
             sendEvent("smRoomTime", eventData);
@@ -182,23 +187,6 @@ export default class RoomTimes extends MemoryModule {
                 const roomTimeFrames = (roomTime * FPS) / 1000;
                 console.log("room time frames: ", roomTimeFrames);
 
-                const totalFrames =
-                    memory.nmiCounter.value + 65536 * this.state.nmiRollover - this.state.entryNMI - exitFrameDelta;
-                console.log("total frames: ", totalFrames);
-
-                console.log("delta: ", roomTimeFrames - totalFrames);
-
-                console.log("f->s: ", totalFrames/FPS);
-                console.log("total sec: ", roomTime / 1000);
-                console.log("delta s: ", roomTime / 1000 - (totalFrames/FPS))
-
-                this.state.totalFrames = totalFrames;
-                this.state.exitTime = exitTime;
-                this.state.roomID = memory.roomID.value;
-                this.state.roomTime = totalFrames / FPS;
-                this.state.trueRoomTime = roomTime / 1000;
-                this.state.exitFrameDelta = exitFrameDelta;
-
                 this.state.exitNMI = memory.nmiCounter.value + 65536 * this.state.nmiRollover - exitFrameDelta;
                 this.state.exitFrameCount =
                     memory.frameCounter.value + 65536 * this.state.frameCountRollover - exitFrameDelta;
@@ -210,6 +198,31 @@ export default class RoomTimes extends MemoryModule {
                     lag;
                 this.state.exitIGT = currentIGT;
                 this.state.igtFrames = currentIGT - this.state.entryIGT;
+
+                // Limit totalFrames so it's never less than IGT + Lag, accounting for read time offsets within frames
+                // for a majority of rooms.
+                const totalFrames = Math.max(
+                    this.state.igtFrames + this.state.lagFrames,
+                    memory.nmiCounter.value + 65536 * this.state.nmiRollover - this.state.entryNMI - exitFrameDelta
+                );
+                console.log("total frames: ", totalFrames);
+
+                console.log("delta: ", roomTimeFrames - totalFrames);
+
+                console.log("f->s: ", totalFrames / FPS);
+                console.log("total sec: ", roomTime / 1000);
+                console.log("delta s: ", roomTime / 1000 - totalFrames / FPS);
+
+                this.state.totalFrames = totalFrames;
+                if (!this.state.paused) {
+                    this.state.totalFrames = Math.max(igtFrames + lagFrames, totalFrames);
+                }
+                this.state.exitTime = exitTime;
+                this.state.roomID = memory.roomID.value;
+                this.state.roomTime = totalFrames / FPS;
+                this.state.trueRoomTime = roomTime / 1000;
+                this.state.exitFrameDelta = exitFrameDelta;
+
                 this.state.exitState = this.getSamusState(memory);
                 console.log(this.state);
             } else {
@@ -217,7 +230,101 @@ export default class RoomTimes extends MemoryModule {
                 console.log("No room entrance time...skipping room time event");
             }
         }
-        // TODO: detect MB phase changes and send as separate timing event?
+
+        // Detect MB phase changes and report (rough) timings
+        if (
+            this.state.entryTime &&
+            memory.roomID.value === Rooms.Tourian.MOTHER_BRAIN_ROOM &&
+            memory.gameState.value === GameStates.GAMEPLAY
+        ) {
+            if (
+                this.state.mb1Time &&
+                this.state.mb2Time &&
+                readBigIntFlag(memory.bossStates.value, BossStates.MOTHER_BRAIN) &&
+                !readBigIntFlag(memory.bossStates.prevReadValue, BossStates.MOTHER_BRAIN)
+            ) {
+                // MB3 done
+                this.state.mb3FrameCount = memory.frameCounter.value + 65536 * this.state.frameCountRollover;
+                this.state.mb3NMI = memory.nmiCounter.value + 65536 * this.state.nmiRollover;
+                this.state.mb3IGT = currentIGT;
+                this.state.mb3Time = performance.now() - this.state.entryTime;
+
+                const totalFrames = this.state.mb3NMI - this.state.mb2NMI;
+
+                const lagFrames =
+                    this.state.mb3NMI - this.state.mb2NMI - (this.state.mb3FrameCount - this.state.mb2FrameCount);
+
+                const eventData = {
+                    phase: 3,
+                    frameCount: totalFrames,
+                    totalSeconds: totalFrames / FPS,
+                    trueSeconds: this.state.mb3Time - this.state.mb1Time - this.state.mb2Time,
+                    lagFrames: lagFrames,
+                    igtFrames: this.state.mb3IGT - this.state.mb2IGT,
+                    practice: !!globalState.persistent.gameTags.PRACTICE,
+                    rps: globalState.readsPerSecond,
+                    readTime: globalState.readTime,
+                };
+                sendEvent("smMBPhaseTime", eventData);
+            } else if (
+                !this.state.mb2Time &&
+                this.state.mb1Time &&
+                //this.checkTransition(memory.enemy1HP, 0, 36000)
+                this.checkTransition(memory.mb2BabyIndex, undefined, 0xbe28)
+            ) {
+                // MB2 done
+                this.state.mb2FrameCount = memory.frameCounter.value + 65536 * this.state.frameCountRollover;
+                this.state.mb2NMI = memory.nmiCounter.value + 65536 * this.state.nmiRollover;
+                this.state.mb2IGT = currentIGT;
+                this.state.mb2Time = performance.now() - this.state.entryTime;
+
+                const totalFrames = this.state.mb2NMI - this.state.mb1NMI;
+
+                const lagFrames =
+                    this.state.mb2NMI - this.state.mb1NMI - (this.state.mb2FrameCount - this.state.mb1FrameCount);
+
+                const eventData = {
+                    phase: 2,
+                    frameCount: totalFrames,
+                    totalSeconds: totalFrames / FPS,
+                    trueSeconds: this.state.mb2Time - this.state.mb1Time,
+                    lagFrames: lagFrames,
+                    igtFrames: this.state.mb2IGT - this.state.mb1IGT,
+                    practice: !!globalState.persistent.gameTags.PRACTICE,
+                    rps: globalState.readsPerSecond,
+                    readTime: globalState.readTime,
+                };
+                sendEvent("smMBPhaseTime", eventData);
+            } else if (
+                !this.state.mb1Time &&
+                //this.checkTransition(memory.enemy1HP, 0, 18000)
+                this.checkTransition(memory.enemy0AIVariable1, undefined, 0x8884)
+            ) {
+                // MB1 done
+                this.state.mb1FrameCount = memory.frameCounter.value + 65536 * this.state.frameCountRollover;
+                this.state.mb1NMI = memory.nmiCounter.value + 65536 * this.state.nmiRollover;
+                this.state.mb1IGT = currentIGT;
+                this.state.mb1Time = performance.now() - this.state.entryTime;
+
+                const totalFrames = this.state.mb1NMI - this.state.entryNMI;
+
+                const lagFrames =
+                    this.state.mb1NMI - this.state.entryNMI - (this.state.mb1FrameCount - this.state.entryFrameCount);
+
+                const eventData = {
+                    phase: 1,
+                    frameCount: totalFrames,
+                    totalSeconds: totalFrames / FPS,
+                    trueSeconds: this.state.mb1Time,
+                    lagFrames: lagFrames,
+                    igtFrames: this.state.mb1IGT - this.state.entryIGT,
+                    practice: !!globalState.persistent.gameTags.PRACTICE,
+                    rps: globalState.readsPerSecond,
+                    readTime: globalState.readTime,
+                };
+                sendEvent("smMBPhaseTime", eventData);
+            }
+        }
         // TODO: track baby skip jumps??
         // TODO: track ammo usage and drops mid-room?
         // TODO: track health changes mid-room?
