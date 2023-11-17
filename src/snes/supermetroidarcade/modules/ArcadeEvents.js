@@ -31,11 +31,6 @@ export default class ArcadeEventsModule extends MemoryModule {
             attributes: { disabled: true },
             default: false,
         },
-        sendNewRunStartedEvent: {
-            display: "Send an event when you start a new run",
-            type: "bool",
-            default: false,
-        },
         sendAchievementEvent: {
             display: "Send an event when you get achievement points",
             type: "bool",
@@ -53,7 +48,6 @@ export default class ArcadeEventsModule extends MemoryModule {
 
     getMemoryReads() {
         return [
-            Addresses.roomID,
             ArcadeAddresses.arcadeRoomCount,
             ArcadeAddresses.arcadeScore,
             ArcadeAddresses.arcadeTimer,
@@ -122,14 +116,9 @@ export default class ArcadeEventsModule extends MemoryModule {
     
     // Wrappers to send events that check against the settings first
     // Delay of 3s added to everything except a new run. TODO: expose this in settings?
-    sendRoomCountEvent(sendEvent, newRoomID, roomCount) {
+    sendRoomCountEvent(sendEvent, roomCount) {
         if (this.settings.sendRoomCountEvent.value) {
-            let out = {
-                roomID: newRoomID,
-                roomCount: roomCount
-            }
-            console.log(out);
-            sendEvent("eventRoomCount", out, 3);
+            sendEvent("eventRoomCount", roomCount, 3);
         }
     }
     
@@ -142,12 +131,6 @@ export default class ArcadeEventsModule extends MemoryModule {
     sendTimerEvent(sendEvent, currentTimer) {
         if (this.settings.sendTimerEvent.value) {
             sendEvent("eventTimer", currentTimer, 3);
-        }
-    }
-    
-    sendNewRunEvent(sendEvent) {
-        if (this.settings.sendNewRunStartedEvent.value) {
-            sendEvent("eventNewRun");
         }
     }
     
@@ -182,9 +165,8 @@ export default class ArcadeEventsModule extends MemoryModule {
         
         // Check if we want to send any events
         if (newRoomReached) {
-            this.sendRoomCountEvent(sendEvent, memory.roomID.value, memory.arcadeRoomCount.value);
-            if (memory.arcadeRoomCount.value == 1) {
-                this.sendNewRunEvent(sendEvent);
+            if (memory.arcadeRoomCount.value > 0) {
+                this.sendRoomCountEvent(sendEvent, memory.arcadeRoomCount.value);
             }
         }
         
