@@ -21,10 +21,10 @@ export default class ResetEventModule extends MemoryModule {
     memoryReadAvailable({ memory, sendEvent, globalState }) {
         if (
             memory.gameState.value !== GameStates.GAMEPLAY &&
-            ((this.checkTransition(memory.roomID, undefined, Rooms.EMPTY) &&
-                !isDemo(memory.gameState.value) &&
-                !isDemo(memory.gameState.prevReadValue)) ||
-                (isGameplay(memory.gameState.prevReadValue) && !isGameplay(memory.gameState.value)))
+            (this.checkTransition(memory.roomID, undefined, Rooms.EMPTY) ||
+                (isGameplay(memory.gameState.prevReadValue) && !isGameplay(memory.gameState.value))) &&
+            !isDemo(memory.gameState.value) &&
+            !isDemo(memory.gameState.prevReadValue)
         ) {
             sendEvent("resetGame");
             globalState.isReset = true;

@@ -47,11 +47,7 @@ export default {
     frameCounter: new MemState(wram.uint16Read(0x05b6), "frameCounter", "Frame Counter (no lag frames)"),
     nmiCounter: new MemState(wram.uint16Read(0x05b8), "nmiCounter", "NMI Frame Counter (with lag frames)"),
     enemy0HP: new MemState(wram.uint16Read(0x0f8c), "enemy0HP", "Enemy 0 HP"),
-    enemy0IFrames: new MemState(
-        wram.uint16Read(0x0fa0),
-        "enemy0IFrames",
-        "Enemy 0 I-Frames"
-    ),
+    enemy0IFrames: new MemState(wram.uint16Read(0x0fa0), "enemy0IFrames", "Enemy 0 I-Frames"),
     enemy0AIVariable1: new MemState(wram.uint16Read(0x0fa8), "enemy0AIVariable1", "Enemy 0 AI Variable #1"),
     enemy1HP: new MemState(wram.uint16Read(0x0f8c - 0x0f78 + 0x0fb8), "enemy1HP", "Enemy 1 HP"),
     enemyProjectileDamage: new MemState(
@@ -60,6 +56,11 @@ export default {
         "Enemy damage when projectile collides"
     ),
     mb2BabyIndex: new MemState(wram.uint16Read(0x7854), "mb2BabyIndex", "MB2 Baby Enemy Index"),
+    doorTransitionFunction: new MemState(
+        wram.uint16Read(0x099c),
+        "doorTransitionFunction",
+        "Door Transition Function Pointer"
+    ),
 
     // Practice Rom addresses
     prRealtimeRoom: new MemState(wram.uint16Read(0xfd06), "prRealtimeRoom", "[Practice Rom] Realtime Room"),

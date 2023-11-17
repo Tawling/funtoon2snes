@@ -7,7 +7,7 @@ const deathStates = [GameStates.SAMUS_DEAD, GameStates.SAMUS_DEAD_BLACK_OUT, Gam
 
 export default class DeathEventModule extends MemoryModule {
     constructor() {
-        super("deathEvent", "Send Generic Death Event");
+        super("deathEvent", "Send Generic Death Event", true, true);
         this.tooltip = "Sends an event to FUNtoon when Samus dies. This can be handled by scripts however you desire.";
     }
 

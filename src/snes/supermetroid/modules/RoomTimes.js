@@ -56,6 +56,7 @@ export default class RoomTimes extends MemoryModule {
             Addresses.enemy1HP, // Mother Brain HP
             Addresses.mb2BabyIndex,
             Addresses.enemy0AIVariable1,
+            Addresses.doorTransitionFunction,
         ];
     }
 
@@ -132,7 +133,8 @@ export default class RoomTimes extends MemoryModule {
             this.state.exitTime &&
             (this.checkChange(memory.roomID) ||
                 memory.gameState.value === GameStates.CERES_DESTROYED_CINEMATIC ||
-                memory.gameState.value === GameStates.BEAT_THE_GAME)
+                memory.gameState.value === GameStates.BEAT_THE_GAME ||
+                memory.doorTransitionFunction.value >= 0xe38e)
         ) {
             // We got next room ID, time to send event
             const eventData = {
@@ -200,7 +202,8 @@ export default class RoomTimes extends MemoryModule {
                 this.state.igtFrames = currentIGT - this.state.entryIGT;
 
                 // Limit totalFrames so it's never less than IGT + Lag, accounting for read time offsets within frames
-                // for a majority of rooms.
+                //  for a majority of rooms. This guarantees time is never a negative delta on a room without IGT pauses
+                //  relative to practice rom timings.
                 const totalFrames = Math.max(
                     this.state.igtFrames + this.state.lagFrames,
                     memory.nmiCounter.value + 65536 * this.state.nmiRollover - this.state.entryNMI - exitFrameDelta
@@ -214,9 +217,6 @@ export default class RoomTimes extends MemoryModule {
                 console.log("delta s: ", roomTime / 1000 - totalFrames / FPS);
 
                 this.state.totalFrames = totalFrames;
-                if (!this.state.paused) {
-                    this.state.totalFrames = Math.max(igtFrames + lagFrames, totalFrames);
-                }
                 this.state.exitTime = exitTime;
                 this.state.roomID = memory.roomID.value;
                 this.state.roomTime = totalFrames / FPS;
@@ -380,6 +380,7 @@ export default class RoomTimes extends MemoryModule {
                 goldenTorizo: readBigIntFlag(memory.bossStates.value, BossStates.GOLDEN_TORIZO),
                 sporeSpawn: readBigIntFlag(memory.bossStates.value, BossStates.SPORE_SPAWN),
                 crocomire: readBigIntFlag(memory.bossStates.value, BossStates.CROCOMIRE),
+                motherBrain: readBigIntFlag(memory.bossStates.value, BossStates.MOTHER_BRAIN),
             },
             eventStates: memory.eventStates.value,
         };
