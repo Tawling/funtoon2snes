@@ -94,6 +94,7 @@ export default class Connection {
     };
 
     eventLoop = async () => {
+        const startTime = performance.now();
         if (this.enabled) {
             if (this.usb2snes.isAttached()) {
                 try {
@@ -109,6 +110,7 @@ export default class Connection {
                 // console.log('skipped read');
             }
         }
-        this.eventLoopTimeout = setTimeout(this.eventLoop, 16);
+        const endTime = performance.now();
+        this.eventLoopTimeout = setTimeout(this.eventLoop, Math.floor(Math.max(0, 16.666 - (endTime - startTime))));
     };
 }

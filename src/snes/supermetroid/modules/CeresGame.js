@@ -26,7 +26,7 @@ export default class CeresGameModule extends MemoryModule {
             display: "Output what the ceres timer was at each door transition at the end of ceres",
             type: "bool",
             default: false,
-        }
+        },
     };
 
     setEnabled(enabled) {
@@ -41,21 +41,23 @@ export default class CeresGameModule extends MemoryModule {
     getMemoryReads() {
         return [Addresses.roomID, Addresses.gameState, Addresses.ceresTimer, Addresses.ceresState];
     }
-    
+
     getTransitionIndex(memory) {
         if (this.checkTransition(memory.roomID, Rooms.Ceres.CERES_RIDLEY_ROOM, Rooms.Ceres.FIFTY_EIGHT_ESCAPE)) {
             return 0;
-        }
-        else if (this.checkTransition(memory.roomID, Rooms.Ceres.FIFTY_EIGHT_ESCAPE, Rooms.Ceres.DEAD_SCIENTIST_ROOM)) {
+        } else if (
+            this.checkTransition(memory.roomID, Rooms.Ceres.FIFTY_EIGHT_ESCAPE, Rooms.Ceres.DEAD_SCIENTIST_ROOM)
+        ) {
             return 1;
-        }
-        else if (this.checkTransition(memory.roomID, Rooms.Ceres.DEAD_SCIENTIST_ROOM, Rooms.Ceres.MAGNET_STAIRS_ROOM)) {
+        } else if (
+            this.checkTransition(memory.roomID, Rooms.Ceres.DEAD_SCIENTIST_ROOM, Rooms.Ceres.MAGNET_STAIRS_ROOM)
+        ) {
             return 2;
-        }
-        else if (this.checkTransition(memory.roomID, Rooms.Ceres.MAGNET_STAIRS_ROOM, Rooms.Ceres.FALLING_TILE_ROOM)) {
+        } else if (this.checkTransition(memory.roomID, Rooms.Ceres.MAGNET_STAIRS_ROOM, Rooms.Ceres.FALLING_TILE_ROOM)) {
             return 3;
-        }
-        else if (this.checkTransition(memory.roomID, Rooms.Ceres.FALLING_TILE_ROOM, Rooms.Ceres.CERES_ELEVATOR_ROOM)) {
+        } else if (
+            this.checkTransition(memory.roomID, Rooms.Ceres.FALLING_TILE_ROOM, Rooms.Ceres.CERES_ELEVATOR_ROOM)
+        ) {
             return 4;
         }
         return -1;
@@ -69,7 +71,7 @@ export default class CeresGameModule extends MemoryModule {
         }
         if (
             this.ceresState != CeresGameState.Opened &&
-            this.checkTransition(memory.roomID, Rooms.EMPTY, Rooms.Ceres.CERES_ELEVATOR_ROOM)
+            this.checkTransition(memory.gameState, GameStates.NEW_GAME_POST_INTRO, undefined)
         ) {
             sendEvent("ceresOpen");
             this.ceresState = CeresGameState.Opened;
@@ -91,26 +93,17 @@ export default class CeresGameModule extends MemoryModule {
                 GameStates.CERES_DESTROYED_CINEMATIC
             )
         ) {
-            if (
-                this.checkTransition(
-                    memory.gameState,
-                    [GameStates.BLACK_OUT_FROM_CERES, GameStates.CERES_ELEVATOR],
-                    GameStates.CERES_DESTROYED_CINEMATIC
-                )
-            ) {
-                this.ceresState = CeresGameState.Closed;
-                sendEvent("ceresEnd", memory.ceresTimer.value, 3);
+            this.ceresState = CeresGameState.Closed;
+            sendEvent("ceresEnd", memory.ceresTimer.value, 3);
 
-                if (this.settings.displayDoorTimes.value) {
-                    sendEvent('msg', "Door transition times: " + this.ceresDoorTimes.join(', '), 3);
-                }
-                
-                setTimeout(() => this.reloadUnsafe = false, 3200);
+            if (this.settings.displayDoorTimes.value) {
+                sendEvent("msg", "Door transition times: " + this.ceresDoorTimes.join(", "), 3);
             }
-        }
-        else if (this.ceresState == CeresGameState.PendingResult) {
+
+            setTimeout(() => (this.reloadUnsafe = false), 3200);
+        } else if (this.ceresState == CeresGameState.PendingResult) {
             let transitionIndex = this.getTransitionIndex(memory);
-            
+
             if (transitionIndex >= 0) {
                 this.ceresDoorTimes[transitionIndex] = memory.ceresTimer.value.toString(16);
             }

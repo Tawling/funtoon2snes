@@ -74,6 +74,7 @@ export const Rooms = {
         CRATERIA_POWER_BOMB_ROOM:                   0x93AA,
         CRATERIA_SAVE_ROOM:                         0x93D5,
         WEST_OCEAN:                                 0x93FE,
+        WEST_OCEAN_PARTIAL:                         0x968F,
         BOWLING_ALLEY_PATH:                         0x9461,
         CRATERIA_KIHUNTER_ROOM:                     0x948C,
         FORGOTTEN_HIGHWAY_ELEVATOR:                 0x94CC,
@@ -421,6 +422,20 @@ export const SamusPose = {
     FACING_LEFT_NORMAL_JUMP_AIMING_DOWN_LEFT:   0x6C,
 }
 
+export const EquipmentFlags = {
+    VARIA_SUIT: 0x1,
+    SPRING_BALL: 0x2,
+    MORPH_BALL: 0x4,
+    SCREW_ATTACK: 0x8,
+    GRAVITY_SUIT: 0x20,
+    HI_JUMP_BOOTS: 0x100,
+    SPACE_JUMP: 0x200,
+    BOMBS: 0x1000,
+    SPEED_BOOSTER: 0x2000,
+    GRAPPLE: 0x4000,
+    XRAY: 0x8000,
+}
+
 export const CollectedBeamFlags = {
     WAVE:   0x0001,
     ICE:    0x0002,
@@ -497,6 +512,7 @@ export const BossStates = {
     CROCOMIRE:      0x11,
     GOLDEN_TORIZO:  0x12,
     RIDLEY:         0x10,
+    MOTHER_BRAIN:   0x29,
 }
 
 export const ItemFlags = {

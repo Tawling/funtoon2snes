@@ -9,6 +9,7 @@ export default class ModuleManager {
         this.apiToken = "";
         this.channel = "";
         this.reloadUnsafeCount = 0;
+        this.lastReadTime = performance.now();
 
         this.modules = [GameDetectorModule, ...SuperMetroid, ...SuperMetroidArcade].map((Module) => {
             const m = new Module();
@@ -93,15 +94,19 @@ export default class ModuleManager {
         const enabledModules = this.modules.filter(({ enabled }) => enabled);
 
         for (const module of enabledModules) {
-            const moduleReads = module.getMemoryReads();
+            const moduleReads = module.getMemoryReads(globalState);
             for (const addr of moduleReads) {
                 reads[addr.key] = addr.dataRead;
                 mems[addr.key] = addr;
             }
         }
 
+        const readStartTime = performance.now();
         // Perform reads
         const data = await this.usb2snes.readMultipleTyped(reads);
+        const readEndTime = performance.now();
+        globalState.readTime = readEndTime - this.lastReadTime;
+        this.lastReadTime = readEndTime;
 
         // Update memstate values
         for (const key in data) {

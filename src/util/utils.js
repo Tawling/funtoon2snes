@@ -9,3 +9,13 @@ export function readBigIntFlag(bigIntValue, flagIndex) {
 export function readByteArrayFlag(byteArray, flagIndex) {
     return !!(byteArray[(flagIndex >>> 3)] & (0b10000000 >>> (flagIndex & 0x111)));
 }
+
+export function noneOf(...values) {
+    return new Blacklist(values);
+}
+
+export class Blacklist {
+    constructor(...values) {
+        this.values = [...values]
+    }
+}
