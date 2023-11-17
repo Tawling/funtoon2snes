@@ -1,6 +1,7 @@
 import MemoryModule from "../util/memory/MemoryModule";
 import headerAddresses from "./headerAddresses";
 import smz3Addresses from "./smz3/addresses";
+import arcadeAddresses from "./supermetroidarcade/addresses";
 
 export default class GameDetectorModule extends MemoryModule {
     constructor() {
@@ -19,8 +20,9 @@ export default class GameDetectorModule extends MemoryModule {
         return [
             headerAddresses.hiHeaderMapMode,
             headerAddresses.loHeaderMapMode,
-
             // smz3Addresses.smz3CurrentGame,
+            arcadeAddresses.arcadeSaveBehavior,
+
 
             ...(this.isLoRAM
                 ? [headerAddresses.loHeaderGameTitle, headerAddresses.loHeaderChecksum, headerAddresses.loHeaderRAMSize]
@@ -93,7 +95,12 @@ export default class GameDetectorModule extends MemoryModule {
                 case "SUPER METROID":
                     gameTags["SM"] = true;
                     if (ramSize.value >= 0x05) {
-                        gameTags["PRACTICE"] = true;
+                        console.log(arcadeAddresses.arcadeSaveBehavior.value)
+                        if (arcadeAddresses.arcadeSaveBehavior.value === 0xEA) {
+                            gameTags["ARCADE"] = true;
+                        } else {
+                            gameTags["PRACTICE"] = true;
+                        }
                     } else {
                         gameTags["VANILLA"] = true;
                     }
