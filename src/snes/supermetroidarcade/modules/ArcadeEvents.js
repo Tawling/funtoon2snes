@@ -1,6 +1,4 @@
 import MemoryModule from "../../../util/memory/MemoryModule";
-import { Rooms, GameStates, CeresEscapeStateFlags } from "../../supermetroid/enums";
-import Addresses from "../../supermetroid/addresses";
 import ArcadeAddresses from "../addresses";
 
 export default class ArcadeEventsModule extends MemoryModule {
@@ -157,11 +155,15 @@ export default class ArcadeEventsModule extends MemoryModule {
         if (this.currentSecondsRemaining < 0) this.currentSecondsRemaining = convertedSecondsRemaining;
         
         // Some logic and parsing
-        let newRoomReached = memory.arcadeRoomCount.value != this.currentRoomCount;
-        let newScoreValue = convertedScore != this.currentScore;
-        let newTimerValue = convertedSecondsRemaining != this.currentSecondsRemaining;
+        let newRoomReached = memory.arcadeRoomCount.value !== this.currentRoomCount;
+        let newScoreValue = convertedScore !== this.currentScore;
+        let newTimerValue = convertedSecondsRemaining !== this.currentSecondsRemaining;
         let achievementText = this.parseAchievement(memory);
         let newAchievement = !this.activeAchievement && achievementText;
+
+        if (newAchievement) {
+            this.sendAchievementEvent(sendEvent, {text: achievementText, roomCount: this.currentRoomCount});
+        }
         
         // Check if we want to send any events
         if (newRoomReached) {
@@ -176,10 +178,6 @@ export default class ArcadeEventsModule extends MemoryModule {
         
         if (newTimerValue) {
             this.sendTimerEvent(sendEvent, convertedSecondsRemaining);
-        }
-        
-        if (newAchievement) {
-            this.sendAchievementEvent(sendEvent, achievementText);
         }
         
         // Cache off current values

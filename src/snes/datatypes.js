@@ -233,7 +233,6 @@ export const rom = {
     uint64Read: (address) => new Uint64Read(address, ROM_BASE_ADDR),
     int64Read: (address) => new Int64Read(address, ROM_BASE_ADDR),
     bcdRead: (address, size, littleEndian) => new BCDRead(address, size, littleEndian, ROM_BASE_ADDR),
-    jisx0201Read: (address, size) => new JISX0201Read(address, size, ROM_BASE_ADDR),
 };
 
 // All data read types with a RAM offset of WRAM start

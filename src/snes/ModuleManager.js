@@ -101,7 +101,7 @@ export default class ModuleManager {
             }
         }
 
-        const readStartTime = performance.now();
+        // const readStartTime = performance.now();
         // Perform reads
         const data = await this.usb2snes.readMultipleTyped(reads);
         const readEndTime = performance.now();
