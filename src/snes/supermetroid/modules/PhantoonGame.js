@@ -17,6 +17,8 @@ export default class PhantoonGameModule extends MemoryModule {
         this.inPhantoonFight = false;
         this.phantoonPatterns = [];
         this.currentPhantoonRound = 0;
+        this.isEnraged = false;
+        this.wasEnraged = false;
     }
 
     setEnabled(enabled) {
@@ -25,6 +27,8 @@ export default class PhantoonGameModule extends MemoryModule {
         this.inPhantoonFight = false;
         this.phantoonPatterns = [];
         this.currentPhantoonRound = 0;
+        this.isEnraged = false;
+        this.wasEnraged = false;
     }
 
     shouldRunForGame(gameTags) {
@@ -36,6 +40,7 @@ export default class PhantoonGameModule extends MemoryModule {
             Addresses.roomID,
             Addresses.gameState,
             Addresses.enemy0HP,
+            Addresses.enemy0AIVariable6,
             Addresses.samusHP,
             Addresses.samusReserveHP,
             Addresses.phantoonEyeTimer,
@@ -51,9 +56,9 @@ export default class PhantoonGameModule extends MemoryModule {
             memory.roomID.value === Rooms.EMPTY
         ) {
             if (this.inPhantoonFight && this.phantoonPatterns.length > 0) {
-                sendEvent("phanEnd", this.phantoonPatterns.join(" ") + " x", 3);
+                sendEvent("phanEnd", this.phantoonPatterns.join(" ") + " (reset)", 3);
                 this.reloadUnsafe = false;
-            } else if (this.phantoonGameState == PhantoonGameState.Opened) {
+            } else if (this.phantoonGameState === PhantoonGameState.Opened) {
                 sendEvent("phanClose");
                 this.phantoonGameState = PhantoonGameState.Ended;
             }
@@ -95,6 +100,15 @@ export default class PhantoonGameModule extends MemoryModule {
                     this.phantoonGameState = PhantoonGameState.Closed;
                 }
             }
+        }
+
+        // When AI var 6 falls within the range of enrage function addresses, phantoon is enraged
+        this.wasEnraged = this.isEnraged;
+        this.isEnraged = this.inPhantoonFight &&
+            memory.enemy0AIVariable6.value >= 0xd85c &&
+            memory.enemy0AIVariable6.value <= 0xd92d;
+        if (this.isEnraged && !this.wasEnraged) {
+            this.phantoonPatterns.push("(enrage)");
         }
 
         // If samus gets hurt, we have to check if she's dead so we can end the game

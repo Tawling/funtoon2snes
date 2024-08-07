@@ -1,7 +1,7 @@
 import { wram } from "../datatypes";
 import MemState from "../../util/memory/MemState";
 
-export default {
+const addresses = {
     frameCounter: new MemState(wram.uint16Read(0x05b6), "frameCounter", "Frame Counter (without lag frames)"),
     nmiCounter: new MemState(wram.uint16Read(0x05b8), "nmiCounter", "NMI Frame Counter (with lag frames)"),
     roomID: new MemState(wram.uint16Read(0x079b), "roomID", "Room ID"),
@@ -9,7 +9,8 @@ export default {
     samusHP: new MemState(wram.uint16Read(0x09c2), "samusHP", "Samus HP"),
     samusMaxHP: new MemState(wram.uint16Read(0x09c4), "samusMaxHP", "Samus Max HP"),
     phantoonEyeTimer: new MemState(wram.uint16Read(0x0fe8), "phantoonEyeTimer", "Phantoon Eye Timer"),
-    ceresTimer: new MemState(wram.bcdRead(0x0945, 2, true), "ceresTimer", "Ceres Timer"),
+    ceresTimer: new MemState(wram.bcdRead(0x0945, 2, true), "ceresTimer", "Ceres/Escape Timer (Seconds/Centiseconds)"),
+    timerMinutes: new MemState(wram.bcdRead(0x0947, 1, true), "timerMinutes", "Ceres/Escape Timer (Minutes)"),
     ceresState: new MemState(wram.uint16Read(0x093f), "ceresState", "Ceres State"),
     eventStates: new MemState(wram.uint32Read(0xd820), "eventStates", "Event States"),
     bossStates: new MemState(wram.uint64Read(0xd828), "bossStates", "Boss States"),
@@ -44,11 +45,10 @@ export default {
     gameTimeSeconds: new MemState(wram.uint16Read(0x09dc), "gameTimeSeconds", "Game Time, Seconds"),
     gameTimeMinutes: new MemState(wram.uint16Read(0x09de), "gameTimeMinutes", "Game Time, Minutes"),
     gameTimeHours: new MemState(wram.uint16Read(0x09e0), "gameTimeHours", "Game Time, Hours"),
-    frameCounter: new MemState(wram.uint16Read(0x05b6), "frameCounter", "Frame Counter (no lag frames)"),
-    nmiCounter: new MemState(wram.uint16Read(0x05b8), "nmiCounter", "NMI Frame Counter (with lag frames)"),
     enemy0HP: new MemState(wram.uint16Read(0x0f8c), "enemy0HP", "Enemy 0 HP"),
     enemy0IFrames: new MemState(wram.uint16Read(0x0fa0), "enemy0IFrames", "Enemy 0 I-Frames"),
     enemy0AIVariable1: new MemState(wram.uint16Read(0x0fa8), "enemy0AIVariable1", "Enemy 0 AI Variable #1"),
+    enemy0AIVariable6: new MemState(wram.uint16Read(0x0fb2), "enemy0AIVariable6", "Enemy 0 AI Variable #6"),
     enemy1HP: new MemState(wram.uint16Read(0x0f8c - 0x0f78 + 0x0fb8), "enemy1HP", "Enemy 1 HP"),
     enemyProjectileDamage: new MemState(
         wram.uint16Read(0x187a),
@@ -74,4 +74,7 @@ export default {
         "prTransitionCounter",
         "[Practice Rom] Transition Counter"
     ),
+    mbForm: new MemState(wram.uint16Read(0x7800), 'mbForm', '"Mother Brain form'),
 };
+
+export default addresses;

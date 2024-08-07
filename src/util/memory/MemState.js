@@ -44,8 +44,4 @@ export default class MemState {
     prev(n = 1) {
         return this.values[n];
     }
-
-    is(v) {
-        return this.values[prevFrame] === value
-    }
 }

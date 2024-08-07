@@ -515,6 +515,14 @@ export const BossStates = {
     MOTHER_BRAIN:   0x29,
 }
 
+export const MotherBrainForms = {
+    FIRST_PHASE: 0,
+    FAKE_DEATH: 1,
+    SECOND_PHASE: 2,
+    DRAINED_CORPSE: 3,
+    THIRD_PHASE: 4,
+}
+
 export const ItemFlags = {
     Misiles: {
         OCEAN_UNDERWATER_MISSILES:      0x01,

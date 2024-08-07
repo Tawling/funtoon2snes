@@ -67,7 +67,7 @@ export default class CeresGameModule extends MemoryModule {
         if (this.ceresState !== CeresGameState.Closed && !this.settings.ignoreResets.value && globalState.isReset) {
             sendEvent("ceresReset");
             this.ceresState = CeresGameState.Closed;
-            this.reloadUnsafe = false;
+            setReloadUnsafe(false);
         }
         if (
             this.ceresState !== CeresGameState.Opened &&
@@ -75,7 +75,7 @@ export default class CeresGameModule extends MemoryModule {
         ) {
             sendEvent("ceresOpen");
             this.ceresState = CeresGameState.Opened;
-            this.reloadUnsafe = true;
+            setReloadUnsafe(true);
         } else if (
             this.ceresState !== CeresGameState.Closed &&
             this.checkTransition(
@@ -100,7 +100,7 @@ export default class CeresGameModule extends MemoryModule {
                 sendEvent("msg", "Door transition times: " + this.ceresDoorTimes.join(", "), 3);
             }
 
-            setTimeout(() => (this.reloadUnsafe = false), 3200);
+            setTimeout(() => (setReloadUnsafe(false)), 3200);
         } else if (this.ceresState === CeresGameState.PendingResult) {
             let transitionIndex = this.getTransitionIndex(memory);
 
