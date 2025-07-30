@@ -1,0 +1,11 @@
+.setting-description {
+    padding: 3px;
+    padding-left: 8px;
+    margin: 3px 20px;
+    /* border-radius: 3px; */
+    /* border: 1px solid #555555; */
+    border-left: 1px solid #555;
+    border-bottom: 1px solid #555;
+    /* background-color: rgba(255, 255, 255, 0.08); */
+    font-size: 0.9rem;
+}

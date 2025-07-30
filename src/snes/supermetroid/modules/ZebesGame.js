@@ -41,6 +41,7 @@ export default class ZebesGameModule extends MemoryModule {
             Addresses.eventStates,
             Addresses.mbForm,
             Addresses.timerMinutes,
+            Addresses.ceresTimer,
         ];
     }
 

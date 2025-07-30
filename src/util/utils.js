@@ -1,3 +1,5 @@
+import MemState from "./memory/MemState";
+
 export function readIntFlag(intValue, flagIndex) {
     return !!((intValue >>> flagIndex) & 1);
 }
@@ -7,7 +9,7 @@ export function readBigIntFlag(bigIntValue, flagIndex) {
 }
 
 export function readByteArrayFlag(byteArray, flagIndex) {
-    return !!(byteArray[(flagIndex >>> 3)] & (0b10000000 >>> (flagIndex & 0x111)));
+    return !!(byteArray[(flagIndex >>> 3)] & (1 << (flagIndex & 0b111)));
 }
 
 export function noneOf(...values) {

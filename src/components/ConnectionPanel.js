@@ -3,12 +3,29 @@ import { Card, CardBody, CardHeader, Button, Input, Label } from "reactstrap";
 
 import classNames from "classnames";
 
+const States = {
+    WARNING: 0x1,
+    ERROR: 0x2,
+    SUCCESS: 0,
+}
+function stateMessage(successMsg, errorCondition, errorMsg, warningCondition, warningMsg) {
+    return {
+        state: errorCondition ? States.ERROR : warningCondition ? States.WARNING : States.SUCCESS,
+        message:  errorCondition ? errorMsg : warningCondition ? warningMsg : successMsg,
+    }
+}
+
+const stateMask = (statefuls) => statefuls.reduce((a, v) => a | v.state, 0)
+
+const interleave = (arr, thing) => [].concat(...arr.map(n => [n, thing])).slice(0, -1)
+
 export default function ConnectionPanel(props) {
     const {
         readsPerSecond,
         enabled,
         autoRefreshEnabled,
         token,
+        isTokenValid,
         channel,
         deviceInfo,
         deviceList,
@@ -19,14 +36,29 @@ export default function ConnectionPanel(props) {
         onToggleEnabled,
         onToggleAutoRefresh,
     } = props;
+
+    const stateMessages = [
+        stateMessage("Connected to USB2SNES service", deviceInfo === null, "Not Connected to USB2SNES service."),
+        stateMessage(
+            "FUNtoon API token is valid",
+            isTokenValid === false,
+            "Invalid channel name / FUNtoon API token combination.",
+            isTokenValid === undefined,
+            "Validating API token...",
+        ),
+    ]
+
+    const headerState = stateMask(stateMessages)
+
     return (
         <Card>
             <CardHeader
                 className={classNames({
-                    "bg-danger": deviceInfo === null,
-                    "bg-success": deviceInfo !== null,
+                    "bg-danger": headerState & States.ERROR,
+                    "bg-success": !headerState,
+                    "bg-warning": headerState === States.WARNING,
                 })}>
-                {deviceInfo === null ? "Not Connected to USB2SNES service..." : "Connected to USB2SNES service."}
+                { interleave(stateMessages.map(({message}) => message), <br />)}
             </CardHeader>
             <CardBody>
                 <ul style={{ "list-style-type": "none" }}>

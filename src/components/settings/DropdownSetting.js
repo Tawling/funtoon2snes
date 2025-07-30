@@ -1,5 +1,8 @@
 import React from "react";
 
+import SettingDescription from "./SettingDescription";
+
+
 const toOption = (opt) => {
     if (typeof opt === "string") {
         return { display: opt, value: opt };
@@ -18,6 +21,7 @@ export default function DropdownSetting({ def, settingName, moduleName, onModule
     return (
         <li key={settingName}>
             <span className="setting-label">{def.display + " "}</span>
+            <SettingDescription description={def.description} />
             <select
                 type="file"
                 {...(def.attributes || {})}

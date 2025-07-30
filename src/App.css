@@ -50,6 +50,10 @@ label {
     user-select: none;
 }
 
+p:last-child {
+    margin-bottom: unset;
+}
+
 .card-body.modules {
     text-align: left;
     align-items: center;
@@ -61,6 +65,18 @@ label {
 
 .settings-div.disabled {
     color: #888;
+}
+
+.settings-div li {
+    margin-bottom: 10px;
+}
+
+.settings-div li:first-child {
+    margin-top: 5px;
+}
+
+.settings-div li:last-child {
+    margin-bottom: 5px;
 }
 
 .modset {

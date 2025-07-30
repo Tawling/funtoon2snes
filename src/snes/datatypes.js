@@ -46,10 +46,11 @@ export class ReadBlock {
  * Subclasses implement data reads that are automatically processed as a specific data type.
  */
 export class DataRead {
-    constructor(address, size, ramOffset = 0) {
+    constructor(address, size, ramOffset = 0, customTransform = (value) => value) {
         this.address = address;
         this.ramOffset = ramOffset;
         this.size = size;
+        this.customTransform = customTransform;
     }
 
     toOperands() {
@@ -57,7 +58,7 @@ export class DataRead {
     }
 
     transformValue(value) {
-        return value;
+        return this.customTransform(value);
     }
 }
 
@@ -65,12 +66,12 @@ export class DataRead {
  * Unsigned 8-bit integer value to be read upon request of a module.
  */
 class Uint8Read extends DataRead {
-    constructor(address, ramOffset) {
-        super(address, 1, ramOffset);
+    constructor(address, ramOffset, customTransform) {
+        super(address, 1, ramOffset, customTransform);
     }
 
     transformValue(value) {
-        return new DataView(value.buffer).getUint8();
+        return this.customTransform(new DataView(value.buffer).getUint8());
     }
 }
 
@@ -78,12 +79,12 @@ class Uint8Read extends DataRead {
  * Signed 8-bit integer value to be read upon request of a module.
  */
 class Int8Read extends DataRead {
-    constructor(address, ramOffset) {
-        super(address, 1, ramOffset);
+    constructor(address, ramOffset, customTransform) {
+        super(address, 1, ramOffset, customTransform);
     }
 
     transformValue(value) {
-        return new DataView(value.buffer).getInt8();
+        return this.customTransform(new DataView(value.buffer).getInt8());
     }
 }
 
@@ -91,12 +92,12 @@ class Int8Read extends DataRead {
  * Unsigned 16-bit integer value to be read upon request of a module.
  */
 class Uint16Read extends DataRead {
-    constructor(address, ramOffset) {
-        super(address, 2, ramOffset);
+    constructor(address, ramOffset, customTransform) {
+        super(address, 2, ramOffset, customTransform);
     }
 
     transformValue(value) {
-        return new DataView(value.buffer).getUint16(0, true);
+        return this.customTransform(new DataView(value.buffer).getUint16(0, true));
     }
 }
 
@@ -104,12 +105,12 @@ class Uint16Read extends DataRead {
  * Signed 16-bit integer value to be read upon request of a module.
  */
 class Int16Read extends DataRead {
-    constructor(address, ramOffset) {
-        super(address, 2, ramOffset);
+    constructor(address, ramOffset, customTransform) {
+        super(address, 2, ramOffset, customTransform);
     }
 
     transformValue(value) {
-        return new DataView(value.buffer).getInt16(0, true);
+        return this.customTransform(new DataView(value.buffer).getInt16(0, true));
     }
 }
 
@@ -117,12 +118,12 @@ class Int16Read extends DataRead {
  * Unsigned 32-bit integer value to be read upon request of a module.
  */
 class Uint32Read extends DataRead {
-    constructor(address, ramOffset) {
-        super(address, 4, ramOffset);
+    constructor(address, ramOffset, customTransform) {
+        super(address, 4, ramOffset, customTransform);
     }
 
     transformValue(value) {
-        return new DataView(value.buffer).getUint32(0, true);
+        return this.customTransform(new DataView(value.buffer).getUint32(0, true));
     }
 }
 
@@ -130,12 +131,12 @@ class Uint32Read extends DataRead {
  * Signed 32-bit integer value to be read upon request of a module.
  */
 class Int32Read extends DataRead {
-    constructor(address, ramOffset) {
-        super(address, 4, ramOffset);
+    constructor(address, ramOffset, customTransform) {
+        super(address, 4, ramOffset, customTransform);
     }
 
     transformValue(value) {
-        return new DataView(value.buffer).getInt32(0, true);
+        return this.customTransform(new DataView(value.buffer).getInt32(0, true));
     }
 }
 
@@ -143,12 +144,12 @@ class Int32Read extends DataRead {
  * Unsigned 64-bit integer value to be read upon request of a module.
  */
 class Uint64Read extends DataRead {
-    constructor(address, ramOffset) {
-        super(address, 8, ramOffset);
+    constructor(address, ramOffset, customTransform) {
+        super(address, 8, ramOffset, customTransform);
     }
 
     transformValue(value) {
-        return new DataView(value.buffer).getBigUint64(0, true);
+        return this.customTransform(new DataView(value.buffer).getBigUint64(0, true));
     }
 }
 
@@ -156,12 +157,12 @@ class Uint64Read extends DataRead {
  * Signed 64-bit integer value to be read upon request of a module.
  */
 class Int64Read extends DataRead {
-    constructor(address, ramOffset) {
-        super(address, 8, ramOffset);
+    constructor(address, ramOffset, customTransform) {
+        super(address, 8, ramOffset, customTransform);
     }
 
     transformValue(value) {
-        return new DataView(value.buffer).getBigInt64(0, true);
+        return this.customTransform(new DataView(value.buffer).getBigInt64(0, true));
     }
 }
 
@@ -170,8 +171,8 @@ class Int64Read extends DataRead {
  * (0x1234 hex ==> 1234 dec) 
  */
 class BCDRead extends DataRead {
-    constructor(address, size, littleEndian = true, ramOffset) {
-        super(address, size, ramOffset);
+    constructor(address, size, littleEndian = true, ramOffset, customTransform) {
+        super(address, size, ramOffset, customTransform);
         this.littleEndian = littleEndian;
     }
 
@@ -184,7 +185,7 @@ class BCDRead extends DataRead {
                 res.unshift(`00${v.toString(16)}`.slice(-2));
             }
         }
-        return res.reduce((acc, v) => v + acc, "");
+        return this.customTransform(res.reduce((acc, v) => v + acc, ""));
     }
 }
 
@@ -192,8 +193,8 @@ class BCDRead extends DataRead {
  * JISX0201 encoded string value to be read upon request of a module.
  */
 export class JISX0201Read extends DataRead {
-    constructor(address, size, ramOffset = 0) {
-        super(address, size, ramOffset);
+    constructor(address, size, ramOffset = 0, customTransform) {
+        super(address, size, ramOffset, customTransform);
     }
 
     transformValue(value) {
@@ -201,68 +202,68 @@ export class JISX0201Read extends DataRead {
         for (const v of value) {
             s += JISX0201[v];
         }
-        return s;
+        return this.customTransform(s);
     }
 }
 
 // All data read types with a default RAM offset of 0, allowing user specification.
 export const generic = {
-    dataRead: (address, size, ramOffset = 0) => new DataRead(address, size, ramOffset),
-    uint8Read: (address, ramOffset = 0) => new Uint8Read(address, ramOffset),
-    int8Read: (address, ramOffset = 0) => new Int8Read(address, ramOffset),
-    uint16Read: (address, ramOffset = 0) => new Uint16Read(address, ramOffset),
-    int16Read: (address, ramOffset = 0) => new Int16Read(address, ramOffset),
-    uint32Read: (address, ramOffset = 0) => new Uint32Read(address, ramOffset),
-    int32Read: (address, ramOffset = 0) => new Int32Read(address, ramOffset),
-    uint64Read: (address, ramOffset = 0) => new Uint64Read(address, ramOffset),
-    int64Read: (address, ramOffset = 0) => new Int64Read(address, ramOffset),
-    bcdRead: (address, size, littleEndian = true, ramOffset = 0) => new BCDRead(address, size, littleEndian, ramOffset),
-    jisx0201Read: (address, size, ramOffset = 0) => new JISX0201Read(address, size, ramOffset),
+    dataRead: (address, size, ramOffset = 0, customTransform) => new DataRead(address, size, ramOffset, customTransform),
+    uint8Read: (address, ramOffset = 0, customTransform) => new Uint8Read(address, ramOffset, customTransform),
+    int8Read: (address, ramOffset = 0, customTransform) => new Int8Read(address, ramOffset, customTransform),
+    uint16Read: (address, ramOffset = 0, customTransform) => new Uint16Read(address, ramOffset, customTransform),
+    int16Read: (address, ramOffset = 0, customTransform) => new Int16Read(address, ramOffset, customTransform),
+    uint32Read: (address, ramOffset = 0, customTransform) => new Uint32Read(address, ramOffset, customTransform),
+    int32Read: (address, ramOffset = 0, customTransform) => new Int32Read(address, ramOffset, customTransform),
+    uint64Read: (address, ramOffset = 0, customTransform) => new Uint64Read(address, ramOffset, customTransform),
+    int64Read: (address, ramOffset = 0, customTransform) => new Int64Read(address, ramOffset, customTransform),
+    bcdRead: (address, size, littleEndian = true, ramOffset = 0, customTransform) => new BCDRead(address, size, littleEndian, ramOffset, customTransform),
+    jisx0201Read: (address, size, ramOffset = 0, customTransform) => new JISX0201Read(address, size, ramOffset, customTransform),
 };
 
 // All data read types with a RAM offset of ROM start
 export const rom = {
-    dataRead: (address, size) => new DataRead(address, size, ROM_BASE_ADDR),
-    jisx0201Read: (address, size) => new JISX0201Read(address, size, ROM_BASE_ADDR),
-    uint8Read: (address) => new Uint8Read(address, ROM_BASE_ADDR),
-    int8Read: (address) => new Int8Read(address, ROM_BASE_ADDR),
-    uint16Read: (address) => new Uint16Read(address, ROM_BASE_ADDR),
-    int16Read: (address) => new Int16Read(address, ROM_BASE_ADDR),
-    uint32Read: (address) => new Uint32Read(address, ROM_BASE_ADDR),
-    int32Read: (address) => new Int32Read(address, ROM_BASE_ADDR),
-    uint64Read: (address) => new Uint64Read(address, ROM_BASE_ADDR),
-    int64Read: (address) => new Int64Read(address, ROM_BASE_ADDR),
-    bcdRead: (address, size, littleEndian) => new BCDRead(address, size, littleEndian, ROM_BASE_ADDR),
+    dataRead: (address, size, customTransform) => new DataRead(address, size, ROM_BASE_ADDR, customTransform),
+    jisx0201Read: (address, size, customTransform) => new JISX0201Read(address, size, ROM_BASE_ADDR, customTransform),
+    uint8Read: (address, customTransform) => new Uint8Read(address, ROM_BASE_ADDR, customTransform),
+    int8Read: (address, customTransform) => new Int8Read(address, ROM_BASE_ADDR, customTransform),
+    uint16Read: (address, customTransform) => new Uint16Read(address, ROM_BASE_ADDR, customTransform),
+    int16Read: (address, customTransform) => new Int16Read(address, ROM_BASE_ADDR, customTransform),
+    uint32Read: (address, customTransform) => new Uint32Read(address, ROM_BASE_ADDR, customTransform),
+    int32Read: (address, customTransform) => new Int32Read(address, ROM_BASE_ADDR, customTransform),
+    uint64Read: (address, customTransform) => new Uint64Read(address, ROM_BASE_ADDR, customTransform),
+    int64Read: (address, customTransform) => new Int64Read(address, ROM_BASE_ADDR, customTransform),
+    bcdRead: (address, size, littleEndian, customTransform) => new BCDRead(address, size, littleEndian, ROM_BASE_ADDR, customTransform),
 };
 
 // All data read types with a RAM offset of WRAM start
 export const wram = {
-    dataRead: (address, size) => new DataRead(address, size, WRAM_BASE_ADDR),
-    uint8Read: (address) => new Uint8Read(address, WRAM_BASE_ADDR),
-    int8Read: (address) => new Int8Read(address, WRAM_BASE_ADDR),
-    uint16Read: (address) => new Uint16Read(address, WRAM_BASE_ADDR),
-    int16Read: (address) => new Int16Read(address, WRAM_BASE_ADDR),
-    uint32Read: (address) => new Uint32Read(address, WRAM_BASE_ADDR),
-    int32Read: (address) => new Int32Read(address, WRAM_BASE_ADDR),
-    uint64Read: (address) => new Uint64Read(address, WRAM_BASE_ADDR),
-    int64Read: (address) => new Int64Read(address, WRAM_BASE_ADDR),
-    bcdRead: (address, size, littleEndian) => new BCDRead(address, size, littleEndian, WRAM_BASE_ADDR),
-    jisx0201Read: (address, size) => new JISX0201Read(address, size, WRAM_BASE_ADDR),
+    dataRead: (address, size, customTransform) => new DataRead(address, size, WRAM_BASE_ADDR, customTransform),
+    uint8Read: (address, customTransform) => new Uint8Read(address, WRAM_BASE_ADDR, customTransform),
+    int8Read: (address, customTransform) => new Int8Read(address, WRAM_BASE_ADDR, customTransform),
+    uint16Read: (address, customTransform) => new Uint16Read(address, WRAM_BASE_ADDR, customTransform),
+    int16Read: (address, customTransform) => new Int16Read(address, WRAM_BASE_ADDR, customTransform),
+    uint32Read: (address, customTransform) => new Uint32Read(address, WRAM_BASE_ADDR, customTransform),
+    int32Read: (address, customTransform) => new Int32Read(address, WRAM_BASE_ADDR, customTransform),
+    uint64Read: (address, customTransform) => new Uint64Read(address, WRAM_BASE_ADDR, customTransform),
+    int64Read: (address, customTransform) => new Int64Read(address, WRAM_BASE_ADDR, customTransform),
+    bcdRead: (address, size, littleEndian, customTransform) => new BCDRead(address, size, littleEndian, WRAM_BASE_ADDR, customTransform),
+    jisx0201Read: (address, size, customTransform) => new JISX0201Read(address, size, WRAM_BASE_ADDR, customTransform),
 };
 
 // All data read types with a RAM offset of SRAM start
 export const sram = {
-    dataRead: (address, size) => new DataRead(address, size, SRAM_BASE_ADDR),
-    uint8Read: (address) => new Uint8Read(address, SRAM_BASE_ADDR),
-    int8Read: (address) => new Int8Read(address, SRAM_BASE_ADDR),
-    uint16Read: (address) => new Uint16Read(address, SRAM_BASE_ADDR),
-    int16Read: (address) => new Int16Read(address, SRAM_BASE_ADDR),
-    uint32Read: (address) => new Uint32Read(address, SRAM_BASE_ADDR),
-    int32Read: (address) => new Int32Read(address, SRAM_BASE_ADDR),
-    uint64Read: (address) => new Uint64Read(address, SRAM_BASE_ADDR),
-    int64Read: (address) => new Int64Read(address, SRAM_BASE_ADDR),
-    bcdRead: (address, size, littleEndian) => new BCDRead(address, size, littleEndian, SRAM_BASE_ADDR),
-    jisx0201Read: (address, size) => new JISX0201Read(address, size, SRAM_BASE_ADDR),
+    dataRead: (address, size, customTransform) => new DataRead(address, size, SRAM_BASE_ADDR, customTransform),
+    uint8Read: (address, customTransform) => new Uint8Read(address, SRAM_BASE_ADDR, customTransform),
+    int8Read: (address, customTransform) => new Int8Read(address, SRAM_BASE_ADDR, customTransform),
+    uint16Read: (address, customTransform) => new Uint16Read(address, SRAM_BASE_ADDR, customTransform),
+    int16Read: (address, customTransform) => new Int16Read(address, SRAM_BASE_ADDR, customTransform),
+    uint32Read: (address, customTransform) => new Uint32Read(address, SRAM_BASE_ADDR, customTransform),
+    int32Read: (address, customTransform) => new Int32Read(address, SRAM_BASE_ADDR, customTransform),
+    uint64Read: (address, customTransform) => new Uint64Read(address, SRAM_BASE_ADDR, customTransform),
+    int64Read: (address, customTransform) => new Int64Read(address, SRAM_BASE_ADDR, customTransform),
+    bcdRead: (address, size, littleEndian, customTransform) => new BCDRead(address, size, littleEndian, SRAM_BASE_ADDR, customTransform),
+    jisx0201Read: (address, size, customTransform) => new JISX0201Read(address, size, SRAM_BASE_ADDR, customTransform),
 };
 
 export default generic;

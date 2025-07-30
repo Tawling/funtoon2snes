@@ -33,12 +33,12 @@ export default class RidleyGameModule extends MemoryModule {
             this.ridleyState = RidleyGameState.Closed;
             return;
         }
-        if (this.ridleyState != RidleyGameState.Closed && globalState.isReset) {
+        if (this.ridleyState !== RidleyGameState.Closed && globalState.isReset) {
             this.ridleyState = RidleyGameState.Closed;
             setReloadUnsafe("false");
         }
         if (
-            this.ridleyState != RidleyGameState.Opened &&
+            this.ridleyState !== RidleyGameState.Opened &&
             this.checkTransition(
                 memory.roomID,
                 Rooms.LowerNorfair.WORST_ROOM_IN_THE_GAME,
@@ -49,7 +49,7 @@ export default class RidleyGameModule extends MemoryModule {
             this.ridleyState = RidleyGameState.Opened;
             setReloadUnsafe(true);
         } else if (
-            this.ridleyState != RidleyGameState.Closed &&
+            this.ridleyState !== RidleyGameState.Closed &&
             this.checkTransition(memory.roomID, Rooms.LowerNorfair.WASTELAND, Rooms.LowerNorfair.METAL_PIRATES_ROOM)
         ) {
             sendEvent("ridleyClose");

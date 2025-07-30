@@ -1,7 +1,7 @@
 import { rom } from "./datatypes";
 import MemState from "../util/memory/MemState";
 
-export default {
+const headerAddresses = {
     // LoROM Header
     loHeaderMakerCode: new MemState(rom.uint16Read(0x7fb0), "loHeaderMakerCode", "LoROM Header: Maker Code"),
     loHeaderGameCode: new MemState(rom.uint32Read(0x7fb2), "loHeaderGameCode", "LoROM Header: Game Code"),
@@ -81,3 +81,5 @@ export default {
     ),
     hiHeaderChecksum: new MemState(rom.uint16Read(0xffde), "hiHeaderChecksum", "HiROM Header: Checksum"),
 };
+
+export default headerAddresses;

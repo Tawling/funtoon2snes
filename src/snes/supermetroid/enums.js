@@ -523,6 +523,16 @@ export const MotherBrainForms = {
     THIRD_PHASE: 4,
 }
 
+export const TimerStates = {
+    INACTIVE: 0,
+    CERES_START: 1,
+    MOTHER_BRAIN_START: 2,
+    INITIAL_DELAY: 3,
+    TIMER_RUNNING_MOVEMENT_DELAYED: 4,
+    TIMER_RUNNING_MOVING_INTO_PLACE: 5,
+    TIMER_RUNNING_MOVED_INTO_PLACE: 6,
+}
+
 export const ItemFlags = {
     Misiles: {
         OCEAN_UNDERWATER_MISSILES:      0x01,

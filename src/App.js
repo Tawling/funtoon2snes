@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Card, CardBody } from "reactstrap";
 import "./App.css";
 import ConnectionPanel from "./components/ConnectionPanel";
@@ -11,6 +11,8 @@ let version = null;
 let needsReload = false;
 let reloadUnsafe = false;
 
+let tokenCheckTimeout = false;
+
 function App() {
     const worker = useRef(null);
     const [deviceInfo, setDeviceInfo] = useState(null);
@@ -20,6 +22,8 @@ function App() {
     const [enabled, setEnabled] = useState(true);
     const [rps, setRPS] = useState(0);
     const [autoRefreshEnabled, setAutoRefreshEnabled] = useState(false);
+
+    const [isTokenValid, setIsTokenValid] = useState(undefined);
 
     const [moduleStates, setModuleStates] = useState({});
 
@@ -33,11 +37,29 @@ function App() {
         }
     }
 
+    const validateToken = useCallback(() => {
+        clearTimeout(tokenCheckTimeout);
+        tokenCheckTimeout = setTimeout(() => {
+            fetch('https://funtoon.party/api/token/validate', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: token,
+                },
+                body: JSON.stringify({
+                    channel: channel,
+                }),
+            }).then((res) => {
+                setIsTokenValid(res.ok)}).catch((e) => {
+                    setIsTokenValid(false)
+                })
+        }, 1000);
+    }, [token, channel, setIsTokenValid]);
+
     useEffect(() => {
         clearInterval(refreshInterval);
         refreshInterval = null;
         if (autoRefreshEnabled) {
-            console.log();
             const checkVersion = async () => {
                 try {
                     const res = await (await fetch("version.txt?t=" + Date.now())).text();
@@ -124,7 +146,9 @@ function App() {
 
     function onAPITokenChange(token) {
         callExternal("setAPIToken", token);
+        
     }
+
     function onChannelChange(channel) {
         callExternal("setChannel", channel);
     }
@@ -169,6 +193,8 @@ function App() {
         callExternal("setChannel", channel);
         callExternal("setEnabled", enabled);
         callExternal("setModuleStates", moduleStates);
+
+        validateToken();
     }, [token, channel]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const overlayURL = `https://funtoon.party/tracking.html?channel=${channel.toLowerCase()}&token=${token}`
@@ -188,6 +214,7 @@ function App() {
                 autoRefreshEnabled={autoRefreshEnabled}
                 channel={channel}
                 token={token}
+                isTokenValid={isTokenValid}
                 readsPerSecond={rps}
             />
             <Card>

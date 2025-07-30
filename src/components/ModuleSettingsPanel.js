@@ -9,6 +9,7 @@ import RangeSetting from "./settings/RangeSetting";
 import DropdownSetting from "./settings/DropdownSetting";
 import FileSetting from "./settings/FileSetting";
 import ToggleSwitch from "./common/ToggleSwitch/ToggleSwitch";
+import Markdown from "./common/Markdown/Markdown";
 
 import "./ModuleSettingsPanel.css";
 
@@ -72,7 +73,7 @@ export default function ModuleSettingsPanel({ module, moduleName, onModuleEnable
             </div>
             <Collapse isOpen={isOpen}>
                 <div className="module-collapsible">
-                    {module.description ? <div className="module-description">{module.description}</div> : null}
+                    {module.description ? <Markdown className="module-description" src={module.description} /> : null}
                     <div
                         className={classNames({
                             "settings-div": true,

@@ -57,6 +57,7 @@ export default class RoomTimes extends MemoryModule {
             Addresses.mb2BabyIndex,
             Addresses.enemy0AIVariable1,
             Addresses.doorTransitionFunction,
+            Addresses.samusXSpeedDivisor,
         ];
     }
 
@@ -383,6 +384,7 @@ export default class RoomTimes extends MemoryModule {
                 motherBrain: readBigIntFlag(memory.bossStates.value, BossStates.MOTHER_BRAIN),
             },
             eventStates: memory.eventStates.value,
+            slowed: memory.samusXSpeedDivisor.value > 1,
         };
     }
 }
