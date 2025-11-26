@@ -1,5 +1,5 @@
 import MemoryModule from "../../../util/memory/MemoryModule";
-import { EquipmentFlags, GameStates, Rooms } from "../enums";
+import { BeamFlags, EquipmentFlags, GameStates, Rooms } from "../enums";
 import Addresses from "../addresses";
 import { BossStates } from "../enums";
 import { noneOf, readBigIntFlag } from "../../../util/utils";
@@ -42,6 +42,8 @@ export default class RoomTimes extends MemoryModule {
             Addresses.collectedItemBits,
             Addresses.collectedEquipment,
             Addresses.equippedEquipment,
+            Addresses.collectedBeams,
+            Addresses.equippedBeams,
             Addresses.samusMissiles,
             Addresses.samusMaxMissiles,
             Addresses.samusSupers,
@@ -357,6 +359,11 @@ export default class RoomTimes extends MemoryModule {
                 speedBooster: !!(memory.collectedEquipment.value & EquipmentFlags.SPEED_BOOSTER),
                 grapple: !!(memory.collectedEquipment.value & EquipmentFlags.GRAPPLE),
                 xray: !!(memory.collectedEquipment.value & EquipmentFlags.XRAY),
+                waveBeam: !!(memory.collectedBeams.value & BeamFlags.WAVE),
+                iceBeam: !!(memory.collectedBeams.value & BeamFlags.ICE),
+                spazerBeam: !!(memory.collectedBeams.value & BeamFlags.SPAZER),
+                plasmaBeam:  !!(memory.collectedBeams.value & BeamFlags.PLASMA),
+                chargeBeam: !!(memory.collectedBeams.value & BeamFlags.CHARGE),
             },
             equips: {
                 variaSuit: !!(memory.equippedEquipment.value & EquipmentFlags.VARIA_SUIT),
@@ -370,6 +377,11 @@ export default class RoomTimes extends MemoryModule {
                 speedBooster: !!(memory.equippedEquipment.value & EquipmentFlags.SPEED_BOOSTER),
                 grapple: !!(memory.equippedEquipment.value & EquipmentFlags.GRAPPLE),
                 xray: !!(memory.equippedEquipment.value & EquipmentFlags.XRAY),
+                waveBeam: !!(memory.equippedBeams.value & BeamFlags.WAVE),
+                iceBeam: !!(memory.equippedBeams.value & BeamFlags.ICE),
+                spazerBeam: !!(memory.equippedBeams.value & BeamFlags.SPAZER),
+                plasmaBeam:  !!(memory.equippedBeams.value & BeamFlags.PLASMA),
+                chargeBeam: !!(memory.equippedBeams.value & BeamFlags.CHARGE),
             },
             bossesKilled: {
                 phantoon: readBigIntFlag(memory.bossStates.value, BossStates.PHANTOON),

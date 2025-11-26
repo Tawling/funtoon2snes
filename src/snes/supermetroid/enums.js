@@ -436,7 +436,7 @@ export const EquipmentFlags = {
     XRAY: 0x8000,
 }
 
-export const CollectedBeamFlags = {
+export const BeamFlags = {
     WAVE:   0x0001,
     ICE:    0x0002,
     SPAZER: 0x0004,

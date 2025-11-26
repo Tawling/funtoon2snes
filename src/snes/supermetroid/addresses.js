@@ -41,6 +41,8 @@ const addresses = {
     collectedItemBits: new MemState(wram.dataRead(0xd870, 19), "collectedItemBits", '"Collected Items" Bit Array'),
     collectedEquipment: new MemState(wram.uint16Read(0x09a2), "collectedEquipment", "Collected equipment flags"),
     equippedEquipment: new MemState(wram.uint16Read(0x09a4), "equippedEquipment", "Equipped equipment flags"),
+    collectedBeams: new MemState(wram.uint16Read(0x09a6), "collectedBeams", "Collected beam flags"),
+    equippedBeams: new MemState(wram.uint16Read(0x09a8), "equippedBeams", "Equipped beam flags"),
     scroll1: new MemState(wram.uint16Read(0xcd20), "scroll1", "Scroll read #1"),
     scroll2: new MemState(wram.uint16Read(0xcd22), "scroll2", "Scroll read #2"),
     gameTimeFrames: new MemState(wram.uint16Read(0x09da), "gameTimeFrames", "Game Time, Frames"),
