@@ -31,11 +31,12 @@ export default class RidleyGameModule extends MemoryModule {
     memoryReadAvailable({ memory, sendEvent, globalState, setReloadUnsafe }) {
         if (globalState.isReset || globalState.isDeath) {
             this.ridleyState = RidleyGameState.Closed;
+            setReloadUnsafe(false);
             return;
         }
         if (this.ridleyState !== RidleyGameState.Closed && globalState.isReset) {
             this.ridleyState = RidleyGameState.Closed;
-            setReloadUnsafe("false");
+            setReloadUnsafe(false);
         }
         if (
             this.ridleyState !== RidleyGameState.Opened &&

@@ -382,6 +382,12 @@ export const SamusMovementType = {
     SHINESPARK_CF_DRAINED:                  0x1B,
 }
 
+export const SamusPoseXDirection = {
+    FORWARD: 0,
+    LEFT: 4,
+    RIGHT: 8,
+}
+
 export const SamusPose = {
     FACING_FORWARD_POWER_SUIT:              0x00,
     FACING_RIGHT_NORMAL:                    0x01,
@@ -474,6 +480,13 @@ export const Areas = {
     TOURIAN:        0x05,
     CERES:          0x06,
     DEBUG:          0x07,
+}
+
+export const ElevatorStatus = {
+    INACTIVE: 0,
+    LEAVING_ROOM: 1,
+    ROOM_TRANSITION: 2,
+    ENTERING_ROOM: 3,
 }
 
 export const EventStates = {

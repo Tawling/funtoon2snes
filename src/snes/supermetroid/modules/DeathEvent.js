@@ -18,7 +18,10 @@ export default class DeathEventModule extends MemoryModule {
 
     memoryReadAvailable({ memory, sendEvent, globalState }) {
         if (!isDeath(memory.gameState.prevReadValue) && isDeath(memory.gameState.value)) {
-            sendEvent("samusDeath");
+            sendEvent("samusDeath", {
+                gameTags: Object.keys(globalState.persistent.gameTags || {}),
+                practice: !!globalState.persistent.gameTags.PRACTICE,
+            });
             globalState.isDeath = true;
         } else {
             globalState.isDeath = false;

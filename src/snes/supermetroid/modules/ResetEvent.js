@@ -26,7 +26,10 @@ export default class ResetEventModule extends MemoryModule {
             !isDemo(memory.gameState.value) &&
             !isDemo(memory.gameState.prevReadValue)
         ) {
-            sendEvent("resetGame");
+            sendEvent("resetGame", {
+                gameTags: Object.keys(globalState.persistent.gameTags || {}),
+                practice: !!globalState.persistent.gameTags.PRACTICE,
+            });
             globalState.isReset = true;
         } else {
             globalState.isReset = false;
