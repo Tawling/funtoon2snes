@@ -68,7 +68,7 @@ export default class MemoryModule {
      * @returns {boolean} True if the value changed from the previous read.
      */
     checkChange(read) {
-        return (
+        return read != null && (
             (read.prevReadValue !== undefined && read.value != read.prevReadValue) ||
             (read.value !== undefined && read.prevReadValue === undefined)
         );

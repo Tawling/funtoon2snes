@@ -66,6 +66,7 @@ export default class RoomTimes extends MemoryModule {
             Addresses.samusXExtraRunSpeed,
             Addresses.samusXExtraRunSubSpeed,
             Addresses.specialSamusPaletteTimer,
+            Addresses.enemiesKilled,
         ];
     }
 
@@ -192,6 +193,7 @@ export default class RoomTimes extends MemoryModule {
                 entryState: this.state.entryState,
                 exitState: this.state.exitState,
                 igtWasPaused: !!this.state.paused,
+                enemiesKilled: this.state.enemiesKilled,
             };
             globalState.lastRoomTimeEvent = eventData;
             sendEvent("smRoomTime", eventData);
@@ -211,6 +213,8 @@ export default class RoomTimes extends MemoryModule {
             // Exiting room
             if (this.state.entryTime && !this.state.exitTime) {
                 // full room was tracked, log the prev room and time
+
+                this.state.enemiesKilled = memory.enemiesKilled.value
 
                 const igtDelta = currentIGT - prevIGT;
                 const frameDelta = counterDelta(memory.frameCounter.prevReadValue, memory.frameCounter.value);

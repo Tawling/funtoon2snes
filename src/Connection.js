@@ -43,6 +43,7 @@ export default class Connection {
     };
 
     onDisconnect = async () => {
+        this.sendEvent('deviceDetach')
         this.callExternal("setDeviceInfo", null);
     };
 
