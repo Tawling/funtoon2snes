@@ -1,6 +1,7 @@
 import GameDetectorModule from "./GameDetectorModule";
 import { SuperMetroid } from "./supermetroid/modules";
 import { SuperMetroidArcade } from "./supermetroidarcade/modules";
+import { ALttP } from "./alttp/modules";
 
 export default class ModuleManager {
     constructor(usb2snes, callExternal, setReloadUnsafe) {
@@ -11,7 +12,7 @@ export default class ModuleManager {
         this.reloadUnsafeCount = 0;
         this.lastReadTime = performance.now();
 
-        this.modules = [GameDetectorModule, ...SuperMetroid, ...SuperMetroidArcade].map((Module) => {
+        this.modules = [GameDetectorModule, ...SuperMetroid, ...SuperMetroidArcade, ...ALttP].map((Module) => {
             const m = new Module();
             let reloadUnsafe = false;
             m.__setReloadUnsafe = (b) => {
