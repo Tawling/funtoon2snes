@@ -1,5 +1,5 @@
-import SomeModule from "./modules/SomeModule";
+import RoomsModule from "./modules/RoomsModule";
 
 export const ALttP = [
-    SomeModule,
+    RoomsModule,
 ]
