@@ -32,7 +32,7 @@ export default class RoomsModule extends MemoryModule {
     memoryReadAvailable({ memory, sendEvent, globalState }) {
         // Check if any of the room-related memory values have changed since the last loop
         if (
-            this.checkChange(memory.roomID) || this.checkChange(memory.overworldScreenID, Blacklist(0x9f), Blacklist(0x9f))
+            this.checkChange(memory.roomID) || this.checkChange(memory.overworldScreenID, new Blacklist(0x9f), new Blacklist(0x9f))
             || this.checkChange(memory.quadH) || this.checkChange(memory.quadV)
             || this.checkChange(memory.indoorState)
         ) {
@@ -41,7 +41,7 @@ export default class RoomsModule extends MemoryModule {
             const prevRoom = this.state.currentRoom;
             this.state.currentRoom = currentRoom;
             console.log(currentRoom, prevRoom);
-            if (currentRoom && prevRoom && currentRoom.name !== prevRoom.name) {
+            if (currentRoom && currentRoom.name !== prevRoom?.name) {
                 // Room changed
                 sendEvent("alttpRoomChanged", {
                     currentRoom,
@@ -57,8 +57,10 @@ export default class RoomsModule extends MemoryModule {
     }
 
     _matchRoom(roomDef, memory) {
-        return (!memory.indoorState.value || this._checkValue(roomDef.roomID, memory.roomID.value)) &&
-            (memory.indoorState.value || this._checkValue(roomDef.overworldScreenID, memory.overworldScreenID.value)) &&
+        return (
+            (memory.indoorState.value && roomDef.roomID != undefined && this._checkValue(roomDef.roomID, memory.roomID.value)) ||
+            (!memory.indoorState.value && roomDef.overworldID != undefined && this._checkValue(roomDef.overworldID, memory.overworldScreenID.value))
+        ) &&
             this._checkValue(roomDef.quadH, memory.quadH.value) &&
             this._checkValue(roomDef.quadV, memory.quadV.value);
     }
