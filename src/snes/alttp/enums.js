@@ -1,33 +1,95 @@
 export const LocationIDs = {
     //Overworld IDs
-    OUTSIDE_LINKS_HOUSE:   {overworldID: 0x2C, name:"Outside Link's House"},
-    OUTSIDE_HYRULE_CASTLE: {overworldID: 0x1B, name:"Outside Hyrule Castle"},
-    OUTSIDE_SANCTUARY:     {overworldID: 0x13, name:"Outside Sanctuary"},
-    GRAVEYARD:             {overworldID: 0x14, name:"Graveyard"},
-    EAST_PATH:             {overworldID: 0x15, name:"East Path"},
-    WOODEN_BRIDGE:         {overworldID: 0x1D, name:"Wooden Bridge"},
-    OCTOROK_FIELD:         {overworldID: 0x25, name:"Octorock Field"},
-    GUARD_BRIDGE:          {overworldID: 0x2D, name:"Guard Bridge"},
-    EAST_FAIRY_CAVE:       {overworldID: 0x2E, name:"East Fairy Cave"},
-    OUTSIDE_EASTERN:       {overworldID: 0x1E, name:"Outside Eastern"},
-    ANNOYING_BUSHES:       {overworldID: 0x2B, name:"Annoying Bushes"},
-    WEST_OF_SWAMP:         {overworldID: 0x33, name:"West of Swamp"},
-    SOUTH_OF_GROVE:        {overworldID: 0x32, name:"South of Grove"},
-    GROVE:                 {overworldID: 0x2A, name:"Grove"},
-    OUTSIDE_LIBRARY:       {overworldID: 0x29, name:"Outside Library"},
-    WATER_DASH:            {overworldID: 0x34, name:"Water Dash"},
-    EAST_OF_WATERGATE:     {overworldID: 0x3C, name:"East of Watergate"},
-    WATERGATE:             {overworldID: 0x3B, name:"Watergate"},
-    MIDDLE_AGED_MAN:       {overworldID: 0x3A, name:"Middle-Aged Man"},
-    DESERT:                {overworldID: 0x30, name:"Desert"},
-    BEACH:                 {overworldID: 0x3C, name:"Beach"},
-    LAKE_HYLIA:            {overworldID: 0x35, name:"Lake Hylia"},
-    WHIRLPOOL_ENTER:       {overworldID: 0x3F, name:"Whirlpool Enter"},
-    WHIRLPOOL_EXIT:        {overworldID: 0x12, name:"Whirlpool Exit"},
-    RUPEE_TREE:            {overworldID: 0x0A, name:"Rupee Tree"},
-    DEATH_MOUNTAIN:        {overworldID: 0x03, name:"Death Mountain"},
-    BUNNY_LINK:            {overworldID: 0x43, name:"Bunny Link"},
-    
+    //Light World
+    LOST_WOODS:                        {overworldID: 0x00, name:"Lost Woods"},
+    HOLLOW_TREE:                       {overworldID: 0x02, name:"Hollow Tree"},
+    DEATH_MOUNTAIN_WEST:               {overworldID: 0x03, name:"Death Mountain West"},
+    DEATH_MOUNTAIN_MIDDLE:             {overworldID: 0x05, name:"Death Mountain Middle"},
+    DEATH_MOUNTAIN_EAST:               {overworldID: 0x07, name:"Death Mountain East"},
+    RUPEE_TREE:                        {overworldID: 0x0A, name:"Rupee Tree"},
+    OUTSIDE_WATERFALL_OF_WISHING:      {overworldID: 0x0F, name:"Outside Waterfall of Wishing"},
+    NARROW_PATH_TO_LOST_WOODS:         {overworldID: 0x10, name:"Narrow Path to Lost Woods"}, //This screen covers both paths North of Kakariko Village into the Lost Woods.  I couldn't find a better name for it.  Please change it if you can think of something better.
+    OUTSIDE_FORTUNE_TELLER_S_HUT:      {overworldID: 0x11, name:"Outside Fortune Teller's Hut"},
+    WHIRLPOOL_POND:                    {overworldID: 0x12, name:"Whirlpool Pond"},
+    OUTSIDE_SANCTUARY:                 {overworldID: 0x13, name:"Outside Sanctuary"},
+    GRAVEYARD:                         {overworldID: 0x14, name:"Graveyard"},
+    EAST_PATH:                         {overworldID: 0x15, name:"East Path"},
+    OUTSIDE_WITCH_S_HUT:               {overworldID: 0x16, name:"Outside Witch's Hut"},
+    SOUTH_OF_WATERFALL_OF_WISHING:     {overworldID: 0x17, name:"South of Waterfall of Wishing"},
+    KAKARIKO_VILLAGE:                  {overworldID: 0x18, name:"Kakariko Village"},
+    FORGOTTEN_FOREST:                  {overworldID: 0x1A, name:"Forgotten Forest"},
+    HYRULE_CASTLE:                     {overworldID: 0x1B, name:"Hyrule Castle"},
+    WOODEN_BRIDGE:                     {overworldID: 0x1D, name:"Wooden Bridge"},
+    EASTERN_RUINS:                     {overworldID: 0x1E, name:"Eastern Ruins"},
+    OUTSIDE_SMITHERY:                  {overworldID: 0x22, name:"Outside Smithery"},
+    OCTOROK_FIELD:                     {overworldID: 0x25, name:"Octorok Field"},
+    FIFTEEN_SECOND_GAME:               {overworldID: 0x28, name:"15-Second Game"},
+    OUTSIDE_LIBRARY:                   {overworldID: 0x29, name:"Outside Library"},
+    HAUNTED_GROVE:                     {overworldID: 0x2A, name:"Haunted Grove"},
+    ANNOYING_BUSHES:                   {overworldID: 0x2B, name:"Annoying Bushes"},
+    OUTSIDE_LINKS_HOUSE:               {overworldID: 0x2C, name:"Outside Link's House"},
+    GUARD_BRIDGE:                      {overworldID: 0x2D, name:"Guard Bridge"},
+    EAST_FAIRY_CAVE:                   {overworldID: 0x2E, name:"East Fairy Cave"},
+    EASTERN_RUINS_WARP:                {overworldID: 0x2F, name:"Eastern Ruins Warp"},
+    DESERT_OF_MYSTERY:                 {overworldID: 0x30, name:"Desert of Mystery"},
+    MIDDLE_AGED_MAN:                   {overworldID: 0x3A, name:"Middle-Aged Man"},
+    SOUTH_OF_GROVE:                    {overworldID: 0x32, name:"South of Grove"},
+    WEST_OF_SWAMP_RUINS:               {overworldID: 0x33, name:"West of Swamp Ruins"},
+    GREAT_SWAMP_RUINS:                 {overworldID: 0x34, name:"Great Swamp Ruins"},
+    LAKE_HYLIA:                        {overworldID: 0x35, name:"Lake Hylia"},
+    OUTSIDE_DAM:                       {overworldID: 0x3B, name:"Outside Dam"},
+    EAST_OF_DAM:                       {overworldID: 0x3C, name:"East of Dam"},
+    OUTSIDE_ICE_ROD_CAVE:              {overworldID: 0x37, name:"Outside Ice Rod Cave"},
+    EAST_OF_LAKE_HYLIA:                {overworldID: 0x3F, name:"East of Lake Hylia"},
+    MASTER_SWORD_PEDESTAL:             {overworldID: 0x80, roomID: 0x0180, name:"Master Sword Pedestal"}, //Overworld ID is the same for both Master Sword Pedestal and Hobo.  Room ID does change with it, so I added that value.
+    HOBO:                              {overworldID: 0x80, roomID: 0x0181, name:"Hobo"},
+    ZORA_S_DOMAIN:                     {overworldID: 0x81, name:"Zora's Domain"},
+
+    //Dark World
+    SKELETON_FOREST:                   {overworldID: 0x40, name:"Skeleton Forest"},
+    DARK_WOODSMEN_HUT:                 {overworldID: 0x42, name:"Dark Woodsmen Hut"},
+    DARK_DEATH_MOUNTAIN_WEST:          {overworldID: 0x43, name:"Dark Death Mountain West"},
+    DARK_DEATH_MOUNTAIN_MIDDLE:        {overworldID: 0x45, name:"Dark Death Mountain Middle"},
+    DARK_DEATH_MOUNTAIN_EAST:          {overworldID: 0x47, name:"Dark Death Mountain East"},
+    DARK_RUPEE_TREE:                   {overworldID: 0x4A, name:"Dark Rupee Tree"},
+    LAKE_OF_ILL_OMEN:                  {overworldID: 0x4F, name:"Lake of Ill Omen"},
+    NARROW_PATH_TO_SKELETON_FOREST:    {overworldID: 0x50, name:"Narrow Path to Skeleton Forest"},
+    OUTSIDE_DARK_FORTUNE_TELLER_S_HUT: {overworldID: 0x51, name:"Outside Dark Fortune Teller's Hut"},
+    DARK_SMALL_POND:                   {overworldID: 0x52, name:"Dark Small Pond"},
+    OUTSIDE_THE_CAVE:                  {overworldID: 0x53, name:"Outside 'The Cave'"},
+    GHOSTLY_GARDEN:                    {overworldID: 0x54, name:"Ghostly Garden"},
+    NORTH_OF_BROKEN_BRIDGE:            {overworldID: 0x55, name:"North of Broken Bridge"},
+    OUTSIDE_DARK_WITCH_S_HUT:          {overworldID: 0x56, name:"Outside Dark Witch's Hut"},
+    SOUTH_OF_LAKE_OF_ILL_OMEN:         {overworldID: 0x57, name:"South of Lake of Ill Omen"},
+    VILLAGE_OF_OUTCASTS:               {overworldID: 0x58, name:"Village of Outcasts"},
+    OUTSIDE_DARK_SPECIALTY_SHOP:       {overworldID: 0x5A, name:"Outside Dark Specialty Shop"},
+    PYRAMID_OF_POWER:                  {overworldID: 0x5B, name:"Pyramid of Power"},
+    BROKEN_BRIDGE:                     {overworldID: 0x5D, name:"Broken Bridge"},
+    DARK_RUINS:                        {overworldID: 0x5E, name:"Dark Ruins"},
+    HAMMER_PEGS:                       {overworldID: 0x62, name:"Hammer Pegs"},
+    DARK_OCTOROK_FIELD:                {overworldID: 0x65, name:"Dark Octorok Field"},
+    DIGGING_GAME:                      {overworldID: 0x68, name:"Digging Game"},
+    CURSED_DWARF:                      {overworldID: 0x69, name:"Cursed Dwarf"},
+    STUMPY_S_GROVE:                    {overworldID: 0x6A, name:"Stumpy's Grove"},
+    DARK_ANNOYING_BUSHES:              {overworldID: 0x6B, name:"Dark Annoying Bushes"},
+    OUTSIDE_BOMB_SHOP:                 {overworldID: 0x6C, name:"Outside Bomb Shop"},
+    HAMMER_BRIDGE:                     {overworldID: 0x6D, name:"Hammer Bridge"},
+    DARK_EAST_FAIRY_CAVE:              {overworldID: 0x6E, name:"Dark East Fairy Cave"},
+    OUTSIDE_STORYTELLING_BIRD_S_CAVE:  {overworldID: 0x6F, name:"Outside Storytelling Bird's Cave"},
+    SWAMP_OF_EVIL:                     {overworldID: 0x70, name:"Swamp of Evil"},
+    SOUTH_OF_STUMPY_S_GROVE:           {overworldID: 0x72, name:"South of Stumpy's Grove"},
+    WEST_OF_PLAINS_OF_RUIN:            {overworldID: 0x73, name:"West of Plains of Ruin"},
+    PLAINS_OF_RUIN:                    {overworldID: 0x74, name:"Plains of Ruin"},
+    ICE_LAKE:                          {overworldID: 0x75, name:"Ice Lake"},
+    OUTSIDE_STORYTELLING_HAND_S_CAVE:  {overworldID: 0x77, name:"Outside Storytelling Hand's Cave"},
+    DEAD_END:                          {overworldID: 0x7A, name:"Dead End"},
+    OUTSIDE_SWAMP_PALACE:              {overworldID: 0x7B, name:"Outside Swamp Palace"},
+    EAST_OF_SWAMP_PALACE:              {overworldID: 0x7C, name:"East of Swamp Palace"},
+    EAST_OF_ICE_LAKE:                  {overworldID: 0x7F, name:"East of Ice Lake"},
+    TRIFORCE_ROOM:                     {overworldID: 0x88, name:"Triforce Room"},
+
+
+
     //Underworld IDs
     ROOM_0000_NW: {roomID: 0x0000, quadH: 0x00, quadV: 0x00, name:"Room 0000 NW"},
     ROOM_0000_NE: {roomID: 0x0000, quadH: 0x01, quadV: 0x00, name:"Ganon"},
@@ -125,7 +187,7 @@ export const LocationIDs = {
     ROOM_001A_NE: {roomID: 0x001A, quadH: 0x01, quadV: 0x00, name:"Compass Room (PoD)"},
     ROOM_001A_SE: {roomID: 0x001A, quadH: 0x01, quadV: 0x02, name:"Harmless Hellway"},
 
-    ROOM_001B_North: {roomID: 0x001B, quadH: [0x00, 0x01], quadV: 0x00, name:"Eye Statue"},
+    ROOM_001B_NORTH: {roomID: 0x001B, quadH: [0x00, 0x01], quadV: 0x00, name:"Eye Statue"},
     ROOM_001B_SW: {roomID: 0x001B, quadH: 0x00, quadV: 0x02, name:"Mimics w/ Eye Statues"},
     ROOM_001B_SE: {roomID: 0x001B, quadH: 0x01, quadV: 0x02, name:"Room 001B SE"},
 
@@ -173,26 +235,26 @@ export const LocationIDs = {
     ROOM_0025_SE: {roomID: 0x0025, quadH: 0x01, quadV: 0x02, name:"Room 0025 SE"},
 
     ROOM_0026_NW: {roomID: 0x0026, quadH: 0x00, quadV: 0x00, name:"Swamp Shooters"},
-    ROOM_0026_NE: {roomID: 0x0026, quadH: 0x01, quadV: 0x00, name:"Red Jelley Dash"},
+    ROOM_0026_NE: {roomID: 0x0026, quadH: 0x01, quadV: 0x00, name:"Red Jelly Dash"},
     ROOM_0026_SOUTH: {roomID: 0x0026, quadH: [0x00, 0x01], quadV: 0x02, name:"Statue Room"},
 
     ROOM_0027_ALL: {roomID: 0x0027, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Big Chest (ToH)"},
 
-    ROOM_0028_ALL: {roomID: 0x0028, quadH: 0x00, quadV: 0x00, name:"Swamp Lobby"},
+    ROOM_0028_ALL: {roomID: 0x0028, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Swamp Lobby"},
 
     ROOM_0029_NW: {roomID: 0x0029, quadH: 0x00, quadV: 0x00, name:"Room 0029 NW"},
     ROOM_0029_NE: {roomID: 0x0029, quadH: 0x01, quadV: 0x00, name:"Room 0029 NE"},
     ROOM_0029_SW: {roomID: 0x0029, quadH: 0x00, quadV: 0x02, name:"Room 0029 SW"},
     ROOM_0029_SE: {roomID: 0x0029, quadH: 0x01, quadV: 0x02, name:"Mothula"},
 
-    ROOM_002A_ALL: {roomID: 0x002A, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Junction"},
+    ROOM_002A_ALL: {roomID: 0x002A, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"PoD Main Arena"},
 
     ROOM_002B_WEST: {roomID: 0x002B, quadH: 0x00, quadV: [0x00, 0x02], name:"Sexy Statue Room"},
     ROOM_002B_NE: {roomID: 0x002B, quadH: 0x01, quadV: 0x00, name:"Room 002B NE"},
     ROOM_002B_SE: {roomID: 0x002B, quadH: 0x01, quadV: 0x02, name:"PoD Fairies"},
 
-    ROOM_002C_NW: {roomID: 0x002C, quadH: 0x00, quadV: 0x00, name:"Hookshot Cave Fairies"},
-    ROOM_002C_NE: {roomID: 0x002C, quadH: 0x01, quadV: 0x00, name:"Hookshot Cave Fairy"},
+    ROOM_002C_NW: {roomID: 0x002C, quadH: 0x00, quadV: 0x00, name:"Hookshot Cave Fairy Fountain"},
+    ROOM_002C_NE: {roomID: 0x002C, quadH: 0x01, quadV: 0x00, name:"Hookshot Cave Great Fairy Fountain"},
     ROOM_002C_SW: {roomID: 0x002C, quadH: 0x00, quadV: 0x02, name:"Hookshot Cave Back Door"},
     ROOM_002C_SE: {roomID: 0x002C, quadH: 0x01, quadV: 0x02, name:"Hookshot Cave Back Cross"},
 
@@ -228,10 +290,10 @@ export const LocationIDs = {
 
     ROOM_0034_ALL: {roomID: 0x0034, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Jelly Dash"},
 
-    ROOM_0035_NORTH: {roomID: 0x0035, quadH: 0x00, quadV: 0x00, name:"Water Lever 2 and Big Key Chest (SP)"},
-    ROOM_0035_SOUTH: {roomID: 0x0035, quadH: 0x00, quadV: 0x02, name:"Pool 2"},
+    ROOM_0035_NORTH: {roomID: 0x0035, quadH: [0x00, 0x01], quadV: 0x00, name:"Water Lever 2 and Big Key Chest (SP)"},
+    ROOM_0035_SOUTH: {roomID: 0x0035, quadH: [0x00, 0x01], quadV: 0x02, name:"Pool 2"},
 
-    ROOM_0036_ALL: {roomID: 0x0036, quadH: 0x00, quadV: 0x00, name:"Big Chest (SP)"},
+    ROOM_0036_ALL: {roomID: 0x0036, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Big Chest (SP)"},
 
     ROOM_0037_NORTH: {roomID: 0x0037, quadH: [0x00, 0x01], quadV: 0x00, name:"Water Lever 1"},
     ROOM_0037_SOUTH: {roomID: 0x0037, quadH: [0x00, 0x01], quadV: 0x02, name:"Pool 1"},
@@ -243,12 +305,12 @@ export const LocationIDs = {
     ROOM_0039_SW: {roomID: 0x0039, quadH: 0x00, quadV: 0x02, name:"Mummy Key"},
     ROOM_0039_SE: {roomID: 0x0039, quadH: 0x01, quadV: 0x02, name:"Mothula Hole"},
 
-    ROOM_003A_ALL: {roomID: 0x003A, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Junction"},
+    ROOM_003A_ALL: {roomID: 0x003A, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"PoD Pit Room"},
 
     ROOM_003B_WEST: {roomID: 0x003B, quadH: 0x00, quadV: [0x00, 0x02], name:"Conveyor"},
     ROOM_003B_EAST: {roomID: 0x003B, quadH: 0x01, quadV: [0x00, 0x02], name:"Room 003B East"},
 
-    ROOM_003C_ALL: {roomID: 0x003C, quadH: 0x00, quadV: 0x00, name:"Hookshot Cave"},
+    ROOM_003C_ALL: {roomID: 0x003C, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Hookshot Cave"},
 
     ROOM_003D_NW: {roomID: 0x003D, quadH: 0x00, quadV: 0x00, name:"Bombable Wall"},
     ROOM_003D_NE: {roomID: 0x003D, quadH: 0x01, quadV: 0x00, name:"Helma Key"},
@@ -267,10 +329,10 @@ export const LocationIDs = {
     ROOM_0040_NE: {roomID: 0x0040, quadH: 0x01, quadV: 0x00, name:"Room 0040 NE"},
     ROOM_0040_SE: {roomID: 0x0040, quadH: 0x01, quadV: 0x02, name:"Statue Room (6F)"},
 
-    ROOM_0041_ALL: {roomID: 0x0041, quadH: 0x00, quadV: 0x00, name:"Sewer Passage"},
+    ROOM_0041_ALL: {roomID: 0x0041, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Sewer Passage"},
 
     ROOM_0042_NORTH: {roomID: 0x0042, quadH: [0x00, 0x01], quadV: 0x00, name:"Snake Room"},
-    ROOM_0042_SW: {roomID: 0x0042, quadH: [0x00, 0x01], quadV: 0x02, name:"Room 0042 SW"},
+    ROOM_0042_SOUTH: {roomID: 0x0042, quadH: [0x00, 0x01], quadV: 0x02, name:"Room 0042 South"},
 
     ROOM_0043_NORTH: {roomID: 0x0043, quadH: [0x00, 0x01], quadV: 0x00, name:"Torch Room"},
     ROOM_0043_SW: {roomID: 0x0043, quadH: 0x00, quadV: 0x02, name:"Room 0043 SW"},
@@ -319,7 +381,7 @@ export const LocationIDs = {
 
     ROOM_004F_NW: {roomID: 0x004F, quadH: 0x00, quadV: 0x00, name:"Room 004F NW"},
     ROOM_004F_NE: {roomID: 0x004F, quadH: 0x01, quadV: 0x00, name:"Fairies Warp Room"},
-    ROOM_004F_SW: {roomID: 0x004F, quadH: 0x00, quadV: 0x02, name:"Unused Duplicate Room"}, //Duplicate of Room
+    ROOM_004F_SW: {roomID: 0x004F, quadH: 0x00, quadV: 0x02, name:"Unused Duplicate Room"}, //Duplicate of Room 00BF SW
     ROOM_004F_SE: {roomID: 0x004F, quadH: 0x01, quadV: 0x02, name:"Room 004F SE"},
 
     ROOM_0050_WEST: {roomID: 0x0050, quadH: 0x00, quadV: [0x00, 0x02], name:"Room 0050 WEST"},
@@ -330,10 +392,10 @@ export const LocationIDs = {
     ROOM_0052_ALL: {roomID: 0x0052, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"East Hall"},
 
     ROOM_0053_NW: {roomID: 0x0053, quadH: 0x00, quadV: 0x00, name:"Bridge"},
-    ROOM_0053_EAST: {roomID: 0x0053, quadH: 0x01, quadV: 0x00, name:"Beamos Hallway"},
+    ROOM_0053_EAST: {roomID: 0x0053, quadH: 0x01, quadV: [0x00, 0x02], name:"Beamos Hallway"},
     ROOM_0053_SW: {roomID: 0x0053, quadH: 0x00, quadV: 0x02, name:"Popos"},
 
-    ROOM_0054_ALL: {roomID: 0x0054, quadH: 0x00, quadV: 0x00, name:"Sociable Firebar"},
+    ROOM_0054_ALL: {roomID: 0x0054, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Sociable Firebar"},
 
     ROOM_0055_NORTH: {roomID: 0x0055, quadH: [0x00, 0x01], quadV: 0x00, name:"Uncle"},
     ROOM_0055_SOUTH: {roomID: 0x0055, quadH: [0x00, 0x01], quadV: 0x02, name:"Passage Exit"},
@@ -392,7 +454,7 @@ export const LocationIDs = {
     ROOM_0063_EAST: {roomID: 0x0063, quadH: 0x01, quadV: [0x00, 0x02], name:"Room 0063 East"},
     ROOM_0063_SW: {roomID: 0x0063, quadH: 0x00, quadV: 0x02, name:"Desert 2 Entrance"},
 
-    ROOM_0064_NORTH: {roomID: 0x0064, quadH: 0x00, quadV: 0x00, name:"Room 0064 NORTH"},
+    ROOM_0064_NORTH: {roomID: 0x0064, quadH: [0x00, 0x01], quadV: 0x00, name:"Room 0064 NORTH"},
     ROOM_0064_SW: {roomID: 0x0064, quadH: 0x00, quadV: 0x02, name:"Attic Pot Switch"},
     ROOM_0064_SE: {roomID: 0x0064, quadH: 0x01, quadV: 0x02, name:"Grasshopper Hall 1"},
 
@@ -407,7 +469,7 @@ export const LocationIDs = {
     ROOM_0067_WEST: {roomID: 0x0067, quadH: 0x00, quadV: [0x00, 0x02], name:"Left Drop"},
     ROOM_0067_EAST: {roomID: 0x0067, quadH: 0x01, quadV: [0x00, 0x02], name:"Compass Chest (SW)"},
 
-    ROOM_0068_ALL: {roomID: 0x0068, quadH: 0x00, quadV: 0x00, name:"Pinball"},
+    ROOM_0068_ALL: {roomID: 0x0068, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Pinball"},
 
     ROOM_0069_NW: {roomID: 0x0069, quadH: 0x00, quadV: 0x00, name:"Room 0069 NW"},
     ROOM_0069_NE: {roomID: 0x0069, quadH: 0x01, quadV: 0x00, name:"Room 0069 NE"},
@@ -415,7 +477,7 @@ export const LocationIDs = {
     ROOM_0069_SE: {roomID: 0x0069, quadH: 0x01, quadV: 0x02, name:"Room 0069 SE"},
 
     ROOM_006A_WEST: {roomID: 0x006A, quadH: 0x00, quadV: [0x00, 0x02], name:"Room 006A West"},
-    ROOM_006A_EAST: {roomID: 0x006A, quadH: 0x01, quadV: 0x00, name:"Turtle Hallway"},
+    ROOM_006A_EAST: {roomID: 0x006A, quadH: 0x01, quadV: [0x00, 0x02], name:"Turtle Hallway"},
 
     ROOM_006B_NW: {roomID: 0x006B, quadH: 0x00, quadV: 0x00, name:"Spike Room"},
     ROOM_006B_NE: {roomID: 0x006B, quadH: 0x01, quadV: 0x00, name:"Dash Hall"},
@@ -428,7 +490,7 @@ export const LocationIDs = {
     ROOM_006C_SE: {roomID: 0x006C, quadH: 0x01, quadV: 0x02, name:"Bunny Warp Hall"},
 
     ROOM_006D_NW: {roomID: 0x006D, quadH: 0x00, quadV: 0x00, name:"Gauntlet 4"},
-    ROOM_006D_EAST: {roomID: 0x006D, quadH: 0x01, quadV: 0x00, name:"Room 006D East"},
+    ROOM_006D_EAST: {roomID: 0x006D, quadH: 0x01, quadV: [0x00, 0x02], name:"Room 006D East"},
     ROOM_006D_SW: {roomID: 0x006D, quadH: 0x00, quadV: 0x02, name:"Gauntlet 5"},
 
     ROOM_006E_NW: {roomID: 0x006E, quadH: 0x00, quadV: 0x00, name:"Room 006E NW"},
@@ -463,14 +525,14 @@ export const LocationIDs = {
     ROOM_0074_SOUTH: {roomID: 0x0074, quadH: [0x00, 0x01], quadV: 0x02, name:"North Hall"},
 
     ROOM_0075_NW: {roomID: 0x0075, quadH: 0x00, quadV: 0x00, name:"Trap Room"},
-    ROOM_0075_EAST: {roomID: 0x0075, quadH: 0x01, quadV: 0x00, name:"Big Key Chest (DP)"},
+    ROOM_0075_EAST: {roomID: 0x0075, quadH: 0x01, quadV: [0x00, 0x02], name:"Big Key Chest (DP)"},
     ROOM_0075_SW: {roomID: 0x0075, quadH: 0x00, quadV: 0x02, name:"NE Room"},
 
     ROOM_0076_WEST: {roomID: 0x0076, quadH: 0x00, quadV: [0x00, 0x02], name:"Small Hallway"},
     ROOM_0076_NE: {roomID: 0x0076, quadH: 0x01, quadV: 0x00, name:"Water Lever 3"},
     ROOM_0076_SE: {roomID: 0x0076, quadH: 0x01, quadV: 0x02, name:"Flooded Room"},
 
-    ROOM_0077_ALL: {roomID: 0x0077, quadH: 0x00, quadV: 0x00, name:"Hera Lobby"},
+    ROOM_0077_ALL: {roomID: 0x0077, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Hera Lobby"},
 
     ROOM_0078_NW: {roomID: 0x0078, quadH: 0x00, quadV: 0x00, name:"Room 0078 NW"},
     ROOM_0078_NE: {roomID: 0x0078, quadH: 0x01, quadV: 0x00, name:"Room 0078 NE"},
@@ -487,7 +549,7 @@ export const LocationIDs = {
     ROOM_007A_SW: {roomID: 0x007A, quadH: 0x00, quadV: 0x02, name:"Room 007A SW"},
     ROOM_007A_SE: {roomID: 0x007A, quadH: 0x01, quadV: 0x02, name:"Room 007A SE"},
 
-    ROOM_007B_NORTH: {roomID: 0x007B, quadH: 0x00, quadV: 0x00, name:"Conveyor Star Pits"},
+    ROOM_007B_NORTH: {roomID: 0x007B, quadH: [0x00, 0x01], quadV: 0x00, name:"Conveyor Star Pits"},
     ROOM_007B_SW: {roomID: 0x007B, quadH: 0x00, quadV: 0x02, name:"DMs Room"},
     ROOM_007B_SE: {roomID: 0x007B, quadH: 0x01, quadV: 0x02, name:"Hidden Star"},
 
@@ -496,7 +558,7 @@ export const LocationIDs = {
     ROOM_007C_SE: {roomID: 0x007C, quadH: 0x01, quadV: 0x02, name:"Hidden Floor Button"},
 
     ROOM_007D_NORTH: {roomID: 0x007D, quadH: [0x00, 0x01], quadV: 0x00, name:"Firesnake Room"},
-    ROOM_007D_SW: {roomID: 0x007D, quadH: 0x00, quadV: 0x02, name:"Warp Maze"},
+    ROOM_007D_SW: {roomID: 0x007D, quadH: 0x00, quadV: 0x02, name:"Warp Maze (Rails)"},
     ROOM_007D_SE: {roomID: 0x007D, quadH: 0x01, quadV: 0x02, name:"Petting Zoo"},
 
     ROOM_007E_NW: {roomID: 0x007E, quadH: 0x00, quadV: 0x00, name:"Room 007E NW"},
@@ -504,7 +566,7 @@ export const LocationIDs = {
     ROOM_007E_SW: {roomID: 0x007E, quadH: 0x00, quadV: 0x02, name:"Double Freezor Room"},
 
     ROOM_007F_NW: {roomID: 0x007F, quadH: 0x00, quadV: 0x00, name:"Hookshot Balcony"},
-    ROOM_007F_EAST: {roomID: 0x007F, quadH: 0x01, quadV: 0x00, name:"Room 007F East"},
+    ROOM_007F_EAST: {roomID: 0x007F, quadH: 0x01, quadV: [0x00, 0x02], name:"Room 007F East"},
     ROOM_007F_SW: {roomID: 0x007F, quadH: 0x00, quadV: 0x02, name:"Spikeballs"},
 
     ROOM_0080_NORTH: {roomID: 0x0080, quadH: [0x00, 0x01], quadV: 0x00, name:"Dungeon Cell Block"},
@@ -512,7 +574,7 @@ export const LocationIDs = {
 
     ROOM_0081_ALL: {roomID: 0x0081, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Dungeon Guardroom"},
 
-    ROOM_0082_ALL: {roomID: 0x0082, quadH: 0x00, quadV: 0x00, name:"B1 Pit 2"},
+    ROOM_0082_ALL: {roomID: 0x0082, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"B1 Pit 2"},
 
     ROOM_0083_NW: {roomID: 0x0083, quadH: 0x00, quadV: 0x00, name:"Desert Faries Room"},
     ROOM_0083_EAST: {roomID: 0x0083, quadH: 0x01, quadV: [0x00, 0x02], name:"West Wing"},
@@ -540,7 +602,7 @@ export const LocationIDs = {
     ROOM_0088_SE: {roomID: 0x0088, quadH: 0x01, quadV: 0x02, name:"Room 0088 SE"},
 
     ROOM_0089_NORTH: {roomID: 0x0089, quadH: [0x00, 0x01], quadV: 0x00, name:"Warp Fairies"},
-    ROOM_0089_SOUTH: {roomID: 0x0089, quadH: 0x00, quadV: 0x02, name:"Room 0089 South"},
+    ROOM_0089_SOUTH: {roomID: 0x0089, quadH: [0x00, 0x01], quadV: 0x02, name:"Room 0089 South"},
 
     ROOM_008A_NW: {roomID: 0x008A, quadH: 0x00, quadV: 0x00, name:"Room 008A NW"},
     ROOM_008A_NE: {roomID: 0x008A, quadH: 0x01, quadV: 0x00, name:"Room 008A NE"},
@@ -572,148 +634,111 @@ export const LocationIDs = {
 
     ROOM_0090_NW: {roomID: 0x0090, quadH: 0x00, quadV: 0x00, name:"Room 0090 NW"},
     ROOM_0090_NE: {roomID: 0x0090, quadH: 0x01, quadV: 0x00, name:"Room 0090 NE"},
-    ROOM_0090_SW: {roomID: 0x0090, quadH: 0x00, quadV: 0x02, name:"Room 0090 SW"},
+    ROOM_0090_SW: {roomID: 0x0090, quadH: 0x00, quadV: 0x02, name:"Vitreous"},
     ROOM_0090_SE: {roomID: 0x0090, quadH: 0x01, quadV: 0x02, name:"Room 0090 SE"},
 
-    ROOM_0091_NW: {roomID: 0x0091, quadH: 0x00, quadV: 0x00, name:"Room 0091 NW"},
-    ROOM_0091_NE: {roomID: 0x0091, quadH: 0x01, quadV: 0x00, name:"Room 0091 NE"},
-    ROOM_0091_SW: {roomID: 0x0091, quadH: 0x00, quadV: 0x02, name:"Room 0091 SW"},
-    ROOM_0091_SE: {roomID: 0x0091, quadH: 0x01, quadV: 0x02, name:"Room 0091 SE"},
+    ROOM_0091_WEST: {roomID: 0x0091, quadH: 0x00, quadV: [0x00, 0x02], name:"Room 0091 West"},
+    ROOM_0091_EAST: {roomID: 0x0091, quadH: 0x01, quadV: [0x00, 0x02], name:"Falling Foes"},
 
-    ROOM_0092_NW: {roomID: 0x0092, quadH: 0x00, quadV: 0x00, name:"Room 0092 NW"},
-    ROOM_0092_NE: {roomID: 0x0092, quadH: 0x01, quadV: 0x00, name:"Room 0092 NE"},
-    ROOM_0092_SW: {roomID: 0x0092, quadH: 0x00, quadV: 0x02, name:"Room 0092 SW"},
-    ROOM_0092_SE: {roomID: 0x0092, quadH: 0x01, quadV: 0x02, name:"Room 0092 SE"},
+    ROOM_0092_NW: {roomID: 0x0092, quadH: 0x00, quadV: 0x00, name:"Shooter Rupees and Crystal Switch"},
+    ROOM_0092_EAST: {roomID: 0x0092, quadH: 0x01, quadV: [0x00, 0x02], name:"Tall Dark and Roomy"},
+    ROOM_0092_SW: {roomID: 0x0092, quadH: 0x00, quadV: 0x02, name:"Bomb Wall"},
 
-    ROOM_0093_NW: {roomID: 0x0093, quadH: 0x00, quadV: 0x00, name:"Room 0093 NW"},
-    ROOM_0093_NE: {roomID: 0x0093, quadH: 0x01, quadV: 0x00, name:"Room 0093 NE"},
-    ROOM_0093_SW: {roomID: 0x0093, quadH: 0x00, quadV: 0x02, name:"Room 0093 SW"},
-    ROOM_0093_SE: {roomID: 0x0093, quadH: 0x01, quadV: 0x02, name:"Room 0093 SE"},
+    ROOM_0093_NORTH: {roomID: 0x0093, quadH: [0x00, 0x01], quadV: 0x00, name:"Dark Shooters"},
+    ROOM_0093_SW: {roomID: 0x0093, quadH: 0x00, quadV: 0x02, name:"Block X"},
+    ROOM_0093_SE: {roomID: 0x0093, quadH: 0x01, quadV: 0x02, name:"Key Rupees"},
 
     ROOM_0094_NW: {roomID: 0x0094, quadH: 0x00, quadV: 0x00, name:"Room 0094 NW"},
     ROOM_0094_NE: {roomID: 0x0094, quadH: 0x01, quadV: 0x00, name:"Room 0094 NE"},
     ROOM_0094_SW: {roomID: 0x0094, quadH: 0x00, quadV: 0x02, name:"Room 0094 SW"},
     ROOM_0094_SE: {roomID: 0x0094, quadH: 0x01, quadV: 0x02, name:"Room 0094 SE"},
 
-    ROOM_0095_NW: {roomID: 0x0095, quadH: 0x00, quadV: 0x00, name:"Room 0095 NW"},
-    ROOM_0095_NE: {roomID: 0x0095, quadH: 0x01, quadV: 0x00, name:"Room 0095 NE"},
-    ROOM_0095_SW: {roomID: 0x0095, quadH: 0x00, quadV: 0x02, name:"Room 0095 SW"},
-    ROOM_0095_SE: {roomID: 0x0095, quadH: 0x01, quadV: 0x02, name:"Room 0095 SE"},
+    ROOM_0095_WEST: {roomID: 0x0095, quadH: 0x00, quadV: [0x00, 0x02], name:"Room 0095 West"},
+    ROOM_0095_EAST: {roomID: 0x0095, quadH: 0x01, quadV: [0x00, 0x02], name:"Conveyor Bridge"},
 
-    ROOM_0096_NW: {roomID: 0x0096, quadH: 0x00, quadV: 0x00, name:"Room 0096 NW"},
+    ROOM_0096_WEST: {roomID: 0x0096, quadH: 0x00, quadV: [0x00, 0x02], name:"Torch Cross"},
     ROOM_0096_NE: {roomID: 0x0096, quadH: 0x01, quadV: 0x00, name:"Room 0096 NE"},
-    ROOM_0096_SW: {roomID: 0x0096, quadH: 0x00, quadV: 0x02, name:"Room 0096 SW"},
-    ROOM_0096_SE: {roomID: 0x0096, quadH: 0x01, quadV: 0x02, name:"Room 0096 SE"},
+    ROOM_0096_SE: {roomID: 0x0096, quadH: 0x01, quadV: 0x02, name:"Staredown"},
 
-    ROOM_0097_NW: {roomID: 0x0097, quadH: 0x00, quadV: 0x00, name:"Room 0097 NW"},
-    ROOM_0097_NE: {roomID: 0x0097, quadH: 0x01, quadV: 0x00, name:"Room 0097 NE"},
-    ROOM_0097_SW: {roomID: 0x0097, quadH: 0x00, quadV: 0x02, name:"Room 0097 SW"},
-    ROOM_0097_SE: {roomID: 0x0097, quadH: 0x01, quadV: 0x02, name:"Room 0097 SE"},
+    ROOM_0097_NW: {roomID: 0x0097, quadH: 0x00, quadV: 0x00, name:"Torches Top"},
+    ROOM_0097_EAST: {roomID: 0x0097, quadH: 0x01, quadV: [0x00, 0x02], name:"Movable Wall Hole"},
+    ROOM_0097_SW: {roomID: 0x0097, quadH: 0x00, quadV: 0x02, name:"Torches Bottom"},
 
-    ROOM_0098_NW: {roomID: 0x0098, quadH: 0x00, quadV: 0x00, name:"Room 0098 NW"},
-    ROOM_0098_NE: {roomID: 0x0098, quadH: 0x01, quadV: 0x00, name:"Room 0098 NE"},
-    ROOM_0098_SW: {roomID: 0x0098, quadH: 0x00, quadV: 0x02, name:"Room 0098 SW"},
-    ROOM_0098_SE: {roomID: 0x0098, quadH: 0x01, quadV: 0x02, name:"Room 0098 SE"},
+    ROOM_0098_ALL: {roomID: 0x0098, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Lobby (MM)"},
 
     ROOM_0099_NW: {roomID: 0x0099, quadH: 0x00, quadV: 0x00, name:"Room 0099 NW"},
-    ROOM_0099_NE: {roomID: 0x0099, quadH: 0x01, quadV: 0x00, name:"Room 0099 NE"},
-    ROOM_0099_SW: {roomID: 0x0099, quadH: 0x00, quadV: 0x02, name:"Room 0099 SW"},
-    ROOM_0099_SE: {roomID: 0x0099, quadH: 0x01, quadV: 0x02, name:"Room 0099 SE"},
+    ROOM_0099_NE: {roomID: 0x0099, quadH: 0x01, quadV: 0x00, name:"Rupees"},
+    ROOM_0099_SOUTH: {roomID: 0x0099, quadH: [0x00, 0x01], quadV: 0x02, name:"Dark Eyegore Key"},
 
     ROOM_009A_NW: {roomID: 0x009A, quadH: 0x00, quadV: 0x00, name:"Room 009A NW"},
     ROOM_009A_NE: {roomID: 0x009A, quadH: 0x01, quadV: 0x00, name:"Room 009A NE"},
     ROOM_009A_SW: {roomID: 0x009A, quadH: 0x00, quadV: 0x02, name:"Room 009A SW"},
     ROOM_009A_SE: {roomID: 0x009A, quadH: 0x01, quadV: 0x02, name:"Room 009A SE"},
 
-    ROOM_009B_NW: {roomID: 0x009B, quadH: 0x00, quadV: 0x00, name:"Room 009B NW"},
-    ROOM_009B_NE: {roomID: 0x009B, quadH: 0x01, quadV: 0x00, name:"Room 009B NE"},
-    ROOM_009B_SW: {roomID: 0x009B, quadH: 0x00, quadV: 0x02, name:"Room 009B SW"},
-    ROOM_009B_SE: {roomID: 0x009B, quadH: 0x01, quadV: 0x02, name:"Room 009B SE"},
+    ROOM_009B_NW: {roomID: 0x009B, quadH: 0x00, quadV: 0x00, name:"Double Switch"},
+    ROOM_009B_NE: {roomID: 0x009B, quadH: 0x01, quadV: 0x00, name:"Crystal Spikes"},
+    ROOM_009B_SOUTH: {roomID: 0x009B, quadH: [0x00, 0x01], quadV: 0x02, name:"Warp Maze (Pits)"},
 
-    ROOM_009C_NW: {roomID: 0x009C, quadH: 0x00, quadV: 0x00, name:"Room 009C NW"},
-    ROOM_009C_NE: {roomID: 0x009C, quadH: 0x01, quadV: 0x00, name:"Room 009C NE"},
-    ROOM_009C_SW: {roomID: 0x009C, quadH: 0x00, quadV: 0x02, name:"Room 009C SW"},
-    ROOM_009C_SE: {roomID: 0x009C, quadH: 0x01, quadV: 0x02, name:"Room 009C SE"},
+    ROOM_009C_ALL: {roomID: 0x009C, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Invisible Catwalk"},
 
-    ROOM_009D_NW: {roomID: 0x009D, quadH: 0x00, quadV: 0x00, name:"Room 009D NW"},
-    ROOM_009D_NE: {roomID: 0x009D, quadH: 0x01, quadV: 0x00, name:"Room 009D NE"},
-    ROOM_009D_SW: {roomID: 0x009D, quadH: 0x00, quadV: 0x02, name:"Room 009D SW"},
-    ROOM_009D_SE: {roomID: 0x009D, quadH: 0x01, quadV: 0x02, name:"Room 009D SE"},
+    ROOM_009D_NW: {roomID: 0x009D, quadH: 0x00, quadV: 0x00, name:"Compass Chest (GT)"},
+    ROOM_009D_NE: {roomID: 0x009D, quadH: 0x01, quadV: 0x00, name:"Crystal Conveyor"},
+    ROOM_009D_SOUTH: {roomID: 0x009D, quadH: [0x00, 0x01], quadV: 0x02, name:"Invisible Bridges"},
 
     ROOM_009E_NW: {roomID: 0x009E, quadH: 0x00, quadV: 0x00, name:"Room 009E NW"},
-    ROOM_009E_NE: {roomID: 0x009E, quadH: 0x01, quadV: 0x00, name:"Room 009E NE"},
-    ROOM_009E_SW: {roomID: 0x009E, quadH: 0x00, quadV: 0x02, name:"Room 009E SW"},
-    ROOM_009E_SE: {roomID: 0x009E, quadH: 0x01, quadV: 0x02, name:"Room 009E SE"},
+    ROOM_009E_NE: {roomID: 0x009E, quadH: 0x01, quadV: 0x00, name:"Backwards Room"},
+    ROOM_009E_SW: {roomID: 0x009E, quadH: 0x00, quadV: 0x02, name:"Big Chest (IP)"},
+    ROOM_009E_SE: {roomID: 0x009E, quadH: 0x01, quadV: 0x02, name:"Block Pit"},
 
     ROOM_009F_NW: {roomID: 0x009F, quadH: 0x00, quadV: 0x00, name:"Room 009F NW"},
     ROOM_009F_NE: {roomID: 0x009F, quadH: 0x01, quadV: 0x00, name:"Room 009F NE"},
-    ROOM_009F_SW: {roomID: 0x009F, quadH: 0x00, quadV: 0x02, name:"Room 009F SW"},
+    ROOM_009F_SW: {roomID: 0x009F, quadH: 0x00, quadV: 0x02, name:"Many Pots"},
     ROOM_009F_SE: {roomID: 0x009F, quadH: 0x01, quadV: 0x02, name:"Room 009F SE"},
 
-    ROOM_00A0_NW: {roomID: 0x00A0, quadH: 0x00, quadV: 0x00, name:"Room 00A0 NW"},
-    ROOM_00A0_NE: {roomID: 0x00A0, quadH: 0x01, quadV: 0x00, name:"Room 00A0 NE"},
-    ROOM_00A0_SW: {roomID: 0x00A0, quadH: 0x00, quadV: 0x02, name:"Room 00A0 SW"},
-    ROOM_00A0_SE: {roomID: 0x00A0, quadH: 0x01, quadV: 0x02, name:"Room 00A0 SE"},
+    ROOM_00A0_NORTH: {roomID: 0x00A0, quadH: [0x00, 0x01], quadV: 0x00, name:"Firesnake Skip"},
+    ROOM_00A0_SOUTH: {roomID: 0x00A0, quadH: [0x00, 0x01], quadV: 0x02, name:"Room 00A0 South"},
 
-    ROOM_00A1_NW: {roomID: 0x00A1, quadH: 0x00, quadV: 0x00, name:"Room 00A1 NW"},
-    ROOM_00A1_NE: {roomID: 0x00A1, quadH: 0x01, quadV: 0x00, name:"Room 00A1 NE"},
-    ROOM_00A1_SW: {roomID: 0x00A1, quadH: 0x00, quadV: 0x02, name:"Room 00A1 SW"},
-    ROOM_00A1_SE: {roomID: 0x00A1, quadH: 0x01, quadV: 0x02, name:"Room 00A1 SE"},
+    ROOM_00A1_ALL: {roomID: 0x00A1, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Fishbone"},
 
-    ROOM_00A2_NW: {roomID: 0x00A2, quadH: 0x00, quadV: 0x00, name:"Room 00A2 NW"},
-    ROOM_00A2_NE: {roomID: 0x00A2, quadH: 0x01, quadV: 0x00, name:"Room 00A2 NE"},
-    ROOM_00A2_SW: {roomID: 0x00A2, quadH: 0x00, quadV: 0x02, name:"Room 00A2 SW"},
-    ROOM_00A2_SE: {roomID: 0x00A2, quadH: 0x01, quadV: 0x02, name:"Room 00A2 SE"},
+    ROOM_00A2_ALL: {roomID: 0x00A2, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Bridges"},
 
-    ROOM_00A3_NW: {roomID: 0x00A3, quadH: 0x00, quadV: 0x00, name:"Room 00A3 NW"},
-    ROOM_00A3_NE: {roomID: 0x00A3, quadH: 0x01, quadV: 0x00, name:"Room 00A3 NE"},
-    ROOM_00A3_SW: {roomID: 0x00A3, quadH: 0x00, quadV: 0x02, name:"Room 00A3 SW"},
-    ROOM_00A3_SE: {roomID: 0x00A3, quadH: 0x01, quadV: 0x02, name:"Room 00A3 SE"},
+    ROOM_00A3_WEST: {roomID: 0x00A3, quadH: 0x00, quadV: [0x00, 0x02], name:"Bent Bridge"},
+    ROOM_00A3_EAST: {roomID: 0x00A3, quadH: 0x01, quadV: [0x00, 0x02], name:"Room 00A3 East"},
 
     ROOM_00A4_NW: {roomID: 0x00A4, quadH: 0x00, quadV: 0x00, name:"Room 00A4 NW"},
     ROOM_00A4_NE: {roomID: 0x00A4, quadH: 0x01, quadV: 0x00, name:"Room 00A4 NE"},
-    ROOM_00A4_SW: {roomID: 0x00A4, quadH: 0x00, quadV: 0x02, name:"Room 00A4 SW"},
+    ROOM_00A4_SW: {roomID: 0x00A4, quadH: 0x00, quadV: 0x02, name:"Trinexx"},
     ROOM_00A4_SE: {roomID: 0x00A4, quadH: 0x01, quadV: 0x02, name:"Room 00A4 SE"},
 
-    ROOM_00A5_NW: {roomID: 0x00A5, quadH: 0x00, quadV: 0x00, name:"Room 00A5 NW"},
-    ROOM_00A5_NE: {roomID: 0x00A5, quadH: 0x01, quadV: 0x00, name:"Room 00A5 NE"},
-    ROOM_00A5_SW: {roomID: 0x00A5, quadH: 0x00, quadV: 0x02, name:"Room 00A5 SW"},
-    ROOM_00A5_SE: {roomID: 0x00A5, quadH: 0x01, quadV: 0x02, name:"Room 00A5 SE"},
+    ROOM_00A5_NW: {roomID: 0x00A5, quadH: 0x00, quadV: 0x00, name:"Wizzrobes 1"},
+    ROOM_00A5_NE: {roomID: 0x00A5, quadH: 0x01, quadV: 0x00, name:"Wizzrobes 2"},
+    ROOM_00A5_SOUTH: {roomID: 0x00A5, quadH: [0x00, 0x01], quadV: 0x02, name:"Dashing Bridge"},
 
-    ROOM_00A6_NW: {roomID: 0x00A6, quadH: 0x00, quadV: 0x00, name:"Room 00A6 NW"},
-    ROOM_00A6_NE: {roomID: 0x00A6, quadH: 0x01, quadV: 0x00, name:"Room 00A6 NE"},
-    ROOM_00A6_SW: {roomID: 0x00A6, quadH: 0x00, quadV: 0x02, name:"Room 00A6 SW"},
-    ROOM_00A6_SE: {roomID: 0x00A6, quadH: 0x01, quadV: 0x02, name:"Room 00A6 SE"},
+    ROOM_00A6_ALL: {roomID: 0x00A6, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Moldorm Pit"},
 
-    ROOM_00A7_NW: {roomID: 0x00A7, quadH: 0x00, quadV: 0x00, name:"Room 00A7 NW"},
+    ROOM_00A7_NW: {roomID: 0x00A7, quadH: 0x00, quadV: 0x00, name:"Fairies Pond Warp"},
     ROOM_00A7_NE: {roomID: 0x00A7, quadH: 0x01, quadV: 0x00, name:"Room 00A7 NE"},
-    ROOM_00A7_SW: {roomID: 0x00A7, quadH: 0x00, quadV: 0x02, name:"Room 00A7 SW"},
-    ROOM_00A7_SE: {roomID: 0x00A7, quadH: 0x01, quadV: 0x02, name:"Room 00A7 SE"},
+    ROOM_00A7_SOUTH: {roomID: 0x00A7, quadH: [0x00, 0x01], quadV: 0x02, name:"Room 00A7 South"},
 
-    ROOM_00A8_NW: {roomID: 0x00A8, quadH: 0x00, quadV: 0x00, name:"Room 00A8 NW"},
-    ROOM_00A8_NE: {roomID: 0x00A8, quadH: 0x01, quadV: 0x00, name:"Room 00A8 NE"},
-    ROOM_00A8_SW: {roomID: 0x00A8, quadH: 0x00, quadV: 0x02, name:"Room 00A8 SW"},
-    ROOM_00A8_SE: {roomID: 0x00A8, quadH: 0x01, quadV: 0x02, name:"Room 00A8 SE"},
+    ROOM_00A8_NW: {roomID: 0x00A8, quadH: 0x00, quadV: 0x00, name:"Compass Chest (EP)"},
+    ROOM_00A8_EAST: {roomID: 0x00A8, quadH: 0x01, quadV: [0x00, 0x02], name:"Hint Tile"},
+    ROOM_00A8_SW: {roomID: 0x00A8, quadH: 0x00, quadV: 0x02, name:"Stalfos Spawn"},
 
-    ROOM_00A9_NW: {roomID: 0x00A9, quadH: 0x00, quadV: 0x00, name:"Room 00A9 NW"},
-    ROOM_00A9_NE: {roomID: 0x00A9, quadH: 0x01, quadV: 0x00, name:"Room 00A9 NE"},
-    ROOM_00A9_SW: {roomID: 0x00A9, quadH: 0x00, quadV: 0x02, name:"Room 00A9 SW"},
-    ROOM_00A9_SE: {roomID: 0x00A9, quadH: 0x01, quadV: 0x02, name:"Room 00A9 SE"},
+    ROOM_00A9_ALL: {roomID: 0x00A9, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Big Chest (EP)"},
 
-    ROOM_00AA_NW: {roomID: 0x00AA, quadH: 0x00, quadV: 0x00, name:"Room 00AA NW"},
-    ROOM_00AA_NE: {roomID: 0x00AA, quadH: 0x01, quadV: 0x00, name:"Room 00AA NE"},
-    ROOM_00AA_SW: {roomID: 0x00AA, quadH: 0x00, quadV: 0x02, name:"Room 00AA SW"},
-    ROOM_00AA_SE: {roomID: 0x00AA, quadH: 0x01, quadV: 0x02, name:"Room 00AA SE"},
+    ROOM_00AA_WEST: {roomID: 0x00AA, quadH: 0x00, quadV: [0x00, 0x02], name:"East Wing"},
+    ROOM_00AA_NE: {roomID: 0x00AA, quadH: 0x01, quadV: 0x00, name:"Pot Switch"},
+    ROOM_00AA_SE: {roomID: 0x00AA, quadH: 0x01, quadV: 0x02, name:"Map Chest (EP)"},
 
     ROOM_00AB_NW: {roomID: 0x00AB, quadH: 0x00, quadV: 0x00, name:"Room 00AB NW"},
     ROOM_00AB_NE: {roomID: 0x00AB, quadH: 0x01, quadV: 0x00, name:"Room 00AB NE"},
-    ROOM_00AB_SW: {roomID: 0x00AB, quadH: 0x00, quadV: 0x02, name:"Room 00AB SW"},
+    ROOM_00AB_SW: {roomID: 0x00AB, quadH: 0x00, quadV: 0x02, name:"Spike Switch"},
     ROOM_00AB_SE: {roomID: 0x00AB, quadH: 0x01, quadV: 0x02, name:"Room 00AB SE"},
 
     ROOM_00AC_NW: {roomID: 0x00AC, quadH: 0x00, quadV: 0x00, name:"Room 00AC NW"},
     ROOM_00AC_NE: {roomID: 0x00AC, quadH: 0x01, quadV: 0x00, name:"Room 00AC NE"},
     ROOM_00AC_SW: {roomID: 0x00AC, quadH: 0x00, quadV: 0x02, name:"Room 00AC SW"},
-    ROOM_00AC_SE: {roomID: 0x00AC, quadH: 0x01, quadV: 0x02, name:"Room 00AC SE"},
+    ROOM_00AC_SE: {roomID: 0x00AC, quadH: 0x01, quadV: 0x02, name:"Blind"},
 
     ROOM_00AD_NW: {roomID: 0x00AD, quadH: 0x00, quadV: 0x00, name:"Room 00AD NW"},
     ROOM_00AD_NE: {roomID: 0x00AD, quadH: 0x01, quadV: 0x00, name:"Room 00AD NE"},
@@ -721,159 +746,115 @@ export const LocationIDs = {
     ROOM_00AD_SE: {roomID: 0x00AD, quadH: 0x01, quadV: 0x02, name:"Room 00AD SE"},
 
     ROOM_00AE_NW: {roomID: 0x00AE, quadH: 0x00, quadV: 0x00, name:"Room 00AE NW"},
-    ROOM_00AE_NE: {roomID: 0x00AE, quadH: 0x01, quadV: 0x00, name:"Room 00AE NE"},
+    ROOM_00AE_NE: {roomID: 0x00AE, quadH: 0x01, quadV: 0x00, name:"Iced T"},
     ROOM_00AE_SW: {roomID: 0x00AE, quadH: 0x00, quadV: 0x02, name:"Room 00AE SW"},
     ROOM_00AE_SE: {roomID: 0x00AE, quadH: 0x01, quadV: 0x02, name:"Room 00AE SE"},
 
-    ROOM_00AF_NW: {roomID: 0x00AF, quadH: 0x00, quadV: 0x00, name:"Room 00AF NW"},
+    ROOM_00AF_NW: {roomID: 0x00AF, quadH: 0x00, quadV: 0x00, name:"Firebar Catwalk"},
     ROOM_00AF_NE: {roomID: 0x00AF, quadH: 0x01, quadV: 0x00, name:"Room 00AF NE"},
     ROOM_00AF_SW: {roomID: 0x00AF, quadH: 0x00, quadV: 0x02, name:"Room 00AF SW"},
     ROOM_00AF_SE: {roomID: 0x00AF, quadH: 0x01, quadV: 0x02, name:"Room 00AF SE"},
 
-    ROOM_00B0_NW: {roomID: 0x00B0, quadH: 0x00, quadV: 0x00, name:"Room 00B0 NW"},
-    ROOM_00B0_NE: {roomID: 0x00B0, quadH: 0x01, quadV: 0x00, name:"Room 00B0 NE"},
-    ROOM_00B0_SW: {roomID: 0x00B0, quadH: 0x00, quadV: 0x02, name:"Room 00B0 SW"},
-    ROOM_00B0_SE: {roomID: 0x00B0, quadH: 0x01, quadV: 0x02, name:"Room 00B0 SE"},
+    ROOM_00B0_NW: {roomID: 0x00B0, quadH: 0x00, quadV: 0x00, name:"Red Guards"},
+    ROOM_00B0_NE: {roomID: 0x00B0, quadH: 0x01, quadV: 0x00, name:"Red Spears"},
+    ROOM_00B0_SW: {roomID: 0x00B0, quadH: 0x00, quadV: 0x02, name:"Circle of Pots"},
+    ROOM_00B0_SE: {roomID: 0x00B0, quadH: 0x01, quadV: 0x02, name:"Pacifists Run"},
 
-    ROOM_00B1_NW: {roomID: 0x00B1, quadH: 0x00, quadV: 0x00, name:"Room 00B1 NW"},
-    ROOM_00B1_NE: {roomID: 0x00B1, quadH: 0x01, quadV: 0x00, name:"Room 00B1 NE"},
-    ROOM_00B1_SW: {roomID: 0x00B1, quadH: 0x00, quadV: 0x02, name:"Room 00B1 SW"},
-    ROOM_00B1_SE: {roomID: 0x00B1, quadH: 0x01, quadV: 0x02, name:"Room 00B1 SE"},
+    ROOM_00B1_NW: {roomID: 0x00B1, quadH: 0x00, quadV: 0x00, name:"Lone Warp"},
+    ROOM_00B1_EAST: {roomID: 0x00B1, quadH: 0x01, quadV: [0x00, 0x02], name:"Spike Barrier"},
+    ROOM_00B1_SW: {roomID: 0x00B1, quadH: 0x00, quadV: 0x02, name:"Square Rail"},
 
-    ROOM_00B2_NW: {roomID: 0x00B2, quadH: 0x00, quadV: 0x00, name:"Room 00B2 NW"},
-    ROOM_00B2_NE: {roomID: 0x00B2, quadH: 0x01, quadV: 0x00, name:"Room 00B2 NE"},
-    ROOM_00B2_SW: {roomID: 0x00B2, quadH: 0x00, quadV: 0x02, name:"Room 00B2 SW"},
-    ROOM_00B2_SE: {roomID: 0x00B2, quadH: 0x01, quadV: 0x02, name:"Room 00B2 SE"},
+    ROOM_00B2_NORTH: {roomID: 0x00B2, quadH: [0x00, 0x01], quadV: 0x00, name:"Big Key Door Room"},
+    ROOM_00B2_SW: {roomID: 0x00B2, quadH: 0x00, quadV: 0x02, name:"Cross"},
+    ROOM_00B2_SE: {roomID: 0x00B2, quadH: 0x01, quadV: 0x02, name:"Hidden Shooters"},
 
-    ROOM_00B3_NW: {roomID: 0x00B3, quadH: 0x00, quadV: 0x00, name:"Room 00B3 NW"},
-    ROOM_00B3_NE: {roomID: 0x00B3, quadH: 0x01, quadV: 0x00, name:"Room 00B3 NE"},
-    ROOM_00B3_SW: {roomID: 0x00B3, quadH: 0x00, quadV: 0x02, name:"Room 00B3 SW"},
-    ROOM_00B3_SE: {roomID: 0x00B3, quadH: 0x01, quadV: 0x02, name:"Room 00B3 SE"},
+    ROOM_00B3_NW: {roomID: 0x00B3, quadH: 0x00, quadV: 0x00, name:"Ledgehop"},
+    ROOM_00B3_EAST: {roomID: 0x00B3, quadH: 0x01, quadV: [0x00, 0x02], name:"Room 00B3 East"},
+    ROOM_00B3_SW: {roomID: 0x00B3, quadH: 0x00, quadV: 0x02, name:"Spikes"},
 
-    ROOM_00B4_NW: {roomID: 0x00B4, quadH: 0x00, quadV: 0x00, name:"Room 00B4 NW"},
-    ROOM_00B4_NE: {roomID: 0x00B4, quadH: 0x01, quadV: 0x00, name:"Room 00B4 NE"},
-    ROOM_00B4_SW: {roomID: 0x00B4, quadH: 0x00, quadV: 0x02, name:"Room 00B4 SW"},
-    ROOM_00B4_SE: {roomID: 0x00B4, quadH: 0x01, quadV: 0x02, name:"Room 00B4 SE"},
+    ROOM_00B4_ALL: {roomID: 0x00B4, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Final Abyss"},
 
-    ROOM_00B5_NW: {roomID: 0x00B5, quadH: 0x00, quadV: 0x00, name:"Room 00B5 NW"},
-    ROOM_00B5_NE: {roomID: 0x00B5, quadH: 0x01, quadV: 0x00, name:"Room 00B5 NE"},
-    ROOM_00B5_SW: {roomID: 0x00B5, quadH: 0x00, quadV: 0x02, name:"Room 00B5 SW"},
-    ROOM_00B5_SE: {roomID: 0x00B5, quadH: 0x01, quadV: 0x02, name:"Room 00B5 SE"},
+    ROOM_00B5_ALL: {roomID: 0x00B5, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Dark Ride"},
 
-    ROOM_00B6_NW: {roomID: 0x00B6, quadH: 0x00, quadV: 0x00, name:"Room 00B6 NW"},
-    ROOM_00B6_NE: {roomID: 0x00B6, quadH: 0x01, quadV: 0x00, name:"Room 00B6 NE"},
-    ROOM_00B6_SW: {roomID: 0x00B6, quadH: 0x00, quadV: 0x02, name:"Room 00B6 SW"},
-    ROOM_00B6_SE: {roomID: 0x00B6, quadH: 0x01, quadV: 0x02, name:"Room 00B6 SE"},
+    ROOM_00B6_NW: {roomID: 0x00B6, quadH: 0x00, quadV: 0x00, name:"Chain Chomps"},
+    ROOM_00B6_NE: {roomID: 0x00B6, quadH: 0x01, quadV: 0x00, name:"Refill"},
+    ROOM_00B6_SW: {roomID: 0x00B6, quadH: 0x00, quadV: 0x02, name:"Pokey Key 1"},
+    ROOM_00B6_SE: {roomID: 0x00B6, quadH: 0x01, quadV: 0x02, name:"Tile Spikes"},
 
-    ROOM_00B7_NW: {roomID: 0x00B7, quadH: 0x00, quadV: 0x00, name:"Room 00B7 NW"},
-    ROOM_00B7_NE: {roomID: 0x00B7, quadH: 0x01, quadV: 0x00, name:"Room 00B7 NE"},
-    ROOM_00B7_SW: {roomID: 0x00B7, quadH: 0x00, quadV: 0x02, name:"Room 00B7 SW"},
-    ROOM_00B7_SE: {roomID: 0x00B7, quadH: 0x01, quadV: 0x02, name:"Room 00B7 SE"},
+    ROOM_00B7_WEST: {roomID: 0x00B7, quadH: 0x00, quadV: [0x00, 0x02], name:"Roller Room"},
+    ROOM_00B7_EAST: {roomID: 0x00B7, quadH: 0x01, quadV: [0x00, 0x02], name:"Room 00B7 East"},
 
-    ROOM_00B8_NW: {roomID: 0x00B8, quadH: 0x00, quadV: 0x00, name:"Room 00B8 NW"},
-    ROOM_00B8_NE: {roomID: 0x00B8, quadH: 0x01, quadV: 0x00, name:"Room 00B8 NE"},
-    ROOM_00B8_SW: {roomID: 0x00B8, quadH: 0x00, quadV: 0x02, name:"Room 00B8 SW"},
-    ROOM_00B8_SE: {roomID: 0x00B8, quadH: 0x01, quadV: 0x02, name:"Room 00B8 SE"},
+    ROOM_00B8_WEST: {roomID: 0x00B8, quadH: 0x00, quadV: [0x00, 0x02], name:"Room 00B8 West"},
+    ROOM_00B8_EAST: {roomID: 0x00B8, quadH: 0x01, quadV: [0x00, 0x02], name:"Big Key Chest (EP)"},
 
-    ROOM_00B9_NW: {roomID: 0x00B9, quadH: 0x00, quadV: 0x00, name:"Room 00B9 NW"},
-    ROOM_00B9_NE: {roomID: 0x00B9, quadH: 0x01, quadV: 0x00, name:"Room 00B9 NE"},
-    ROOM_00B9_SW: {roomID: 0x00B9, quadH: 0x00, quadV: 0x02, name:"Room 00B9 SW"},
-    ROOM_00B9_SE: {roomID: 0x00B9, quadH: 0x01, quadV: 0x02, name:"Room 00B9 SE"},
+    ROOM_00B9_ALL: {roomID: 0x00B9, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Cannonball"},
 
-    ROOM_00BA_NW: {roomID: 0x00BA, quadH: 0x00, quadV: 0x00, name:"Room 00BA NW"},
-    ROOM_00BA_NE: {roomID: 0x00BA, quadH: 0x01, quadV: 0x00, name:"Room 00BA NE"},
+    ROOM_00BA_NW: {roomID: 0x00BA, quadH: 0x00, quadV: 0x00, name:"Dark Square"},
+    ROOM_00BA_NE: {roomID: 0x00BA, quadH: 0x01, quadV: 0x00, name:"Dark Pots"},
     ROOM_00BA_SW: {roomID: 0x00BA, quadH: 0x00, quadV: 0x02, name:"Room 00BA SW"},
     ROOM_00BA_SE: {roomID: 0x00BA, quadH: 0x01, quadV: 0x02, name:"Room 00BA SE"},
 
-    ROOM_00BB_NW: {roomID: 0x00BB, quadH: 0x00, quadV: 0x00, name:"Room 00BB NW"},
-    ROOM_00BB_NE: {roomID: 0x00BB, quadH: 0x01, quadV: 0x00, name:"Room 00BB NE"},
-    ROOM_00BB_SW: {roomID: 0x00BB, quadH: 0x00, quadV: 0x02, name:"Room 00BB SW"},
-    ROOM_00BB_SE: {roomID: 0x00BB, quadH: 0x01, quadV: 0x02, name:"Room 00BB SE"},
+    ROOM_00BB_WEST: {roomID: 0x00BB, quadH: 0x00, quadV: [0x00, 0x02], name:"Hellway"},
+    ROOM_00BB_NE: {roomID: 0x00BB, quadH: 0x01, quadV: 0x00, name:"Triple Bypass"},
+    ROOM_00BB_SE: {roomID: 0x00BB, quadH: 0x01, quadV: 0x02, name:"Spike Track"},
 
-    ROOM_00BC_NW: {roomID: 0x00BC, quadH: 0x00, quadV: 0x00, name:"Room 00BC NW"},
-    ROOM_00BC_NE: {roomID: 0x00BC, quadH: 0x01, quadV: 0x00, name:"Room 00BC NE"},
-    ROOM_00BC_SW: {roomID: 0x00BC, quadH: 0x00, quadV: 0x02, name:"Room 00BC SW"},
-    ROOM_00BC_SE: {roomID: 0x00BC, quadH: 0x01, quadV: 0x02, name:"Room 00BC SE"},
+    ROOM_00BC_NW: {roomID: 0x00BC, quadH: 0x00, quadV: 0x00, name:"Conveyor Maze"},
+    ROOM_00BC_EAST: {roomID: 0x00BC, quadH: 0x01, quadV: [0x00, 0x02], name:"Hallway"},
+    ROOM_00BC_SW: {roomID: 0x00BC, quadH: 0x00, quadV: 0x02, name:"Pot Alcove"},
 
     ROOM_00BD_NW: {roomID: 0x00BD, quadH: 0x00, quadV: 0x00, name:"Room 00BD NW"},
     ROOM_00BD_NE: {roomID: 0x00BD, quadH: 0x01, quadV: 0x00, name:"Room 00BD NE"},
     ROOM_00BD_SW: {roomID: 0x00BD, quadH: 0x00, quadV: 0x02, name:"Room 00BD SW"},
     ROOM_00BD_SE: {roomID: 0x00BD, quadH: 0x01, quadV: 0x02, name:"Room 00BD SE"},
 
-    ROOM_00BE_NW: {roomID: 0x00BE, quadH: 0x00, quadV: 0x00, name:"Room 00BE NW"},
-    ROOM_00BE_NE: {roomID: 0x00BE, quadH: 0x01, quadV: 0x00, name:"Room 00BE NE"},
-    ROOM_00BE_SW: {roomID: 0x00BE, quadH: 0x00, quadV: 0x02, name:"Room 00BE SW"},
-    ROOM_00BE_SE: {roomID: 0x00BE, quadH: 0x01, quadV: 0x02, name:"Room 00BE SE"},
+    ROOM_00BE_WEST: {roomID: 0x00BE, quadH: 0x00, quadV: [0x00, 0x02], name:"Room 00BE West"},
+    ROOM_00BE_NE: {roomID: 0x00BE, quadH: 0x01, quadV: 0x00, name:"Anti-Fairy"},
+    ROOM_00BE_SE: {roomID: 0x00BE, quadH: 0x01, quadV: 0x02, name:"Switch Room"},
 
     ROOM_00BF_NW: {roomID: 0x00BF, quadH: 0x00, quadV: 0x00, name:"Room 00BF NW"},
-    ROOM_00BF_NE: {roomID: 0x00BF, quadH: 0x01, quadV: 0x00, name:"Room 00BF NE"},
-    ROOM_00BF_SW: {roomID: 0x00BF, quadH: 0x00, quadV: 0x02, name:"Room 00BF SW"},
+    ROOM_00BF_NE: {roomID: 0x00BF, quadH: 0x01, quadV: 0x00, name:"Unused Warp Room"}, //Duplicate of Room 004F NE
+    ROOM_00BF_SW: {roomID: 0x00BF, quadH: 0x00, quadV: 0x02, name:"Refill"},
     ROOM_00BF_SE: {roomID: 0x00BF, quadH: 0x01, quadV: 0x02, name:"Room 00BF SE"},
 
-    ROOM_00C0_NW: {roomID: 0x00C0, quadH: 0x00, quadV: 0x00, name:"Room 00C0 NW"},
-    ROOM_00C0_NE: {roomID: 0x00C0, quadH: 0x01, quadV: 0x00, name:"Room 00C0 NE"},
-    ROOM_00C0_SW: {roomID: 0x00C0, quadH: 0x00, quadV: 0x02, name:"Room 00C0 SW"},
-    ROOM_00C0_SE: {roomID: 0x00C0, quadH: 0x01, quadV: 0x02, name:"Room 00C0 SE"},
+    ROOM_00C0_WEST: {roomID: 0x00C0, quadH: 0x00, quadV: [0x00, 0x02], name:"Dark Pits"},
+    ROOM_00C0_NE: {roomID: 0x00C0, quadH: 0x01, quadV: 0x00, name:"Dark Archers"},
+    ROOM_00C0_SE: {roomID: 0x00C0, quadH: 0x01, quadV: 0x02, name:"Dual Statues"},
 
-    ROOM_00C1_NW: {roomID: 0x00C1, quadH: 0x00, quadV: 0x00, name:"Room 00C1 NW"},
-    ROOM_00C1_NE: {roomID: 0x00C1, quadH: 0x01, quadV: 0x00, name:"Room 00C1 NE"},
-    ROOM_00C1_SW: {roomID: 0x00C1, quadH: 0x00, quadV: 0x02, name:"Room 00C1 SW"},
-    ROOM_00C1_SE: {roomID: 0x00C1, quadH: 0x01, quadV: 0x02, name:"Room 00C1 SE"},
+    ROOM_00C1_NW: {roomID: 0x00C1, quadH: 0x00, quadV: 0x00, name:"Compass Chest (MM)"},
+    ROOM_00C1_NE: {roomID: 0x00C1, quadH: 0x01, quadV: 0x00, name:"Wizzrobe Bypass"},
+    ROOM_00C1_SW: {roomID: 0x00C1, quadH: 0x00, quadV: 0x02, name:"Tile Room"},
+    ROOM_00C1_SE: {roomID: 0x00C1, quadH: 0x01, quadV: 0x02, name:"Conveyor Crystal"},
 
-    ROOM_00C2_NW: {roomID: 0x00C2, quadH: 0x00, quadV: 0x00, name:"Room 00C2 NW"},
-    ROOM_00C2_NE: {roomID: 0x00C2, quadH: 0x01, quadV: 0x00, name:"Room 00C2 NE"},
-    ROOM_00C2_SW: {roomID: 0x00C2, quadH: 0x00, quadV: 0x02, name:"Room 00C2 SW"},
-    ROOM_00C2_SE: {roomID: 0x00C2, quadH: 0x01, quadV: 0x02, name:"Room 00C2 SE"},
+    ROOM_00C2_ALL: {roomID: 0x00C2, quadH: [0x00, 0x01], quadV: [0x00,0x02], name:"Hub"},
 
-    ROOM_00C3_NW: {roomID: 0x00C3, quadH: 0x00, quadV: 0x00, name:"Room 00C3 NW"},
-    ROOM_00C3_NE: {roomID: 0x00C3, quadH: 0x01, quadV: 0x00, name:"Room 00C3 NE"},
-    ROOM_00C3_SW: {roomID: 0x00C3, quadH: 0x00, quadV: 0x02, name:"Room 00C3 SW"},
-    ROOM_00C3_SE: {roomID: 0x00C3, quadH: 0x01, quadV: 0x02, name:"Room 00C3 SE"},
+    ROOM_00C3_West: {roomID: 0x00C3, quadH: 0x00, quadV: [0x00, 0x02], name:"Map Chest (MM)"},
+    ROOM_00C3_EAST: {roomID: 0x00C3, quadH: 0x01, quadV: [0x00, 0x02], name:"Big Chest (MM)"},
 
-    ROOM_00C4_NW: {roomID: 0x00C4, quadH: 0x00, quadV: 0x00, name:"Room 00C4 NW"},
-    ROOM_00C4_NE: {roomID: 0x00C4, quadH: 0x01, quadV: 0x00, name:"Room 00C4 NE"},
-    ROOM_00C4_SW: {roomID: 0x00C4, quadH: 0x00, quadV: 0x02, name:"Room 00C4 SW"},
-    ROOM_00C4_SE: {roomID: 0x00C4, quadH: 0x01, quadV: 0x02, name:"Room 00C4 SE"},
+    ROOM_00C4_ALL: {roomID: 0x00C4, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Crystal Maze"},
 
-    ROOM_00C5_NW: {roomID: 0x00C5, quadH: 0x00, quadV: 0x00, name:"Room 00C5 NW"},
-    ROOM_00C5_NE: {roomID: 0x00C5, quadH: 0x01, quadV: 0x00, name:"Room 00C5 NE"},
-    ROOM_00C5_SW: {roomID: 0x00C5, quadH: 0x00, quadV: 0x02, name:"Room 00C5 SW"},
-    ROOM_00C5_SE: {roomID: 0x00C5, quadH: 0x01, quadV: 0x02, name:"Room 00C5 SE"},
+    ROOM_00C5_WEST: {roomID: 0x00C5, quadH: 0x00, quadV: [0x00, 0x02], name:"Laser Dash Bridge"},
+    ROOM_00C5_EAST: {roomID: 0x00C5, quadH: 0x01, quadV: [0x00, 0x02], name:"Room 00C5 East"},
 
-    ROOM_00C6_NW: {roomID: 0x00C6, quadH: 0x00, quadV: 0x00, name:"Room 00C6 NW"},
-    ROOM_00C6_NE: {roomID: 0x00C6, quadH: 0x01, quadV: 0x00, name:"Room 00C6 NE"},
-    ROOM_00C6_SW: {roomID: 0x00C6, quadH: 0x00, quadV: 0x02, name:"Room 00C6 SW"},
-    ROOM_00C6_SE: {roomID: 0x00C6, quadH: 0x01, quadV: 0x02, name:"Room 00C6 SE"},
+    ROOM_00C6_ALL: {roomID: 0x00C6, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Hub"},
 
-    ROOM_00C7_NW: {roomID: 0x00C7, quadH: 0x00, quadV: 0x00, name:"Room 00C7 NW"},
-    ROOM_00C7_NE: {roomID: 0x00C7, quadH: 0x01, quadV: 0x00, name:"Room 00C7 NE"},
-    ROOM_00C7_SW: {roomID: 0x00C7, quadH: 0x00, quadV: 0x02, name:"Room 00C7 SW"},
-    ROOM_00C7_SE: {roomID: 0x00C7, quadH: 0x01, quadV: 0x02, name:"Room 00C7 SE"},
+    ROOM_00C7_ALL: {roomID: 0x00C7, quadH: [0x00, 0x01], quadV: [0x00,0x02], name:"Torch Pit"},
 
     ROOM_00C8_NW: {roomID: 0x00C8, quadH: 0x00, quadV: 0x00, name:"Room 00C8 NW"},
     ROOM_00C8_NE: {roomID: 0x00C8, quadH: 0x01, quadV: 0x00, name:"Room 00C8 NE"},
     ROOM_00C8_SW: {roomID: 0x00C8, quadH: 0x00, quadV: 0x02, name:"Room 00C8 SW"},
-    ROOM_00C8_SE: {roomID: 0x00C8, quadH: 0x01, quadV: 0x02, name:"Room 00C8 SE"},
+    ROOM_00C8_SE: {roomID: 0x00C8, quadH: 0x01, quadV: 0x02, name:"Armos Knights"},
 
-    ROOM_00C9_NW: {roomID: 0x00C9, quadH: 0x00, quadV: 0x00, name:"Room 00C9 NW"},
-    ROOM_00C9_NE: {roomID: 0x00C9, quadH: 0x01, quadV: 0x00, name:"Room 00C9 NE"},
-    ROOM_00C9_SW: {roomID: 0x00C9, quadH: 0x00, quadV: 0x02, name:"Room 00C9 SW"},
-    ROOM_00C9_SE: {roomID: 0x00C9, quadH: 0x01, quadV: 0x02, name:"Room 00C9 SE"},
+    ROOM_00C9_NORTH: {roomID: 0x00C9, quadH: [0x00, 0x01], quadV: 0x00, name:"Lobby Bridge"},
+    ROOM_00C9_SOUTH: {roomID: 0x00C9, quadH: [0x00, 0x01], quadV: 0x02, name:"Lobby (EP)"},
 
     ROOM_00CA_NW: {roomID: 0x00CA, quadH: 0x00, quadV: 0x00, name:"Room 00CA NW"},
     ROOM_00CA_NE: {roomID: 0x00CA, quadH: 0x01, quadV: 0x00, name:"Room 00CA NE"},
     ROOM_00CA_SW: {roomID: 0x00CA, quadH: 0x00, quadV: 0x02, name:"Room 00CA SW"},
     ROOM_00CA_SE: {roomID: 0x00CA, quadH: 0x01, quadV: 0x02, name:"Room 00CA SE"},
 
-    ROOM_00CB_NW: {roomID: 0x00CB, quadH: 0x00, quadV: 0x00, name:"Room 00CB NW"},
-    ROOM_00CB_NE: {roomID: 0x00CB, quadH: 0x01, quadV: 0x00, name:"Room 00CB NE"},
-    ROOM_00CB_SW: {roomID: 0x00CB, quadH: 0x00, quadV: 0x02, name:"Room 00CB SW"},
-    ROOM_00CB_SE: {roomID: 0x00CB, quadH: 0x01, quadV: 0x02, name:"Room 00CB SE"},
+    ROOM_00CB_ALL: {roomID: 0x00CB, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"NW Quadrant"},
 
-    ROOM_00CC_NW: {roomID: 0x00CC, quadH: 0x00, quadV: 0x00, name:"Room 00CC NW"},
-    ROOM_00CC_NE: {roomID: 0x00CC, quadH: 0x01, quadV: 0x00, name:"Room 00CC NE"},
-    ROOM_00CC_SW: {roomID: 0x00CC, quadH: 0x00, quadV: 0x02, name:"Room 00CC SW"},
-    ROOM_00CC_SE: {roomID: 0x00CC, quadH: 0x01, quadV: 0x02, name:"Room 00CC SE"},
+    ROOM_00CC_ALL: {roomID: 0x00CC, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"NE Quadrant"},
 
     ROOM_00CD_NW: {roomID: 0x00CD, quadH: 0x00, quadV: 0x00, name:"Room 00CD NW"},
     ROOM_00CD_NE: {roomID: 0x00CD, quadH: 0x01, quadV: 0x00, name:"Room 00CD NE"},
@@ -881,7 +862,7 @@ export const LocationIDs = {
     ROOM_00CD_SE: {roomID: 0x00CD, quadH: 0x01, quadV: 0x02, name:"Room 00CD SE"},
 
     ROOM_00CE_NW: {roomID: 0x00CE, quadH: 0x00, quadV: 0x00, name:"Room 00CE NW"},
-    ROOM_00CE_NE: {roomID: 0x00CE, quadH: 0x01, quadV: 0x00, name:"Room 00CE NE"},
+    ROOM_00CE_NE: {roomID: 0x00CE, quadH: 0x01, quadV: 0x00, name:"Statue Room"},
     ROOM_00CE_SW: {roomID: 0x00CE, quadH: 0x00, quadV: 0x02, name:"Room 00CE SW"},
     ROOM_00CE_SE: {roomID: 0x00CE, quadH: 0x01, quadV: 0x02, name:"Room 00CE SE"},
 
@@ -890,20 +871,16 @@ export const LocationIDs = {
     ROOM_00CF_SW: {roomID: 0x00CF, quadH: 0x00, quadV: 0x02, name:"Room 00CF SW"},
     ROOM_00CF_SE: {roomID: 0x00CF, quadH: 0x01, quadV: 0x02, name:"Room 00CF SE"},
 
-    ROOM_00D0_NW: {roomID: 0x00D0, quadH: 0x00, quadV: 0x00, name:"Room 00D0 NW"},
-    ROOM_00D0_NE: {roomID: 0x00D0, quadH: 0x01, quadV: 0x00, name:"Room 00D0 NE"},
-    ROOM_00D0_SW: {roomID: 0x00D0, quadH: 0x00, quadV: 0x02, name:"Room 00D0 SW"},
-    ROOM_00D0_SE: {roomID: 0x00D0, quadH: 0x01, quadV: 0x02, name:"Room 00D0 SE"},
+    ROOM_00D0_WEST: {roomID: 0x00D0, quadH: 0x00, quadV: [0x00, 0x02], name:"Dark Maze"},
+    ROOM_00D0_NE: {roomID: 0x00D0, quadH: 0x01, quadV: 0x00, name:"Lone Statue"},
+    ROOM_00D0_SE: {roomID: 0x00D0, quadH: 0x01, quadV: 0x02, name:"Dark Chargers"},
 
-    ROOM_00D1_NW: {roomID: 0x00D1, quadH: 0x00, quadV: 0x00, name:"Room 00D1 NW"},
-    ROOM_00D1_NE: {roomID: 0x00D1, quadH: 0x01, quadV: 0x00, name:"Room 00D1 NE"},
-    ROOM_00D1_SW: {roomID: 0x00D1, quadH: 0x00, quadV: 0x02, name:"Room 00D1 SW"},
-    ROOM_00D1_SE: {roomID: 0x00D1, quadH: 0x01, quadV: 0x02, name:"Room 00D1 SE"},
+    ROOM_00D1_NW: {roomID: 0x00D1, quadH: 0x00, quadV: 0x00, name:"Conveyor Barrier"},
+    ROOM_00D1_NE: {roomID: 0x00D1, quadH: 0x01, quadV: 0x00, name:"Neglected Room"},
+    ROOM_00D1_SW: {roomID: 0x00D1, quadH: 0x00, quadV: 0x02, name:"Warping Pool"},
+    ROOM_00D1_SE: {roomID: 0x00D1, quadH: 0x01, quadV: 0x02, name:"Big Key Chest (MM)"},
 
-    ROOM_00D2_NW: {roomID: 0x00D2, quadH: 0x00, quadV: 0x00, name:"Room 00D2 NW"},
-    ROOM_00D2_NE: {roomID: 0x00D2, quadH: 0x01, quadV: 0x00, name:"Room 00D2 NE"},
-    ROOM_00D2_SW: {roomID: 0x00D2, quadH: 0x00, quadV: 0x02, name:"Room 00D2 SW"},
-    ROOM_00D2_SE: {roomID: 0x00D2, quadH: 0x01, quadV: 0x02, name:"Room 00D2 SE"},
+    ROOM_00D2_ALL: {roomID: 0x00D2, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Mire 2"},
 
     ROOM_00D3_NW: {roomID: 0x00D3, quadH: 0x00, quadV: 0x00, name:"Room 00D3 NW"},
     ROOM_00D3_NE: {roomID: 0x00D3, quadH: 0x01, quadV: 0x00, name:"Room 00D3 NE"},
@@ -915,45 +892,32 @@ export const LocationIDs = {
     ROOM_00D4_SW: {roomID: 0x00D4, quadH: 0x00, quadV: 0x02, name:"Room 00D4 SW"},
     ROOM_00D4_SE: {roomID: 0x00D4, quadH: 0x01, quadV: 0x02, name:"Room 00D4 SE"},
 
-    ROOM_00D5_NW: {roomID: 0x00D5, quadH: 0x00, quadV: 0x00, name:"Room 00D5 NW"},
-    ROOM_00D5_NE: {roomID: 0x00D5, quadH: 0x01, quadV: 0x00, name:"Room 00D5 NE"},
-    ROOM_00D5_SW: {roomID: 0x00D5, quadH: 0x00, quadV: 0x02, name:"Room 00D5 SW"},
-    ROOM_00D5_SE: {roomID: 0x00D5, quadH: 0x01, quadV: 0x02, name:"Room 00D5 SE"},
+    ROOM_00D5_WEST: {roomID: 0x00D5, quadH: 0x00, quadV: [0x00, 0x02], name:"TR Eye Bridge"},
+    ROOM_00D5_EAST: {roomID: 0x00D5, quadH: 0x01, quadV: [0x00, 0x02], name:"Room 00D5 East"},
 
-    ROOM_00D6_NW: {roomID: 0x00D6, quadH: 0x00, quadV: 0x00, name:"Room 00D6 NW"},
-    ROOM_00D6_NE: {roomID: 0x00D6, quadH: 0x01, quadV: 0x00, name:"Room 00D6 NE"},
-    ROOM_00D6_SW: {roomID: 0x00D6, quadH: 0x00, quadV: 0x02, name:"Room 00D6 SW"},
-    ROOM_00D6_SE: {roomID: 0x00D6, quadH: 0x01, quadV: 0x02, name:"Room 00D6 SE"},
+    ROOM_00D6_WEST: {roomID: 0x00D6, quadH: 0x00, quadV: [0x00, 0x02], name:"TR Compass Room"},
+    ROOM_00D6_EAST: {roomID: 0x00D6, quadH: 0x01, quadV: [0x00, 0x02], name:"TR Main Lobby"},
 
     ROOM_00D7_NW: {roomID: 0x00D7, quadH: 0x00, quadV: 0x00, name:"Room 00D7 NW"},
     ROOM_00D7_NE: {roomID: 0x00D7, quadH: 0x01, quadV: 0x00, name:"Room 00D7 NE"},
     ROOM_00D7_SW: {roomID: 0x00D7, quadH: 0x00, quadV: 0x02, name:"Room 00D7 SW"},
     ROOM_00D7_SE: {roomID: 0x00D7, quadH: 0x01, quadV: 0x02, name:"Room 00D7 SE"},
 
-    ROOM_00D8_NW: {roomID: 0x00D8, quadH: 0x00, quadV: 0x00, name:"Room 00D8 NW"},
-    ROOM_00D8_NE: {roomID: 0x00D8, quadH: 0x01, quadV: 0x00, name:"Room 00D8 NE"},
-    ROOM_00D8_SW: {roomID: 0x00D8, quadH: 0x00, quadV: 0x02, name:"Room 00D8 SW"},
-    ROOM_00D8_SE: {roomID: 0x00D8, quadH: 0x01, quadV: 0x02, name:"Room 00D8 SE"},
+    ROOM_00D8_WEST: {roomID: 0x00D8, quadH: 0x00, quadV: [0x00, 0x02], name:"Room 00D8 West"},
+    ROOM_00D8_NE: {roomID: 0x00D8, quadH: 0x01, quadV: 0x00, name:"Eastern Duo Eyegores"},
+    ROOM_00D8_SE: {roomID: 0x00D8, quadH: 0x01, quadV: 0x02, name:"Single Eyegore"},
 
-    ROOM_00D9_NW: {roomID: 0x00D9, quadH: 0x00, quadV: 0x00, name:"Room 00D9 NW"},
-    ROOM_00D9_NE: {roomID: 0x00D9, quadH: 0x01, quadV: 0x00, name:"Room 00D9 NE"},
-    ROOM_00D9_SW: {roomID: 0x00D9, quadH: 0x00, quadV: 0x02, name:"Room 00D9 SW"},
-    ROOM_00D9_SE: {roomID: 0x00D9, quadH: 0x01, quadV: 0x02, name:"Room 00D9 SE"},
+    ROOM_00D9_NORTH: {roomID: 0x00D9, quadH: [0x00, 0x01], quadV: 0x00, name:"Room 00D9 North"},
+    ROOM_00D9_SW: {roomID: 0x00D9, quadH: 0x00, quadV: 0x02, name:"Eastern Cannonball Hell"},
+    ROOM_00D9_SE: {roomID: 0x00D9, quadH: 0x01, quadV: 0x02, name:"Eastern False Switches"},
 
-    ROOM_00DA_NW: {roomID: 0x00DA, quadH: 0x00, quadV: 0x00, name:"Room 00DA NW"},
-    ROOM_00DA_NE: {roomID: 0x00DA, quadH: 0x01, quadV: 0x00, name:"Room 00DA NE"},
-    ROOM_00DA_SW: {roomID: 0x00DA, quadH: 0x00, quadV: 0x02, name:"Room 00DA SW"},
+    ROOM_00DA_NORTH: {roomID: 0x00DA, quadH: [0x00, 0x01], quadV: 0x00, name:"Room 00DA North"},
+    ROOM_00DA_SW: {roomID: 0x00DA, quadH: 0x00, quadV: 0x02, name:"Eastern Attic Start"},
     ROOM_00DA_SE: {roomID: 0x00DA, quadH: 0x01, quadV: 0x02, name:"Room 00DA SE"},
 
-    ROOM_00DB_NW: {roomID: 0x00DB, quadH: 0x00, quadV: 0x00, name:"Room 00DB NW"},
-    ROOM_00DB_NE: {roomID: 0x00DB, quadH: 0x01, quadV: 0x00, name:"Room 00DB NE"},
-    ROOM_00DB_SW: {roomID: 0x00DB, quadH: 0x00, quadV: 0x02, name:"Room 00DB SW"},
-    ROOM_00DB_SE: {roomID: 0x00DB, quadH: 0x01, quadV: 0x02, name:"Room 00DB SE"},
+    ROOM_00DB_ALL: {roomID: 0x00DB, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Thieves Lobby"},
 
-    ROOM_00DC_NW: {roomID: 0x00DC, quadH: 0x00, quadV: 0x00, name:"Room 00DC NW"},
-    ROOM_00DC_NE: {roomID: 0x00DC, quadH: 0x01, quadV: 0x00, name:"Room 00DC NE"},
-    ROOM_00DC_SW: {roomID: 0x00DC, quadH: 0x00, quadV: 0x02, name:"Room 00DC SW"},
-    ROOM_00DC_SE: {roomID: 0x00DC, quadH: 0x01, quadV: 0x02, name:"Room 00DC SE"},
+    ROOM_00DC_ALL: {roomID: 0x00DC, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Thieves Compass Room"},
 
     ROOM_00DD_NW: {roomID: 0x00DD, quadH: 0x00, quadV: 0x00, name:"Room 00DD NW"},
     ROOM_00DD_NE: {roomID: 0x00DD, quadH: 0x01, quadV: 0x00, name:"Room 00DD NE"},
@@ -961,123 +925,86 @@ export const LocationIDs = {
     ROOM_00DD_SE: {roomID: 0x00DD, quadH: 0x01, quadV: 0x02, name:"Room 00DD SE"},
 
     ROOM_00DE_NW: {roomID: 0x00DE, quadH: 0x00, quadV: 0x00, name:"Room 00DE NW"},
-    ROOM_00DE_NE: {roomID: 0x00DE, quadH: 0x01, quadV: 0x00, name:"Room 00DE NE"},
+    ROOM_00DE_NE: {roomID: 0x00DE, quadH: 0x01, quadV: 0x00, name:"Kholdstare"},
     ROOM_00DE_SW: {roomID: 0x00DE, quadH: 0x00, quadV: 0x02, name:"Room 00DE SW"},
     ROOM_00DE_SE: {roomID: 0x00DE, quadH: 0x01, quadV: 0x02, name:"Room 00DE SE"},
 
     ROOM_00DF_NW: {roomID: 0x00DF, quadH: 0x00, quadV: 0x00, name:"Room 00DF NW"},
     ROOM_00DF_NE: {roomID: 0x00DF, quadH: 0x01, quadV: 0x00, name:"Room 00DF NE"},
-    ROOM_00DF_SW: {roomID: 0x00DF, quadH: 0x00, quadV: 0x02, name:"Room 00DF SW"},
-    ROOM_00DF_SE: {roomID: 0x00DF, quadH: 0x01, quadV: 0x02, name:"Room 00DF SE"},
+    ROOM_00DF_SOUTH: {roomID: 0x00DF, quadH: [0x00, 0x01], quadV: 0x02, name:"Paradox Cave 2F"},
 
-    ROOM_00E0_NW: {roomID: 0x00E0, quadH: 0x00, quadV: 0x00, name:"Room 00E0 NW"},
-    ROOM_00E0_NE: {roomID: 0x00E0, quadH: 0x01, quadV: 0x00, name:"Room 00E0 NE"},
-    ROOM_00E0_SW: {roomID: 0x00E0, quadH: 0x00, quadV: 0x02, name:"Room 00E0 SW"},
+    ROOM_00E0_NW: {roomID: 0x00E0, quadH: 0x00, quadV: 0x00, name:"Tower Gold Knights"},
+    ROOM_00E0_NE: {roomID: 0x00E0, quadH: 0x01, quadV: 0x00, name:"Tower Room 03"},
+    ROOM_00E0_SW: {roomID: 0x00E0, quadH: 0x00, quadV: 0x02, name:"Tower Lobby"},
     ROOM_00E0_SE: {roomID: 0x00E0, quadH: 0x01, quadV: 0x02, name:"Room 00E0 SE"},
 
-    ROOM_00E1_NW: {roomID: 0x00E1, quadH: 0x00, quadV: 0x00, name:"Room 00E1 NW"},
-    ROOM_00E1_NE: {roomID: 0x00E1, quadH: 0x01, quadV: 0x00, name:"Room 00E1 NE"},
-    ROOM_00E1_SW: {roomID: 0x00E1, quadH: 0x00, quadV: 0x02, name:"Room 00E1 SW"},
-    ROOM_00E1_SE: {roomID: 0x00E1, quadH: 0x01, quadV: 0x02, name:"Room 00E1 SE"},
+    ROOM_00E1_WEST: {roomID: 0x00E1, quadH: 0x00, quadV: [0x00, 0x02], name:"Den of Thieves"},
+    ROOM_00E1_EAST: {roomID: 0x00E1, quadH: 0x01, quadV: [0x00, 0x02], name:"Den of Thieves Dropdown"},
 
-    ROOM_00E2_NW: {roomID: 0x00E2, quadH: 0x00, quadV: 0x00, name:"Room 00E2 NW"},
-    ROOM_00E2_NE: {roomID: 0x00E2, quadH: 0x01, quadV: 0x00, name:"Room 00E2 NE"},
-    ROOM_00E2_SW: {roomID: 0x00E2, quadH: 0x00, quadV: 0x02, name:"Room 00E2 SW"},
-    ROOM_00E2_SE: {roomID: 0x00E2, quadH: 0x01, quadV: 0x02, name:"Room 00E2 SE"},
+    ROOM_00E2_WEST: {roomID: 0x00E2, quadH: 0x00, quadV: [0x00, 0x02], name:"Hollow Tree Fairies"},
+    ROOM_00E2_EAST: {roomID: 0x00E2, quadH: 0x01, quadV: [0x00, 0x02], name:"Hollow Tree Heart Piece"},
 
     ROOM_00E3_NW: {roomID: 0x00E3, quadH: 0x00, quadV: 0x00, name:"Room 00E3 NW"},
-    ROOM_00E3_NE: {roomID: 0x00E3, quadH: 0x01, quadV: 0x00, name:"Room 00E3 NE"},
-    ROOM_00E3_SW: {roomID: 0x00E3, quadH: 0x00, quadV: 0x02, name:"Room 00E3 SW"},
-    ROOM_00E3_SE: {roomID: 0x00E3, quadH: 0x01, quadV: 0x02, name:"Room 00E3 SE"},
+    ROOM_00E3_NE: {roomID: 0x00E3, quadH: 0x01, quadV: 0x00, name:"Mad Batter Altar"},
+    ROOM_00E3_SW: {roomID: 0x00E3, quadH: 0x00, quadV: 0x02, name:"Mad Batter Cave (Secret Entrance)"},
+    ROOM_00E3_SE: {roomID: 0x00E3, quadH: 0x01, quadV: 0x02, name:"Mad Batter Cave"},
 
-    ROOM_00E4_NW: {roomID: 0x00E4, quadH: 0x00, quadV: 0x00, name:"Room 00E4 NW"},
-    ROOM_00E4_NE: {roomID: 0x00E4, quadH: 0x01, quadV: 0x00, name:"Room 00E4 NE"},
-    ROOM_00E4_SW: {roomID: 0x00E4, quadH: 0x00, quadV: 0x02, name:"Room 00E4 SW"},
-    ROOM_00E4_SE: {roomID: 0x00E4, quadH: 0x01, quadV: 0x02, name:"Room 00E4 SE"},
+    ROOM_00E4_WEST: {roomID: 0x00E4, quadH: 0x00, quadV: [0x00, 0x02], name:"Old Man's Front Door"},
+    ROOM_00E4_EAST: {roomID: 0x00E4, quadH: 0x01, quadV: [0x00, 0x02], name:"Old Man's Back Cave"},
 
-    ROOM_00E5_NW: {roomID: 0x00E5, quadH: 0x00, quadV: 0x00, name:"Room 00E5 NW"},
-    ROOM_00E5_NE: {roomID: 0x00E5, quadH: 0x01, quadV: 0x00, name:"Room 00E5 NE"},
-    ROOM_00E5_SW: {roomID: 0x00E5, quadH: 0x00, quadV: 0x02, name:"Room 00E5 SW"},
-    ROOM_00E5_SE: {roomID: 0x00E5, quadH: 0x01, quadV: 0x02, name:"Room 00E5 SE"},
+    ROOM_00E5_ALL: {roomID: 0x00E5, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Old Man's Back Door"},
 
-    ROOM_00E6_NW: {roomID: 0x00E6, quadH: 0x00, quadV: 0x00, name:"Room 00E6 NW"},
-    ROOM_00E6_NE: {roomID: 0x00E6, quadH: 0x01, quadV: 0x00, name:"Room 00E6 NE"},
-    ROOM_00E6_SW: {roomID: 0x00E6, quadH: 0x00, quadV: 0x02, name:"Room 00E6 SW"},
-    ROOM_00E6_SE: {roomID: 0x00E6, quadH: 0x01, quadV: 0x02, name:"Room 00E6 SE"},
+    ROOM_00E6_ALL: {roomID: 0x00E6, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Cave to Kakariko Village Exit"},
 
-    ROOM_00E7_NW: {roomID: 0x00E7, quadH: 0x00, quadV: 0x00, name:"Room 00E7 NW"},
-    ROOM_00E7_NE: {roomID: 0x00E7, quadH: 0x01, quadV: 0x00, name:"Room 00E7 NE"},
-    ROOM_00E7_SW: {roomID: 0x00E7, quadH: 0x00, quadV: 0x02, name:"Room 00E7 SW"},
-    ROOM_00E7_SE: {roomID: 0x00E7, quadH: 0x01, quadV: 0x02, name:"Room 00E7 SE"},
+    ROOM_00E7_ALL: {roomID: 0x00E7, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Cave to Kakariko Village Entrance"},
 
-    ROOM_00E8_NW: {roomID: 0x00E8, quadH: 0x00, quadV: 0x00, name:"Room 00E8 NW"},
-    ROOM_00E8_NE: {roomID: 0x00E8, quadH: 0x01, quadV: 0x00, name:"Room 00E8 NE"},
-    ROOM_00E8_SW: {roomID: 0x00E8, quadH: 0x00, quadV: 0x02, name:"Room 00E8 SW"},
-    ROOM_00E8_SE: {roomID: 0x00E8, quadH: 0x01, quadV: 0x02, name:"Room 00E8 SE"},
+    ROOM_00E8_NW: {roomID: 0x00E8, quadH: 0x00, quadV: 0x00, name:"Superbunny Upper"},
 
     ROOM_00E9_NW: {roomID: 0x00E9, quadH: 0x00, quadV: 0x00, name:"Room 00E9 NW"},
     ROOM_00E9_NE: {roomID: 0x00E9, quadH: 0x01, quadV: 0x00, name:"Room 00E9 NE"},
     ROOM_00E9_SW: {roomID: 0x00E9, quadH: 0x00, quadV: 0x02, name:"Room 00E9 SW"},
     ROOM_00E9_SE: {roomID: 0x00E9, quadH: 0x01, quadV: 0x02, name:"Room 00E9 SE"},
 
-    ROOM_00EA_NW: {roomID: 0x00EA, quadH: 0x00, quadV: 0x00, name:"Room 00EA NW"},
-    ROOM_00EA_NE: {roomID: 0x00EA, quadH: 0x01, quadV: 0x00, name:"Room 00EA NE"},
-    ROOM_00EA_SW: {roomID: 0x00EA, quadH: 0x00, quadV: 0x02, name:"Room 00EA SW"},
-    ROOM_00EA_SE: {roomID: 0x00EA, quadH: 0x01, quadV: 0x02, name:"Room 00EA SE"},
+    ROOM_00EA_ALL: {roomID: 0x00EA, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Spectacle Rock Upper"},
 
-    ROOM_00EB_NW: {roomID: 0x00EB, quadH: 0x00, quadV: 0x00, name:"Room 00EB NW"},
-    ROOM_00EB_NE: {roomID: 0x00EB, quadH: 0x01, quadV: 0x00, name:"Room 00EB NE"},
-    ROOM_00EB_SW: {roomID: 0x00EB, quadH: 0x00, quadV: 0x02, name:"Room 00EB SW"},
-    ROOM_00EB_SE: {roomID: 0x00EB, quadH: 0x01, quadV: 0x02, name:"Room 00EB SE"},
+    ROOM_00EB_WEST: {roomID: 0x00EB, quadH: 0x00, quadV: [0x00, 0x02], name:"Room 00EB West"},
+    ROOM_00EB_EAST: {roomID: 0x00EB, quadH: 0x01, quadV: [0x00, 0x02], name:"Bumper Cave Upper"},
 
     ROOM_00EC_NW: {roomID: 0x00EC, quadH: 0x00, quadV: 0x00, name:"Room 00EC NW"},
     ROOM_00EC_NE: {roomID: 0x00EC, quadH: 0x01, quadV: 0x00, name:"Room 00EC NE"},
     ROOM_00EC_SW: {roomID: 0x00EC, quadH: 0x00, quadV: 0x02, name:"Room 00EC SW"},
     ROOM_00EC_SE: {roomID: 0x00EC, quadH: 0x01, quadV: 0x02, name:"Room 00EC SE"},
 
-    ROOM_00ED_NW: {roomID: 0x00ED, quadH: 0x00, quadV: 0x00, name:"Room 00ED NW"},
-    ROOM_00ED_NE: {roomID: 0x00ED, quadH: 0x01, quadV: 0x00, name:"Room 00ED NE"},
-    ROOM_00ED_SW: {roomID: 0x00ED, quadH: 0x00, quadV: 0x02, name:"Room 00ED SW"},
-    ROOM_00ED_SE: {roomID: 0x00ED, quadH: 0x01, quadV: 0x02, name:"Room 00ED SE"},
+    ROOM_00ED_ALL: {roomID: 0x00ED, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Fairy Ascension Cave Upper"},
 
-    ROOM_00EE_NW: {roomID: 0x00EE, quadH: 0x00, quadV: 0x00, name:"Room 00EE NW"},
-    ROOM_00EE_NE: {roomID: 0x00EE, quadH: 0x01, quadV: 0x00, name:"Room 00EE NE"},
-    ROOM_00EE_SW: {roomID: 0x00EE, quadH: 0x00, quadV: 0x02, name:"Room 00EE SW"},
-    ROOM_00EE_SE: {roomID: 0x00EE, quadH: 0x01, quadV: 0x02, name:"Room 00EE SE"},
+    ROOM_00EE_ALL: {roomID: 0x00EE, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Spiral Cave Upper"},
 
     ROOM_00EF_NW: {roomID: 0x00EF, quadH: 0x00, quadV: 0x00, name:"Room 00EF NW"},
-    ROOM_00EF_NE: {roomID: 0x00EF, quadH: 0x01, quadV: 0x00, name:"Room 00EF NE"},
-    ROOM_00EF_SW: {roomID: 0x00EF, quadH: 0x00, quadV: 0x02, name:"Room 00EF SW"},
-    ROOM_00EF_SE: {roomID: 0x00EF, quadH: 0x01, quadV: 0x02, name:"Room 00EF SE"},
+    ROOM_00EF_NE: {roomID: 0x00EF, quadH: 0x01, quadV: 0x00, name:"Paradox Cave Chests"},
+    ROOM_00EF_SOUTH: {roomID: 0x00EF, quadH: [0x00, 0x01], quadV: 0x02, name:"Paradox Cave Middle"},
 
-    ROOM_00F0_NW: {roomID: 0x00F0, quadH: 0x00, quadV: 0x00, name:"Room 00F0 NW"},
-    ROOM_00F0_NE: {roomID: 0x00F0, quadH: 0x01, quadV: 0x00, name:"Room 00F0 NE"},
-    ROOM_00F0_SW: {roomID: 0x00F0, quadH: 0x00, quadV: 0x02, name:"Room 00F0 SW"},
-    ROOM_00F0_SE: {roomID: 0x00F0, quadH: 0x01, quadV: 0x02, name:"Room 00F0 SE"},
+    ROOM_00F0_ALL: {roomID: 0x00F0, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Old Man Rescue Lower"},
 
-    ROOM_00F1_NW: {roomID: 0x00F1, quadH: 0x00, quadV: 0x00, name:"Room 00F1 NW"},
-    ROOM_00F1_NE: {roomID: 0x00F1, quadH: 0x01, quadV: 0x00, name:"Room 00F1 NE"},
-    ROOM_00F1_SW: {roomID: 0x00F1, quadH: 0x00, quadV: 0x02, name:"Room 00F1 SW"},
-    ROOM_00F1_SE: {roomID: 0x00F1, quadH: 0x01, quadV: 0x02, name:"Room 00F1 SE"},
+    ROOM_00F1_ALL: {roomID: 0x00F1, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Old Man Rescue Upper"},
 
     ROOM_00F2_NW: {roomID: 0x00F2, quadH: 0x00, quadV: 0x00, name:"Room 00F2 NW"},
     ROOM_00F2_NE: {roomID: 0x00F2, quadH: 0x01, quadV: 0x00, name:"Room 00F2 NE"},
     ROOM_00F2_SW: {roomID: 0x00F2, quadH: 0x00, quadV: 0x02, name:"Room 00F2 SW"},
-    ROOM_00F2_SE: {roomID: 0x00F2, quadH: 0x01, quadV: 0x02, name:"Room 00F2 SE"},
+    ROOM_00F2_SE: {roomID: 0x00F2, quadH: 0x01, quadV: 0x02, name:"Old Lady Connector West"},
 
     ROOM_00F3_NW: {roomID: 0x00F3, quadH: 0x00, quadV: 0x00, name:"Room 00F3 NW"},
     ROOM_00F3_NE: {roomID: 0x00F3, quadH: 0x01, quadV: 0x00, name:"Room 00F3 NE"},
-    ROOM_00F3_SW: {roomID: 0x00F3, quadH: 0x00, quadV: 0x02, name:"Room 00F3 SW"},
+    ROOM_00F3_SW: {roomID: 0x00F3, quadH: 0x00, quadV: 0x02, name:"Old Lady Connector East"},
     ROOM_00F3_SE: {roomID: 0x00F3, quadH: 0x01, quadV: 0x02, name:"Room 00F3 SE"},
 
     ROOM_00F4_NW: {roomID: 0x00F4, quadH: 0x00, quadV: 0x00, name:"Room 00F4 NW"},
     ROOM_00F4_NE: {roomID: 0x00F4, quadH: 0x01, quadV: 0x00, name:"Room 00F4 NE"},
     ROOM_00F4_SW: {roomID: 0x00F4, quadH: 0x00, quadV: 0x02, name:"Room 00F4 SW"},
-    ROOM_00F4_SE: {roomID: 0x00F4, quadH: 0x01, quadV: 0x02, name:"Room 00F4 SE"},
+    ROOM_00F4_SE: {roomID: 0x00F4, quadH: 0x01, quadV: 0x02, name:"Brothers Connector West"},
 
     ROOM_00F5_NW: {roomID: 0x00F5, quadH: 0x00, quadV: 0x00, name:"Room 00F5 NW"},
     ROOM_00F5_NE: {roomID: 0x00F5, quadH: 0x01, quadV: 0x00, name:"Room 00F5 NE"},
-    ROOM_00F5_SW: {roomID: 0x00F5, quadH: 0x00, quadV: 0x02, name:"Room 00F5 SW"},
+    ROOM_00F5_SW: {roomID: 0x00F5, quadH: 0x00, quadV: 0x02, name:"Brothers Connector East"},
     ROOM_00F5_SE: {roomID: 0x00F5, quadH: 0x01, quadV: 0x02, name:"Room 00F5 SE"},
 
     ROOM_00F6_NW: {roomID: 0x00F6, quadH: 0x00, quadV: 0x00, name:"Room 00F6 NW"},
@@ -1090,45 +1017,203 @@ export const LocationIDs = {
     ROOM_00F7_SW: {roomID: 0x00F7, quadH: 0x00, quadV: 0x02, name:"Room 00F7 SW"},
     ROOM_00F7_SE: {roomID: 0x00F7, quadH: 0x01, quadV: 0x02, name:"Room 00F7 SE"},
 
-    ROOM_00F8_NW: {roomID: 0x00F8, quadH: 0x00, quadV: 0x00, name:"Room 00F8 NW"},
-    ROOM_00F8_NE: {roomID: 0x00F8, quadH: 0x01, quadV: 0x00, name:"Room 00F8 NE"},
-    ROOM_00F8_SW: {roomID: 0x00F8, quadH: 0x00, quadV: 0x02, name:"Room 00F8 SW"},
-    ROOM_00F8_SE: {roomID: 0x00F8, quadH: 0x01, quadV: 0x02, name:"Room 00F8 SE"},
+    ROOM_00F8_ALL: {roomID: 0x00F8, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Superbunny Upper"},
 
-    ROOM_00F9_NW: {roomID: 0x00F9, quadH: 0x00, quadV: 0x00, name:"Room 00F9 NW"},
-    ROOM_00F9_NE: {roomID: 0x00F9, quadH: 0x01, quadV: 0x00, name:"Room 00F9 NE"},
-    ROOM_00F9_SW: {roomID: 0x00F9, quadH: 0x00, quadV: 0x02, name:"Room 00F9 SW"},
-    ROOM_00F9_SE: {roomID: 0x00F9, quadH: 0x01, quadV: 0x02, name:"Room 00F9 SE"},
+    ROOM_00F9_ALL: {roomID: 0x00F9, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Spectacle Rock Lower"},
 
-    ROOM_00FA_NW: {roomID: 0x00FA, quadH: 0x00, quadV: 0x00, name:"Room 00FA NW"},
-    ROOM_00FA_NE: {roomID: 0x00FA, quadH: 0x01, quadV: 0x00, name:"Room 00FA NE"},
-    ROOM_00FA_SW: {roomID: 0x00FA, quadH: 0x00, quadV: 0x02, name:"Room 00FA SW"},
-    ROOM_00FA_SE: {roomID: 0x00FA, quadH: 0x01, quadV: 0x02, name:"Room 00FA SE"},
+    ROOM_00FA_ALL: {roomID: 0x00FA, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Spectacle Rock Middle"},
 
-    ROOM_00FB_NW: {roomID: 0x00FB, quadH: 0x00, quadV: 0x00, name:"Room 00FB NW"},
-    ROOM_00FB_NE: {roomID: 0x00FB, quadH: 0x01, quadV: 0x00, name:"Room 00FB NE"},
-    ROOM_00FB_SW: {roomID: 0x00FB, quadH: 0x00, quadV: 0x02, name:"Room 00FB SW"},
-    ROOM_00FB_SE: {roomID: 0x00FB, quadH: 0x01, quadV: 0x02, name:"Room 00FB SE"},
+    ROOM_00FB_ALL: {roomID: 0x00FB, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Bumper Cave Lower"},
 
     ROOM_00FC_NW: {roomID: 0x00FC, quadH: 0x00, quadV: 0x00, name:"Room 00FC NW"},
     ROOM_00FC_NE: {roomID: 0x00FC, quadH: 0x01, quadV: 0x00, name:"Room 00FC NE"},
     ROOM_00FC_SW: {roomID: 0x00FC, quadH: 0x00, quadV: 0x02, name:"Room 00FC SW"},
     ROOM_00FC_SE: {roomID: 0x00FC, quadH: 0x01, quadV: 0x02, name:"Room 00FC SE"},
 
-    ROOM_00FD_NW: {roomID: 0x00FD, quadH: 0x00, quadV: 0x00, name:"Room 00FD NW"},
-    ROOM_00FD_NE: {roomID: 0x00FD, quadH: 0x01, quadV: 0x00, name:"Room 00FD NE"},
-    ROOM_00FD_SW: {roomID: 0x00FD, quadH: 0x00, quadV: 0x02, name:"Room 00FD SW"},
-    ROOM_00FD_SE: {roomID: 0x00FD, quadH: 0x01, quadV: 0x02, name:"Room 00FD SE"},
+    ROOM_00FD_ALL: {roomID: 0x00FD, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Fairy Ascension Lower"},
 
-    ROOM_00FE_NW: {roomID: 0x00FE, quadH: 0x00, quadV: 0x00, name:"Room 00FE NW"},
-    ROOM_00FE_NE: {roomID: 0x00FE, quadH: 0x01, quadV: 0x00, name:"Room 00FE NE"},
-    ROOM_00FE_SW: {roomID: 0x00FE, quadH: 0x00, quadV: 0x02, name:"Room 00FE SW"},
-    ROOM_00FE_SE: {roomID: 0x00FE, quadH: 0x01, quadV: 0x02, name:"Room 00FE SE"},
+    ROOM_00FE_ALL: {roomID: 0x00FE, quadH: [0x00, 0x01], quadV: [0x00, 0x02], name:"Spiral Cave Lower"},
 
-    ROOM_00FF_NW: {roomID: 0x00FF, quadH: 0x00, quadV: 0x00, name:"Room 00FF NW"},
-    ROOM_00FF_NE: {roomID: 0x00FF, quadH: 0x01, quadV: 0x00, name:"Room 00FF NE"},
-    ROOM_00FF_SW: {roomID: 0x00FF, quadH: 0x00, quadV: 0x02, name:"Room 00FF SW"},
-    ROOM_00FF_SE: {roomID: 0x00FF, quadH: 0x01, quadV: 0x02, name:"Room 00FF SE"},    
+    ROOM_00FF_NW: {roomID: 0x00FF, quadH: 0x00, quadV: 0x00, name:"Paradox Shop"},
+    ROOM_00FF_NE: {roomID: 0x00FF, quadH: 0x01, quadV: 0x00, name:"Paradox Lower Blocked Off Chests"},
+    ROOM_00FF_SOUTH: {roomID: 0x00FF, quadH: [0x00, 0x01], quadV: 0x02, name:"Paradox Lower Entrance"},
 
- 
+    ROOM_0100_NW: {roomID: 0x0100, quadH: 0x00, quadV: 0x00, name:"Room 0100 NW"},
+    ROOM_0100_NE: {roomID: 0x0100, quadH: 0x01, quadV: 0x00, name:"Room 0100 NE"},
+    ROOM_0100_SW: {roomID: 0x0100, quadH: 0x00, quadV: 0x02, name:"Tresure Chest Game (Lost Woods)"},
+    ROOM_0100_SE: {roomID: 0x0100, quadH: 0x01, quadV: 0x02, name:"Room 0100 SE"},
+
+    ROOM_0101_NW: {roomID: 0x0101, quadH: 0x00, quadV: 0x00, name:"Room 0101 NW"},
+    ROOM_0101_NE: {roomID: 0x0101, quadH: 0x01, quadV: 0x00, name:"Room 0101 NE"},
+    ROOM_0101_SW: {roomID: 0x0101, quadH: 0x00, quadV: 0x02, name:"Hario Rupees"},
+    ROOM_0101_SE: {roomID: 0x0101, quadH: 0x01, quadV: 0x02, name:"Transforming Chicken's House"},
+
+    ROOM_0102_NW: {roomID: 0x0102, quadH: 0x00, quadV: 0x00, name:"Room 0102 NW"},
+    ROOM_0102_NE: {roomID: 0x0102, quadH: 0x01, quadV: 0x00, name:"Room 0102 NE"},
+    ROOM_0102_SW: {roomID: 0x0102, quadH: 0x00, quadV: 0x02, name:"Sick Kid's House"},
+    ROOM_0102_SE: {roomID: 0x0102, quadH: 0x01, quadV: 0x02, name:"Room 0102 SE"},
+
+    ROOM_0103_WEST: {roomID: 0x0103, quadH: 0x00, quadV: [0x00, 0x02], name:"Kakariko Tavern"},
+    ROOM_0103_NE: {roomID: 0x0103, quadH: 0x01, quadV: 0x00, name:"Room 0103 NE"},
+    ROOM_0103_SE: {roomID: 0x0103, quadH: 0x01, quadV: 0x02, name:"Overgrown Yard House"}, //?????
+
+    ROOM_0104_NW: {roomID: 0x0104, quadH: 0x00, quadV: 0x00, name:"Room 0104 NW"},
+    ROOM_0104_NE: {roomID: 0x0104, quadH: 0x01, quadV: 0x00, name:"Room 0104 NE"},
+    ROOM_0104_SW: {roomID: 0x0104, quadH: 0x00, quadV: 0x02, name:"Room 0104 SW"},
+    ROOM_0104_SE: {roomID: 0x0104, quadH: 0x01, quadV: 0x02, name:"Link's House"},
+
+    ROOM_0105_NW: {roomID: 0x0105, quadH: 0x00, quadV: 0x00, name:"Sahasrahla's Closet"},
+    ROOM_0105_NE: {roomID: 0x0105, quadH: 0x01, quadV: 0x00, name:"Room 0105 NE"},
+    ROOM_0105_SW: {roomID: 0x0105, quadH: 0x00, quadV: 0x02, name:"Sahasrahla's Hut"},
+    ROOM_0105_SE: {roomID: 0x0105, quadH: 0x01, quadV: 0x02, name:"Room 0105 SE"},
+
+    ROOM_0106_NW: {roomID: 0x0106, quadH: 0x00, quadV: 0x00, name:"Room 0106 NW"},
+    ROOM_0106_NE: {roomID: 0x0106, quadH: 0x01, quadV: 0x00, name:"Room 0106 NE"},
+    ROOM_0106_SW: {roomID: 0x0106, quadH: 0x00, quadV: 0x02, name:"Tresure Chest Game (Dark World)"},
+    ROOM_0106_SE: {roomID: 0x0106, quadH: 0x01, quadV: 0x02, name:"Brewery"},
+
+    ROOM_0107_NW: {roomID: 0x0107, quadH: 0x00, quadV: 0x00, name:"Room 0107 NW"},
+    ROOM_0107_NE: {roomID: 0x0107, quadH: 0x01, quadV: 0x00, name:"Room 0107 NE"},
+    ROOM_0107_SW: {roomID: 0x0107, quadH: 0x00, quadV: 0x02, name:"Library"},
+    ROOM_0107_SE: {roomID: 0x0107, quadH: 0x01, quadV: 0x02, name:"Kakariko Shack"},
+
+    ROOM_0108_NW: {roomID: 0x0108, quadH: 0x00, quadV: 0x00, name:"Room 0108 NW"},
+    ROOM_0108_NE: {roomID: 0x0108, quadH: 0x01, quadV: 0x00, name:"Room 0108 NE"},
+    ROOM_0108_SW: {roomID: 0x0108, quadH: 0x00, quadV: 0x02, name:"Chicken Hut"},
+    ROOM_0108_SE: {roomID: 0x0108, quadH: 0x01, quadV: 0x02, name:"Chicken Hut Side Room"},
+
+    ROOM_0109_NW: {roomID: 0x0109, quadH: 0x00, quadV: 0x00, name:"Room 0109 NW"},
+    ROOM_0109_NE: {roomID: 0x0109, quadH: 0x01, quadV: 0x00, name:"Room 0109 NE"},
+    ROOM_0109_SW: {roomID: 0x0109, quadH: 0x00, quadV: 0x02, name:"Witch's Hut"},
+    ROOM_0109_SE: {roomID: 0x0109, quadH: 0x01, quadV: 0x02, name:"Room 0109 SE"},
+
+    ROOM_010A_WEST: {roomID: 0x010A, quadH: 0x00, quadV: [0x00, 0x02], name:"Aginah's Cave"},
+    ROOM_010A_NE: {roomID: 0x010A, quadH: 0x01, quadV: 0x00, name:"Aginah"},
+    ROOM_010A_SE: {roomID: 0x010A, quadH: 0x01, quadV: 0x02, name:"Aginah's Closet"},
+
+    ROOM_010B_NORTH: {roomID: 0x010B, quadH: [0x00, 0x01], quadV: 0x00, name:"Dam Pull Switch"},
+    ROOM_010B_SOUTH: {roomID: 0x010B, quadH: [0x00, 0x01], quadV: 0x02, name:"Dam Entrance"},
+
+    ROOM_010C_NW: {roomID: 0x010C, quadH: 0x00, quadV: 0x00, name:"Mimic Cave (Back)"},
+    ROOM_010C_EAST: {roomID: 0x010C, quadH: 0x01, quadV: [0x00, 0x02], name:"Hookshot Faries"},
+    ROOM_010C_SW: {roomID: 0x010C, quadH: 0x00, quadV: 0x02, name:"Mimic Cave (Front)"},
+
+    ROOM_010D_WEST: {roomID: 0x010D, quadH: 0x00, quadV: [0x00, 0x02], name:"Mire Shed"},
+    ROOM_010D_EAST: {roomID: 0x010D, quadH: 0x01, quadV: [0x00, 0x02], name:"Room 010D NE"},
+
+    ROOM_010E_WEST: {roomID: 0x010E, quadH: 0x00, quadV: [0x00, 0x02], name:"Storytelling Bird"},
+    ROOM_010E_EAST: {roomID: 0x010E, quadH: 0x01, quadV: [0x00, 0x02], name:"Storytelling Hand"},
+
+    ROOM_010F_NW: {roomID: 0x010F, quadH: 0x00, quadV: 0x00, name:"Room 010F NW"},
+    ROOM_010F_NE: {roomID: 0x010F, quadH: 0x01, quadV: 0x00, name:"Room 010F NE"},
+    ROOM_010F_SW: {roomID: 0x010F, quadH: 0x00, quadV: 0x02, name:"Dark World Shops"}, //Multiple generic shops point to this location.
+    ROOM_010F_SE: {roomID: 0x010F, quadH: 0x01, quadV: 0x02, name:"Room 010F SE"},
+
+    ROOM_0110_NW: {roomID: 0x0110, quadH: 0x00, quadV: 0x00, name:"Room 0110 NW"},
+    ROOM_0110_NE: {roomID: 0x0110, quadH: 0x01, quadV: 0x00, name:"Room 0110 NE"},
+    ROOM_0110_SW: {roomID: 0x0110, quadH: 0x00, quadV: 0x02, name:"Dark World Specialty Shop"},
+    ROOM_0110_SE: {roomID: 0x0110, quadH: 0x01, quadV: 0x02, name:"Room 0110 SE"},
+
+    ROOM_0111_NW: {roomID: 0x0111, quadH: 0x00, quadV: 0x00, name:"Room 0111 NW"},
+    ROOM_0111_NE: {roomID: 0x0111, quadH: 0x01, quadV: 0x00, name:"Room 0111 NE"},
+    ROOM_0111_SW: {roomID: 0x0111, quadH: 0x00, quadV: 0x02, name:"Shooting Gallery"},
+    ROOM_0111_SE: {roomID: 0x0111, quadH: 0x01, quadV: 0x02, name:"Room 0111 SE"},
+
+    ROOM_0112_WEST: {roomID: 0x0112, quadH: 0x00, quadV: [0x00, 0x02], name:"Storytelling Octopus"},
+    ROOM_0112_NE: {roomID: 0x0112, quadH: 0x01, quadV: 0x00, name:"Room 0112 NE"},
+    ROOM_0112_SE: {roomID: 0x0112, quadH: 0x01, quadV: 0x02, name:"Cave Shops"}, //Multiple generic shops point to this location.
+
+    ROOM_0113_WEST: {roomID: 0x0113, quadH: 0x00, quadV: [0x00, 0x02], name:"King's Tomb"},
+    ROOM_0113_EAST: {roomID: 0x0113, quadH: 0x01, quadV: [0x00, 0x02], name:"Room 0113 NE"},
+
+    ROOM_0114_NW: {roomID: 0x0114, quadH: 0x00, quadV: 0x00, name:"Room 0114 NW"},
+    ROOM_0114_NE: {roomID: 0x0114, quadH: 0x01, quadV: 0x00, name:"Storytelling Insect's Closet"},
+    ROOM_0114_SW: {roomID: 0x0114, quadH: 0x00, quadV: 0x02, name:"Waterfall of Wishing"},
+    ROOM_0114_SE: {roomID: 0x0114, quadH: 0x01, quadV: 0x02, name:"Storytelling Insect"},
+
+    ROOM_0115_WEST: {roomID: 0x0115, quadH: 0x00, quadV: [0x00, 0x02], name:"Pond of Happiness"},
+    ROOM_0115_NE: {roomID: 0x0115, quadH: 0x01, quadV: 0x00, name:"Pond of Happiness Fairy Fountain"},
+    ROOM_0115_SE: {roomID: 0x0115, quadH: 0x01, quadV: 0x02, name:"Great Fairy Fountain"}, //Mulitple Great Fairy Fountains point to this location.
+
+    ROOM_0116_NORTH: {roomID: 0x0116, quadH: [0x00, 0x01], quadV: 0x00, name:"Room 0116 North"},
+    ROOM_0116_SW: {roomID: 0x0116, quadH: 0x00, quadV: 0x02, name:"Room 0116 SW"},
+    ROOM_0116_SE: {roomID: 0x0116, quadH: 0x01, quadV: 0x02, name:"Cursed Fairy Fountain"},
+
+    ROOM_0117_ALL: {roomID: 0x0117, quadH: [0x00,0x01], quadV: [0x00, 0x02], name:"Spike Cave"},
+
+    ROOM_0118_NW: {roomID: 0x0118, quadH: 0x00, quadV: 0x00, name:"Room 0118 NW"},
+    ROOM_0118_NE: {roomID: 0x0118, quadH: 0x01, quadV: 0x00, name:"Room 0118 NE"},
+    ROOM_0118_SW: {roomID: 0x0118, quadH: 0x00, quadV: 0x02, name:"Room 0118 SW"},
+    ROOM_0118_SE: {roomID: 0x0118, quadH: 0x01, quadV: 0x02, name:"Chest Game (South of Kakariko Village)"},
+
+    ROOM_0119_NORTH: {roomID: 0x0119, quadH: [0x00, 0x01], quadV: 0x00, name:"Room 0119 North"},
+    ROOM_0119_SOUTH: {roomID: 0x0119, quadH: [0x00, 0x01], quadV: 0x02, name:"Blind's Hideout Entrance"},
+
+    ROOM_011A_NW: {roomID: 0x011A, quadH: 0x00, quadV: 0x00, name:"Room 011A NW"},
+    ROOM_011A_NE: {roomID: 0x011A, quadH: 0x01, quadV: 0x00, name:"Storytelling Tree's Closet"},
+    ROOM_011A_SW: {roomID: 0x011A, quadH: 0x00, quadV: 0x02, name:"Room 011A SW"},
+    ROOM_011A_SE: {roomID: 0x011A, quadH: 0x01, quadV: 0x02, name:"Storytelling Tree"},
+
+    ROOM_011B_NW: {roomID: 0x011B, quadH: 0x00, quadV: 0x00, name:"Room 011B NW"},
+    ROOM_011B_NE: {roomID: 0x011B, quadH: 0x01, quadV: 0x00, name:"Graveyard Cave Back"},
+    ROOM_011B_SW: {roomID: 0x011B, quadH: 0x00, quadV: 0x02, name:"Cave 45"},
+    ROOM_011B_SE: {roomID: 0x011B, quadH: 0x01, quadV: 0x02, name:"Graveyard Cave Front"},
+
+    ROOM_011C_NW: {roomID: 0x011C, quadH: 0x00, quadV: 0x00, name:"Room 011C NW"},
+    ROOM_011C_NE: {roomID: 0x011C, quadH: 0x01, quadV: 0x00, name:"Room 011C NE"},
+    ROOM_011C_SW: {roomID: 0x011C, quadH: 0x00, quadV: 0x02, name:"Bomb Shop"},
+    ROOM_011C_SE: {roomID: 0x011C, quadH: 0x01, quadV: 0x02, name:"C-Shaped House"},
+
+    ROOM_011D_NORTH: {roomID: 0x011D, quadH: [0x00, 0x01], quadV: 0x00, name:"Blind's Hideout Basement Closet"},
+    ROOM_011D_SOUTH: {roomID: 0x011D, quadH: [0x00, 0x01], quadV: 0x02, name:"Blind's Hideout Basement"},
+
+    ROOM_011E_WEST: {roomID: 0x011E, quadH: 0x00, quadV: [0x00, 0x02], name:"East Hyrule Fairy Fountain"},
+    ROOM_011E_NE: {roomID: 0x011E, quadH: 0x01, quadV: 0x00, name:"Hype Cave Back"},
+    ROOM_011E_SE: {roomID: 0x011E, quadH: 0x01, quadV: 0x02, name:"Hype Cave Front"},
+
+    ROOM_011F_NW: {roomID: 0x011F, quadH: 0x00, quadV: 0x00, name:"Room 011F NW"},
+    ROOM_011F_NE: {roomID: 0x011F, quadH: 0x01, quadV: 0x00, name:"Room 011F NE"},
+    ROOM_011F_SW: {roomID: 0x011F, quadH: 0x00, quadV: 0x02, name:"Woodsmen's Hut"},
+    ROOM_011F_SE: {roomID: 0x011F, quadH: 0x01, quadV: 0x02, name:"Kakariko Shop"},
+
+    ROOM_0120_NW: {roomID: 0x0120, quadH: 0x00, quadV: 0x00, name:"Ice Rod Cave Back"},
+    ROOM_0120_NE: {roomID: 0x0120, quadH: 0x01, quadV: 0x00, name:"Good Bee Cave Back"},
+    ROOM_0120_SW: {roomID: 0x0120, quadH: 0x00, quadV: 0x02, name:"Ice Rod Cave Front"},
+    ROOM_0120_SE: {roomID: 0x0120, quadH: 0x01, quadV: 0x02, name:"Goo Bee Cave Front"},
+
+    ROOM_0121_NW: {roomID: 0x0121, quadH: 0x00, quadV: 0x00, name:"Room 0121 NW"},
+    ROOM_0121_NE: {roomID: 0x0121, quadH: 0x01, quadV: 0x00, name:"Room 0121 NE"},
+    ROOM_0121_SW: {roomID: 0x0121, quadH: 0x00, quadV: 0x02, name:"Smithery"},
+    ROOM_0121_SE: {roomID: 0x0121, quadH: 0x01, quadV: 0x02, name:"Room 0121 SE"},
+
+    ROOM_0122_NW: {roomID: 0x0122, quadH: 0x00, quadV: 0x00, name:"Room 0122 NW"},
+    ROOM_0122_NE: {roomID: 0x0122, quadH: 0x01, quadV: 0x00, name:"Room 0122 NE"},
+    ROOM_0122_SW: {roomID: 0x0122, quadH: 0x00, quadV: 0x02, name:"Light World Fortune Teller"},
+    ROOM_0122_SE: {roomID: 0x0122, quadH: 0x01, quadV: 0x02, name:"Dark World Fortune Teller"},
+
+    ROOM_0123_NW: {roomID: 0x0123, quadH: 0x00, quadV: 0x00, name:"Mini Moldorm Cave Back"},
+    ROOM_0123_NE: {roomID: 0x0123, quadH: 0x01, quadV: 0x00, name:"Room 0123 NE"},
+    ROOM_0123_SW: {roomID: 0x0123, quadH: 0x00, quadV: 0x02, name:"Mini Morldorm Cave Front"},
+    ROOM_0123_SE: {roomID: 0x0123, quadH: 0x01, quadV: 0x02, name:"Room 0123 SE"},
+
+    ROOM_0124_NW: {roomID: 0x0124, quadH: 0x00, quadV: 0x00, name:"Room 0124 NW"},
+    ROOM_0124_NE: {roomID: 0x0124, quadH: 0x01, quadV: 0x00, name:"Room 0124 NE"},
+    ROOM_0124_SW: {roomID: 0x0124, quadH: 0x00, quadV: 0x02, name:"50 Rupee Cave"},
+    ROOM_0124_SE: {roomID: 0x0124, quadH: 0x01, quadV: 0x02, name:"Bonk Rocks Heart Piece"},
+
+    ROOM_0125_NW: {roomID: 0x0125, quadH: 0x00, quadV: 0x00, name:"Room 0125 NW"},
+    ROOM_0125_NE: {roomID: 0x0125, quadH: 0x01, quadV: 0x00, name:"Room 0125 NE"},
+    ROOM_0125_SW: {roomID: 0x0125, quadH: 0x00, quadV: 0x02, name:"20 Rupee Cave"},
+    ROOM_0125_SE: {roomID: 0x0125, quadH: 0x01, quadV: 0x02, name:"Spike Hint Cave"},
+
+    ROOM_0126_NW: {roomID: 0x0126, quadH: 0x00, quadV: 0x00, name:"Room 0126 NW"},
+    ROOM_0126_NE: {roomID: 0x0126, quadH: 0x01, quadV: 0x00, name:"Room 0126 NE"},
+    ROOM_0126_SW: {roomID: 0x0126, quadH: 0x00, quadV: 0x02, name:"Fairy Fountain"}, //Multiple Fairy Fountains point to this location
+    ROOM_0126_SE: {roomID: 0x0126, quadH: 0x01, quadV: 0x02, name:"Checkerboard Cave"},
+
+    ROOM_0127_NW: {roomID: 0x0127, quadH: 0x00, quadV: 0x00, name:"Room 0127 NW"},
+    ROOM_0127_NE: {roomID: 0x0127, quadH: 0x01, quadV: 0x00, name:"Room 0127 NE"},
+    ROOM_0127_SW: {roomID: 0x0127, quadH: 0x00, quadV: 0x02, name:"Hammer Pegs Cave"},
+    ROOM_0127_SE: {roomID: 0x0127, quadH: 0x01, quadV: 0x02, name:"Spike Hint Cave (Unused)"}, //Not used in game.  Hint tile pulls the text from the Eastern Palace hint tile.  Credit to Malmo in the ALttP Discord.
+
 }
