@@ -1,7 +1,7 @@
 import MemoryModule from "../../../util/memory/MemoryModule";
 import { Blacklist } from "../../../util/utils";
 import Addresses from "../addresses";
-import { RoomIDs } from "../enums";
+import { LocationIDs } from "../enums";
 
 export default class RoomsModule extends MemoryModule {
     constructor() {
@@ -52,7 +52,7 @@ export default class RoomsModule extends MemoryModule {
     }
 
     _findRoomDef(memory) {
-        const found = Object.entries(RoomIDs).find(([roomName, roomDef]) => this._matchRoom(roomDef, memory));
+        const found = Object.entries(LocationIDs).find(([roomName, roomDef]) => this._matchRoom(roomDef, memory));
         return found ? { name: found[0], ...found[1] } : null;
     }
 
