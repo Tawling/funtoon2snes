@@ -1055,7 +1055,7 @@ export const LocationIDs = {
 
     ROOM_0103_WEST: {roomID: 0x0103, quadH: 0x00, quadV: [0x00, 0x02], name:"Kakariko Tavern"},
     ROOM_0103_NE: {roomID: 0x0103, quadH: 0x01, quadV: 0x00, name:"Room 0103 NE"},
-    ROOM_0103_SE: {roomID: 0x0103, quadH: 0x01, quadV: 0x02, name:"Overgrown Yard House"}, //?????
+    ROOM_0103_SE: {overworldEntranceID: 0x44, roomID: 0x0103, quadH: 0x01, quadV: 0x02, name:"Overgrown Yard House"}, //?????
 
     ROOM_0104_NW: {roomID: 0x0104, quadH: 0x00, quadV: 0x00, name:"Room 0104 NW"},
     ROOM_0104_NE: {roomID: 0x0104, quadH: 0x01, quadV: 0x00, name:"Room 0104 NE"},
