@@ -1,5 +1,5 @@
 import MemoryModule from "../../../util/memory/MemoryModule";
-import { BeamFlags, ElevatorStatus, EquipmentFlags, GameStates, Rooms } from "../enums";
+import { BeamFlags, ElevatorStatus, EquipmentFlags, GameStates, Rooms, SamusPose } from "../enums";
 import Addresses from "../addresses";
 import { BossStates } from "../enums";
 import { noneOf, readBigIntFlag } from "../../../util/utils";
@@ -19,6 +19,7 @@ export default class RoomTimes extends MemoryModule {
         this.state = {
             nmiRollover: 0,
             frameCountRollover: 0,
+            shinespark: false,
         };
     }
 
@@ -55,6 +56,7 @@ export default class RoomTimes extends MemoryModule {
             Addresses.samusMaxReserveHP,
             Addresses.samusHP,
             Addresses.samusMaxHP,
+            Addresses.samusPose,
             Addresses.eventStates,
             Addresses.enemy1HP, // Mother Brain HP
             Addresses.mb2BabyIndex,
@@ -96,6 +98,17 @@ export default class RoomTimes extends MemoryModule {
 
         if (memory.frameCounter.value < memory.frameCounter.prevReadValue) {
             this.state.frameCountRollover++;
+        }
+
+        if (!this.state.shinespark && [
+            SamusPose.FACING_LEFT_SHINESPARK_DIAGONAL,
+            SamusPose.FACING_RIGHT_SHINESPARK_DIAGONAL,
+            SamusPose.FACING_LEFT_SHINESPARK_HORIZONTAL,
+            SamusPose.FACING_RIGHT_SHINESPARK_HORIZONTAL,
+            SamusPose.FACING_LEFT_SHINESPARK_VERTICAL,
+            SamusPose.FACING_RIGHT_SHINESPARK_VERTICAL,
+        ].includes(memory.samusPose.value)) {
+            this.state.shinespark = true;
         }
 
 
@@ -194,6 +207,7 @@ export default class RoomTimes extends MemoryModule {
                 exitState: this.state.exitState,
                 igtWasPaused: !!this.state.paused,
                 enemiesKilled: this.state.enemiesKilled,
+                shinesparked: this.state.shinespark,
             };
             globalState.lastRoomTimeEvent = eventData;
             sendEvent("smRoomTime", eventData);
