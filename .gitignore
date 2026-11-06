@@ -10,6 +10,7 @@
 
 # production
 /build
+/build-fun2n
 /live
 
 /public/version.txt

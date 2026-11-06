@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<!--
+    Room-time overlay for the new FUNtoon server, shipped in the fun2n build
+    (scripts/build-fun2n.js copies it to build-fun2n/tracking.html).  Add it
+    to OBS as a browser source:  tracking.html?channel=<login>&token=<token>
+    where the token is the channel's listen token (funtoon2snes builds this
+    URL for you).  It listens on FUNtoon's events WebSocket, on the same site
+    it's served from, for the custom events funtoon2snes sends.
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>FUNtoon2SNES Room Tracking Overlay</title>
+    </head>
+    <style>
+        html,
+        body {
+            background: transparent;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        #container {
+            border-radius: 5px;
+            background-color: rgba(56, 56, 56, 0.502);
+            color: white;
+            padding: 3px;
+            display: inline-block;
+        }
+
+        #invalid {
+            display: none;
+            background-color: red;
+            color: white;
+            font-weight: 500;
+        }
+
+        #prTime::before {
+            content: 'RTA: ';
+        }
+
+        #prSec.with-content::after {
+            content: 'ˢ';
+        }
+        #prFrm.with-content::after {
+            content: 'ᶠ'
+        }
+
+        #rtaTime::before {
+            content: ' (';
+        }
+        #rtaTime::after {
+            content: ' sec) ';
+        }
+
+        #igtTime::before {
+            content: ' IGT: ';
+        }
+
+        #igtSec.with-content::after {
+            content: 'ˢ';
+        }
+        #igtFrm.with-content::after {
+            content: 'ᶠ'
+        }
+
+        #lagTime::before {
+            content: ' Lag: ';
+        }
+        #lagTime.with-content::after {
+            content: 'ᶠ';
+        }
+    </style>
+    <body>
+        <div id="container">
+            <div id="invalid">Error: Invalid Channel and/or Token</div>
+            <div id="roomName">
+                --
+            </div>
+            <div id="roomTime">
+                <span id="prWrapper"><span id="prTime"><span id="prSec">-</span><span id="prFrm">-</span></span></span>
+                <span id="rtaWrapper"><span id="rtaTime">--</span></span>
+                <span id="igtWrapper"><span id="igtTime"><span id="igtSec">-</span><span id="igtFrm">-</span></span></span>
+                <span id="lagWrapper"><span id="lagTime">--</span></span>
+            </div>
+        </div>
+        <script>
+            const Rooms = {
+                Empty: 0x0000,
+                Crateria: {
+                    'Landing Site': 0x91f8,
+                    'Gauntlet Entrance': 0x92b3,
+                    Parlor: 0x92fd,
+                    'Crateria PB Room': 0x93aa,
+                    'Crateria Save Room': 0x93d5,
+                    'West Ocean': 0x93fe,
+                    'Bowling Alley Path': 0x9461,
+                    'Crateria Kihunter Room': 0x948c,
+                    'Forgotten Highway Elevator': 0x94cc,
+                    'East Ocean': 0x94fd,
+                    'Forgotten Highway Kago Room': 0x9552,
+                    'Crab Maze': 0x957d,
+                    'Forgotten Highway Elbow': 0x95a8,
+                    'Crateria Tube': 0x95d4,
+                    'The Moat': 0x95ff,
+                    'Red Brinstar Elevator Room': 0x962a,
+                    'Gauntlet E-Tank': 0x965b,
+                    'West Ocean Between Bowling': 0x968f,
+                    Climb: 0x96ba,
+                    'Pit Room': 0x975c,
+                    'Elevator To Morph Ball': 0x97b5,
+                    'Bomb Torizo Room': 0x9804,
+                    Flyway: 0x9879,
+                    'Pre Map Flyway': 0x98e2,
+                    'Terminator Room': 0x990d,
+                    'Green Brinstar Elevator Room': 0x9938,
+                    'Lower Mushrooms': 0x9969,
+                    'Crateria Map Room': 0x9994,
+                    'Green Pirates Shaft': 0x99bd,
+                    'Crateria Super Room': 0x99f9,
+                    'Final Missile Bombway': 0x9a44,
+                    'The Final Missile': 0x9a90,
+                    'Statues Hallway': 0xa5ed,
+                    'Statues Room': 0xa66a,
+                },
+                GreenBrinstar: {
+                    'Green Brinstar Main Shaft': 0x9ad9,
+                    'Brinstar Pre Map Room': 0x9b9d,
+                    'Early Supers Room': 0x9bc8,
+                    'Brinstar Reserve Tank Room': 0x9c07,
+                    'Brinstar Map Room': 0x9c35,
+                    'Green Brinstar Fireflea Room': 0x9c5e,
+                    'Green Brinstar Missile Station': 0x9c89,
+                    'Spore Spawn Kihunter Room': 0x9d9c,
+                    'Spore Spawn Room': 0x9dc7,
+                    'Green Hill Zone': 0x9e52,
+                    'Noob Bridge': 0x9fba,
+                    'Green Brinstar Beetom Room': 0x9fe5,
+                    'Etecoon E-Tank Room': 0xa011,
+                    'Etecoon Super Room': 0xa051,
+                    'Green Brinstar Save Room': 0xa201,
+                    'Etecoon Save Room': 0xa22a,
+                },
+                PinkBrinstar: {
+                    'Spore Spawn Super Room': 0x9b5b,
+                    'Dachora Room': 0x9cb3,
+                    'Big Pink': 0x9d19,
+                    'Pink Brinstar PB Room': 0x9e11,
+                    'Dachora Energy Charge Station': 0xa07b,
+                    'Spore Spawn Farming Room': 0xa0a4,
+                    'Waterway E-Tank Room': 0xa0d2,
+                    'Pink Brinstar Hopper Room': 0xa130,
+                    'Hopper Energy Tank Room': 0xa15b,
+                    'Big Pink Save Room': 0xa184,
+                },
+                BlueBrinstar: {
+                    'Morph Ball Room': 0x9e9f,
+                    'Construction Zone': 0x9f11,
+                    'Blue Brinstar E-Tank Room': 0x9f64,
+                    'First Missile Room': 0xa107,
+                    'Blue Brinstar Boulder Room': 0xa1ad,
+                    'Billy Mays Room': 0xa1d8,
+                },
+                RedBrinstar: {
+                    'Red Tower': 0xa253,
+                    'Red Brinstar Fireflea Room': 0xa293,
+                    'Xray Scope Room': 0xa2ce,
+                    Hellway: 0xa2f7,
+                    'Caterpillar Room': 0xa322,
+                    'Beta PB Room': 0xa37c,
+                    'Alpha PB Room': 0xa3ae,
+                    'Bat Room': 0xa3dd,
+                    'Below Spazer': 0xa408,
+                    'Spazer Room': 0xa447,
+                    'Sloaters Refill': 0xa618,
+                    'Red Brinstar Save Room': 0xa734,
+                },
+                Warehouse: {
+                    'Warehouse Zeela Room': 0xa471,
+                    'Warehouse E-Tank Room': 0xa4b1,
+                    'Warehouse Kihunter Room': 0xa4da,
+                    'Baby Kraid Room': 0xa521,
+                    'Kraid Eye Door Room': 0xa56b,
+                    'Kraid Room': 0xa59f,
+                    'Kraid Recharge Stations': 0xa641,
+                    'Warehouse Entrance': 0xa6a1,
+                    'Varia Suit Room': 0xa6e2,
+                    'Warehouse Save Room': 0xa70b,
+                },
+                UpperNorfair: {
+                    'Ice Beam Acid Room': 0xa75d,
+                    Cathedral: 0xa788,
+                    'Cathedral Entrance': 0xa7b3,
+                    'Business Center': 0xa7de,
+                    'Ice Beam Gate Room': 0xa815,
+                    'Ice Beam Tutorial Room': 0xa865,
+                    'Ice Beam Room': 0xa890,
+                    'Ice Beam Snake Room': 0xa8b9,
+                    'Crumble Shaft': 0xa8f8,
+                    'Crocomire Speedway': 0xa923,
+                    'Crocomire Room': 0xa98d,
+                    'Hi Jump Boots room': 0xa9e5,
+                    'Crocomire Escape': 0xaa0e,
+                    'Hi Jump E-Tank Room': 0xaa41,
+                    'Post Crocomire Farming Room': 0xaa82,
+                    'Post Crocomire Save Room': 0xaab5,
+                    'Post Crocomire PB Room': 0xaade,
+                    'Post Crocomire Shaft': 0xab07,
+                    'Post Crocomire Missile Room': 0xab3b,
+                    'Grapple Tutorial Room 3': 0xab64,
+                    'Post Crocomire Jump Room': 0xab8f,
+                    'Grapple Tutorial Room 2': 0xabd2,
+                    'Grapple Tutorial Room 1': 0xac00,
+                    'Grapple Beam Room': 0xac2b,
+                    'Norfair Reserve Tank Room': 0xac5a,
+                    'Green Bubbles Missile Room': 0xac83,
+                    'Bubble Mountain': 0xacb3,
+                    'Speed Booster Hall': 0xacf0,
+                    'Speed Booster Room': 0xad1b,
+                    'Single Chamber': 0xad5e,
+                    'Double Chamber': 0xadad,
+                    'Wave Beam Room': 0xadde,
+                    'Spiky Platforms Tunnel': 0xae07,
+                    'Volcano Room': 0xae32,
+                    'Kronic Boost Room': 0xae74,
+                    'Magdollite Tunnel': 0xaeb4,
+                    'Purple Shaft': 0xaedf,
+                    'Lava Dive Room': 0xaf14,
+                    'Lower Norfair Elevator': 0xaf3f,
+                    'Upper Norfair Farming Room': 0xaf72,
+                    'Rising Tide': 0xafa3,
+                    'Acid Snakes Tunnel': 0xafce,
+                    'Spiky Acid Snakes Tunnel': 0xaffb,
+                    'Nutella Refill': 0xb026,
+                    'Purple Farming Room': 0xb051,
+                    'Bat Cave': 0xb07a,
+                    'Norfair Map Room': 0xb0b4,
+                    'Bubble Mountain Save Room': 0xb0dd,
+                    'Frog Speedway': 0xb106,
+                    'Red Pirate Shaft': 0xb139,
+                    'Frog Savestation': 0xb167,
+                    'Crocomire Save Room': 0xb192,
+                    'Lower Norfair Elevator Save Room': 0xb1bb,
+                },
+                LowerNorfair: {
+                    'Acid Statue Room': 0xb1e5,
+                    'Main Hall': 0xb236,
+                    'Golden Torizo Room': 0xb283,
+                    'Fast Ripper Room': 0xb2da,
+                    'Golden Torizo Energy Recharge': 0xb305,
+                    'Ridley Room': 0xb32e,
+                    'Lower Norfair Farming Room': 0xb37a,
+                    'Fast Pillars Setup Room': 0xb3a5,
+                    'Mickey Mouse Room': 0xb40a,
+                    'Pillar Room': 0xb457,
+                    'Plowerhouse Room': 0xb482,
+                    'Worst Room In The Game': 0xb4ad,
+                    Amphitheatre: 0xb4e5,
+                    'Lower Norfair Spring Ball Maze': 0xb510,
+                    'Lower Norfair Escape PB Room': 0xb55a,
+                    'Red Kihunter Shaft': 0xb585,
+                    Wasteland: 0xb5d5,
+                    'Metal Pirates Room': 0xb62b,
+                    'Three Musketeers Room': 0xb656,
+                    'Ridley E-Tank Room': 0xb698,
+                    'Screw Attack Room': 0xb6c1,
+                    'Lower Norfair Fireflea Room': 0xb6ee,
+                    'Red Kihunter Shaft Save Room': 0xb741,
+                },
+                WreckedShip: {
+                    'Bowling Alley': 0xc98e,
+                    'Wrecked Ship Entrance': 0xca08,
+                    Attic: 0xca52,
+                    'Assembly Line': 0xcaae,
+                    'Wrecked Ship Main Shaft': 0xcaf6,
+                    'Spiky Death Room': 0xcb8b,
+                    'Electric Death Room': 0xcbd5,
+                    'Wrecked Ship E-Tank Room': 0xcc27,
+                    Basement: 0xcc6f,
+                    'Wrecked Ship Map Room': 0xcccb,
+                    'Phantoon Room': 0xcd13,
+                    'Sponge Bath': 0xcd5c,
+                    'Wrecked Ship West Super Room': 0xcda8,
+                    'Wrecked Ship East Super Room': 0xcdf1,
+                    'Gravity Suit Room': 0xce40,
+                    'Wrecked Ship Save Room': 0xce8a,
+                },
+                Maridia: {
+                    'Glass Tunnel Save Room': 0xced2,
+                    'Glass Tunnel': 0xcefb,
+                    'West Tunnel': 0xcf54,
+                    'East Tunnel': 0xcf80,
+                    'Main Street': 0xcfc9,
+                    'Fish Tank': 0xd017,
+                    'Mama Turtle Room': 0xd055,
+                    'Crab Tunnel': 0xd08a,
+                    'Mt Everest': 0xd0b9,
+                    'Red Fish Room': 0xd104,
+                    'Watering Hole': 0xd13b,
+                    'Northwest Maridia Bug Room': 0xd16d,
+                    'Crab Shaft': 0xd1a3,
+                    'Pseudo Plasma Spark': 0xd1dd,
+                    'Crab Hole': 0xd21c,
+                    'West Sand Hall Tunnel': 0xd252,
+                    'Plasma Tutorial Room': 0xd27e,
+                    'Plasma Room': 0xd2aa,
+                    'Thread The Needle Room': 0xd2d9,
+                    'Maridia Elevator Room': 0xd30b,
+                    'Plasma Spark Room': 0xd340,
+                    'Plasma Climb': 0xd387,
+                    'Maridia Map Room': 0xd3b6,
+                    'Forgotten Highway Save Room': 0xd3df,
+                    'Toilet Bowl': 0xd408,
+                    'Bug Sand Hole': 0xd433,
+                    'West Sand Hall': 0xd461,
+                    Oasis: 0xd48e,
+                    'East Sand Hall': 0xd4c2,
+                    'West Sand Hole': 0xd4ef,
+                    'East Sand Hole': 0xd51e,
+                    'West Aqueduct Quicksand Room': 0xd54d,
+                    'East Aqueduct Quicksand Room': 0xd57a,
+                    Aqueduct: 0xd5a7,
+                    'Butterfly Room': 0xd5ec,
+                    'Botwoon Hallway': 0xd617,
+                    'Pants Room': 0xd646,
+                    'East Pants Room': 0xd69a,
+                    'Spring Ball Room': 0xd6d0,
+                    'Below Botwoon E-Tank': 0xd6fd,
+                    Colosseum: 0xd72a,
+                    'Aqueduct Save Room': 0xd765,
+                    'Pre Draygon Room': 0xd78f,
+                    'Botwoon E-Tank Room': 0xd7e4,
+                    'Draygon Save Room': 0xd81a,
+                    'Maridia Missile Refill': 0xd845,
+                    'Plasma Beach Quicksand Room': 0xd86e,
+                    'Botwoon Quicksand Room': 0xd898,
+                    'Shaktool Room': 0xd8c5,
+                    'Halfie Climb Room': 0xd913,
+                    'Botwoon Room': 0xd95e,
+                    'Space Jump Room': 0xd9aa,
+                    'Maridia Health Refill Room': 0xd9d4,
+                    'West Cactus Alley Room': 0xd9fe,
+                    'East Cactus Alley Room': 0xda2b,
+                    'Draygon Room': 0xda60,
+                },
+                Tourian: {
+                    'Tourian First Room': 0xdaae,
+                    Flatroids: 0xdae1,
+                    'Walkie-Talkie': 0xdb31,
+                    'Laser Gun': 0xdb7d,
+                    Judgment: 0xdbcd,
+                    'Blue Hopper Room': 0xdc19,
+                    'Dust Torizo Room': 0xdc65,
+                    'Big Boy Room': 0xdcb1,
+                    'Seaweed Room': 0xdcff,
+                    'Tourian Recharge Room': 0xdd2e,
+                    'Mother Brain Room': 0xdd58,
+                    'Tourian Eye Door Room': 0xddc4,
+                    'Rinka Shaft': 0xddf3,
+                    'Lower Tourian Save Room': 0xde23,
+                    'Door Stuck': 0xde4d,
+                    'Plinko Room': 0xde7a,
+                    'Tourian Runway': 0xdea7,
+                    'Leodox Room': 0xdede,
+                    'Upper Tourian Save Room': 0xdf1b,
+                },
+                Ceres: {
+                    'Ceres Elevator Room': 0xdf45,
+                    'Falling Tile Room': 0xdf8d,
+                    'Magnet Stairs Room': 0xdfd7,
+                    'Dead Scientist Room': 0xe021,
+                    '58 Escape': 0xe06b,
+                    'Ceres Ridley Room': 0xe0b5,
+                },
+            };
+
+            function getRoomName(roomID) {
+                for (const key in Rooms) {
+                    if (Rooms[key] === roomID) {
+                        return key;
+                    } else {
+                        for (const key2 in Rooms[key]) {
+                            if (Rooms[key][key2] === roomID) {
+                                return key2;
+                            }
+                        }
+                    }
+                }
+                return "Unknown"
+            }
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            const allowPractice = params.practice === '1' || (params.practice || '').toLowerCase() === 'true';
+            // The events WebSocket closes with these when the token is wrong
+            // (4401) or can't listen to this channel (4403): retrying won't help.
+            const AUTH_FAILURES = [4401, 4403];
+
+            function connect() {
+                console.log('Connecting...');
+                const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
+                const channel = encodeURIComponent((params.channel || '').toLowerCase());
+                const token = encodeURIComponent(params.token || '');
+                var ws = new WebSocket(`${scheme}://${window.location.host}/ws/events/${channel}/?token=${token}`);
+                ws.onopen = function() {
+                    console.log('Connected');
+                };
+
+                ws.onmessage = function(e) {
+                    const msg = JSON.parse(e.data);
+                    console.log(msg);
+                    if (msg.type !== 'custom-event') {
+                        return;
+                    }
+                    const { event, data } = msg;
+                    if (event === 'gameROMDetected' || event === 'resetGame') {
+                        document.getElementById('roomName').innerText = '--';
+                        document.getElementById('prSec').innerText = '--';
+                        document.getElementById('prFrm').innerText = '--';
+                        document.getElementById('rtaTime').innerText = '--';
+                        document.getElementById('igtSec').innerText = '--';
+                        document.getElementById('igtFrm').innerText = '--';
+                        document.getElementById('lagTime').innerText = '--';
+
+                        document.getElementById('roomName').className = '';
+                        document.getElementById('prSec').className = '';
+                        document.getElementById('prFrm').className = '';
+                        document.getElementById('rtaTime').className = '';
+                        document.getElementById('igtSec').className = '';
+                        document.getElementById('igtFrm').className = '';
+                        document.getElementById('lagTime').className = '';
+                    } else if (event === 'smRoomTime') {
+                        if (allowPractice || !data.practice) {
+                            const ffrm = Math.round(data.frameCount % 60.098813897441);
+                            const fsec = Math.floor(data.frameCount / 60.098813897441) + (ffrm === 60);
+                            const ifrm = Math.round((data.igtFrames || 0) % 60);
+                            const isec = Math.floor((data.igtFrames || 0) / 60) + (ifrm === 60);
+                            document.getElementById('roomName').innerText = '' + getRoomName(data.roomID);
+                            document.getElementById('prSec').innerText = `${fsec}`;
+                            document.getElementById('prFrm').innerText = `${`${ffrm % 60}`.padStart(2,'0')}`;
+                            document.getElementById('rtaTime').innerText = `${+data.totalSeconds.toFixed(2)}`;
+                            document.getElementById('igtSec').innerText = `${isec}`;
+                            document.getElementById('igtFrm').innerText = `${`${ifrm % 60}`.padStart(2,'0')}`;
+                            document.getElementById('lagTime').innerText = `${data.lagFrames}`;
+
+                            document.getElementById('roomName').className = 'with-content';
+                            document.getElementById('prSec').className = 'with-content';
+                            document.getElementById('prFrm').className = 'with-content';
+                            document.getElementById('rtaTime').className = 'with-content';
+                            document.getElementById('igtSec').className = 'with-content';
+                            document.getElementById('igtFrm').className = 'with-content';
+                            document.getElementById('lagTime').className = 'with-content';
+                        }
+                    } else if (event === 'smMBPhaseTime') {
+                        if (allowPractice || !data.practice) {
+                            const ffrm = Math.round(data.frameCount % 60.098813897441);
+                            const fsec = Math.floor(data.frameCount / 60.098813897441) + (ffrm === 60);
+                            const ifrm = Math.round((data.igtFrames || 0) % 60);
+                            const isec = Math.floor((data.igtFrames || 0) / 60) + (ifrm === 60);
+                            document.getElementById('prSec').innerText = `${fsec}`;
+                            document.getElementById('prFrm').innerText = `${`${ffrm % 60}`.padStart(2,'0')}`;
+                            document.getElementById('rtaTime').innerText = `${+data.totalSeconds.toFixed(2)}`;
+                            document.getElementById('igtSec').innerText = `${isec}`;
+                            document.getElementById('igtFrm').innerText = `${`${ifrm % 60}`.padStart(2,'0')}`;
+                            document.getElementById('lagTime').innerText = `${data.lagFrames}`;
+
+                            document.getElementById('roomName').className = 'with-content';
+                            document.getElementById('prSec').className = 'with-content';
+                            document.getElementById('prFrm').className = 'with-content';
+                            document.getElementById('rtaTime').className = 'with-content';
+                            document.getElementById('igtSec').className = 'with-content';
+                            document.getElementById('igtFrm').className = 'with-content';
+                            document.getElementById('lagTime').className = 'with-content';
+                        }
+                    }
+                };
+
+                ws.onclose = function(e) {
+                    if (AUTH_FAILURES.includes(e.code)) {
+                        document.getElementById('invalid').style.display = 'block';
+                        return;
+                    }
+                    console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+                    setTimeout(function() {
+                        connect();
+                    }, 1000);
+                };
+
+                ws.onerror = function(err) {
+                    console.error('Socket encountered error: ', err.message, 'Closing socket');
+                    ws.close();
+                };
+            }
+
+            connect();
+        </script>
+    </body>
+</html>

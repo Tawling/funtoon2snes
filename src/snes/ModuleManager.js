@@ -2,6 +2,7 @@ import GameDetectorModule from "./GameDetectorModule";
 import { SuperMetroid } from "./supermetroid/modules";
 import { SuperMetroidArcade } from "./supermetroidarcade/modules";
 import { ALttP } from "./alttp/modules";
+import { sendEvent as sendFuntoonEvent } from "../funtoonServer";
 
 export default class ModuleManager {
     constructor(usb2snes, callExternal, setReloadUnsafe) {
@@ -67,20 +68,7 @@ export default class ModuleManager {
             setTimeout(
                 async () =>
                     resolve(
-                        console.log(
-                            await fetch("https://funtoon.party/api/events/custom", {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    Authorization: this.apiToken,
-                                },
-                                body: JSON.stringify({
-                                    channel: this.channel,
-                                    event,
-                                    data,
-                                }),
-                            })
-                        )
+                        console.log(await sendFuntoonEvent(this.apiToken, this.channel, event, data))
                     ),
                 Math.floor(delay * 1000)
             );

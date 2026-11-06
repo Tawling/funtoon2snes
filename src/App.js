@@ -3,6 +3,7 @@ import { Card, CardBody } from "reactstrap";
 import "./App.css";
 import ConnectionPanel from "./components/ConnectionPanel";
 import ModulesPanel from "./components/ModulesPanel";
+import { TOKEN_STORAGE_KEY, overlayURL as buildOverlayURL, validateToken as checkToken } from "./funtoonServer";
 
 import ConnectionWorker from "./Connection.worker"; // eslint-disable-line
 
@@ -24,6 +25,7 @@ function App() {
     const [autoRefreshEnabled, setAutoRefreshEnabled] = useState(false);
 
     const [isTokenValid, setIsTokenValid] = useState(undefined);
+    const [overlayToken, setOverlayToken] = useState(null);
 
     const [moduleStates, setModuleStates] = useState({});
 
@@ -39,22 +41,12 @@ function App() {
 
     const validateToken = useCallback(() => {
         clearTimeout(tokenCheckTimeout);
-        tokenCheckTimeout = setTimeout(() => {
-            fetch('https://funtoon.party/api/token/validate', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: token,
-                },
-                body: JSON.stringify({
-                    channel: channel,
-                }),
-            }).then((res) => {
-                setIsTokenValid(res.ok)}).catch((e) => {
-                    setIsTokenValid(false)
-                })
+        tokenCheckTimeout = setTimeout(async () => {
+            const { valid, overlayToken } = await checkToken(token, channel);
+            setIsTokenValid(valid);
+            setOverlayToken(overlayToken);
         }, 1000);
-    }, [token, channel, setIsTokenValid]);
+    }, [token, channel, setIsTokenValid, setOverlayToken]);
 
     useEffect(() => {
         clearInterval(refreshInterval);
@@ -106,7 +98,7 @@ function App() {
                     setChannel(...event.data.args);
                     break;
                 case "setAPIToken":
-                    window.localStorage.setItem("funtoonAPIToken", event.data.args[0]);
+                    window.localStorage.setItem(TOKEN_STORAGE_KEY, event.data.args[0]);
                     setAPIToken(...event.data.args);
                     break;
                 case "setEnabled":
@@ -178,7 +170,7 @@ function App() {
         console.log("loading channel and token");
         const channel = localStorage.getItem("channelName") || "";
         setChannel(channel);
-        const token = localStorage.getItem("funtoonAPIToken") || "";
+        const token = localStorage.getItem(TOKEN_STORAGE_KEY) || "";
         setAPIToken(token);
         const enabled = localStorage.getItem("enabled") || true;
         setEnabled(enabled);
@@ -197,7 +189,7 @@ function App() {
         validateToken();
     }, [token, channel]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const overlayURL = `https://funtoon.party/tracking.html?channel=${channel.toLowerCase()}&token=${token}`
+    const overlayURL = buildOverlayURL(channel, overlayToken);
     return (
         <div className="App">
             <h1>USB2SNES Memory Tracking for FUNtoon Integration</h1>

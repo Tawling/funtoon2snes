@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardBody, CardHeader, Button, Input, Label } from "reactstrap";
 
 import classNames from "classnames";
+import { tokenPageLink } from "../funtoonServer";
 
 const States = {
     WARNING: 0x1,
@@ -74,7 +75,7 @@ export default function ConnectionPanel(props) {
                                 (Get API token at{" "}
                                 <a
                                     target="new"
-                                    href={`https://funtoon.party/c/${channel.toLowerCase()}/script`}>{`funtoon.party/c/${channel.toLowerCase()}/script`}</a>
+                                    href={tokenPageLink(channel).href}>{tokenPageLink(channel).label}</a>
                                 )
                             </span>
                         ) : null}

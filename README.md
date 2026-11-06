@@ -1,6 +1,27 @@
 # NOTE
 This is currently built using node v16.14.2
 
+# Two FUNtoon servers
+
+FUNtoon is moving to a new server. Until the switch-over this repo builds
+for either one, picked at build time (`src/funtoonServer.js` holds every
+difference):
+
+- **The original server** (funtoon.party): `npm run build` and the existing
+  `bd` / `bid` scripts, exactly as before. Output in `build/`, deployed to
+  `live/`.
+- **The new server** (beta.funtoon.party until the switch-over, then
+  funtoon.party): `npm run build:fun2n` (`build:inc:fun2n` also bumps
+  `version.txt`). Output in `build-fun2n/`, which the new server serves as
+  `/funtoon2snes/`. It uses relative URLs, so the same build works on either
+  host, and stores its API token under a new key, since the servers' tokens
+  differ. It ships the room-time overlay (`overlay/tracking.html`) as
+  `tracking.html`, fed by the new server's events WebSocket.
+
+To try the new-server build locally, run the fun2n dev stack and
+`npm run build:fun2n`; the dev stack serves `build-fun2n/` at
+http://localhost:8080/funtoon2snes/.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

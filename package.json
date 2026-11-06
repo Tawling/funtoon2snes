@@ -29,6 +29,8 @@
     "bd": "react-app-rewired build && Xcopy /E/I/Y .\\build .\\live",
     "build:inc:deploy": "react-app-rewired build && node update-version.js && Xcopy /E/I/Y .\\build .\\live",
     "bid": "react-app-rewired build && node update-version.js && Xcopy /E/I/Y .\\build .\\live",
+    "build:fun2n": "node scripts/build-fun2n.js",
+    "build:inc:fun2n": "node scripts/build-fun2n.js --inc",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
   },
