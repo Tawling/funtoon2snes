@@ -26,6 +26,7 @@ function App() {
 
     const [isTokenValid, setIsTokenValid] = useState(undefined);
     const [overlayToken, setOverlayToken] = useState(null);
+    const [tokenProblem, setTokenProblem] = useState(null);
 
     const [moduleStates, setModuleStates] = useState({});
 
@@ -42,11 +43,12 @@ function App() {
     const validateToken = useCallback(() => {
         clearTimeout(tokenCheckTimeout);
         tokenCheckTimeout = setTimeout(async () => {
-            const { valid, overlayToken } = await checkToken(token, channel);
+            const { valid, overlayToken, problem } = await checkToken(token, channel);
             setIsTokenValid(valid);
             setOverlayToken(overlayToken);
+            setTokenProblem(problem);
         }, 1000);
-    }, [token, channel, setIsTokenValid, setOverlayToken]);
+    }, [token, channel, setIsTokenValid, setOverlayToken, setTokenProblem]);
 
     useEffect(() => {
         clearInterval(refreshInterval);
@@ -207,6 +209,7 @@ function App() {
                 channel={channel}
                 token={token}
                 isTokenValid={isTokenValid}
+                tokenProblem={tokenProblem}
                 readsPerSecond={rps}
             />
             <Card>

@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardBody, CardHeader, Button, Input, Label } from "reactstrap";
 
 import classNames from "classnames";
-import { tokenPageLink } from "../funtoonServer";
+import { TOKEN_LABEL, tokenPageLink } from "../funtoonServer";
 
 const States = {
     WARNING: 0x1,
@@ -27,6 +27,7 @@ export default function ConnectionPanel(props) {
         autoRefreshEnabled,
         token,
         isTokenValid,
+        tokenProblem,
         channel,
         deviceInfo,
         deviceList,
@@ -43,7 +44,7 @@ export default function ConnectionPanel(props) {
         stateMessage(
             "FUNtoon API token is valid",
             isTokenValid === false,
-            "Invalid channel name / FUNtoon API token combination.",
+            tokenProblem || `Invalid channel name / ${TOKEN_LABEL} combination.`,
             isTokenValid === undefined,
             "Validating API token...",
         ),
@@ -68,15 +69,15 @@ export default function ConnectionPanel(props) {
                         <Input type="text" value={channel} onInput={(e) => onChannelChange(e.target.value)} />
                     </li>
                     <li>
-                        FUNtoon API Token:
+                        {TOKEN_LABEL}:
                         {channel ? (
                             <span>
                                 <br />
-                                (Get API token at{" "}
+                                (Get it at{" "}
                                 <a
                                     target="new"
                                     href={tokenPageLink(channel).href}>{tokenPageLink(channel).label}</a>
-                                )
+                                {tokenPageLink(channel).where ? `, ${tokenPageLink(channel).where}` : ""})
                             </span>
                         ) : null}
                         <Input type="password" value={token} onInput={(e) => onAPITokenChange(e.target.value)} />
